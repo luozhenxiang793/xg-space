@@ -1,0 +1,3072 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>翔哥的数字空间 | XG-SPACE</title>
+<meta name="description" content="翔哥的个人主页 - 学习、游戏、创作、日常">
+<meta name="author" content="翔哥">
+<meta property="og:title" content="翔哥的数字空间 | XG-SPACE">
+<meta property="og:description" content="学习、游戏、创作、日常 · 一个初中生的赛博空间">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,&lt;svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'&gt;&lt;text y='.9em' font-size='90'&gt;🚀&lt;/text&gt;&lt;/svg&gt;">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Rajdhani:wght@300;400;500;600;700&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+/* ===== CSS RESET & VARIABLES ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-secondary: #0d0d18;
+  --bg-card: rgba(15, 15, 30, 0.8);
+  --bg-card-hover: rgba(20, 20, 45, 0.9);
+  --bg-input: rgba(10, 10, 25, 0.9);
+  --neon-cyan: #00f0ff;
+  --neon-purple: #b000ff;
+  --neon-pink: #ff00aa;
+  --neon-green: #00ff88;
+  --neon-orange: #ff6600;
+  --neon-yellow: #ffe600;
+  --neon-red: #ff3355;
+  --text-primary: #e0e0f0;
+  --text-secondary: #8888aa;
+  --text-muted: #555577;
+  --border-glow: rgba(0, 240, 255, 0.15);
+  --gradient-main: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  --gradient-fire: linear-gradient(135deg, var(--neon-orange), var(--neon-pink));
+  --gradient-nature: linear-gradient(135deg, var(--neon-green), var(--neon-cyan));
+  --font-display: 'Orbitron', 'Rajdhani', sans-serif;
+  --font-body: 'Rajdhani', 'Noto Sans SC', sans-serif;
+  --font-cn: 'Noto Sans SC', sans-serif;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(60px, 60px); }
+}
+
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: orbFloat 15s ease-in-out infinite;
+}
+
+.orb-1 { width: 400px; height: 400px; background: var(--neon-cyan); top: 10%; left: 10%; animation-delay: 0s; }
+.orb-2 { width: 350px; height: 350px; background: var(--neon-purple); top: 50%; right: 10%; animation-delay: -5s; }
+.orb-3 { width: 300px; height: 300px; background: var(--neon-pink); bottom: 10%; left: 30%; animation-delay: -10s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -50px) scale(1.1); }
+  50% { transform: translate(-20px, 30px) scale(0.9); }
+  75% { transform: translate(40px, 20px) scale(1.05); }
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+
+/* ===== NAVIGATION ===== */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 0 40px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-glow);
+  transition: var(--transition);
+}
+
+.nav.scrolled {
+  background: rgba(10, 10, 15, 0.95);
+  box-shadow: 0 4px 30px rgba(0, 240, 255, 0.1);
+}
+
+.nav-logo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 900;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-decoration: none;
+  letter-spacing: 3px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.nav-links a.active::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--neon-cyan);
+  border-radius: 1px;
+  box-shadow: 0 0 8px var(--neon-cyan);
+}
+
+/* Auth Button in Nav */
+.nav-auth-btn {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 25px;
+  border: 1px solid var(--neon-cyan);
+  background: transparent;
+  color: var(--neon-cyan);
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.nav-auth-btn:hover {
+  background: rgba(0, 240, 255, 0.12);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+}
+
+/* User Menu in Nav */
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  padding: 6px 12px;
+  border-radius: 25px;
+  transition: var(--transition);
+}
+
+.nav-user:hover {
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.nav-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.nav-username {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.nav-user-badge {
+  font-family: var(--font-cn);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.badge-owner {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.badge-classmate {
+  background: rgba(176, 0, 255, 0.15);
+  color: var(--neon-purple);
+  border: 1px solid rgba(176, 0, 255, 0.3);
+}
+
+/* User Dropdown */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 200px;
+  background: rgba(15, 15, 30, 0.98);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius);
+  padding: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: var(--transition);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.user-dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  background: none;
+  color: var(--text-secondary);
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: var(--transition);
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: rgba(0, 240, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.dropdown-item.danger:hover {
+  background: rgba(255, 51, 85, 0.1);
+  color: var(--neon-red);
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: var(--border-glow);
+  margin: 6px 0;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  padding: 8px;
+  background: none;
+  border: none;
+}
+
+.hamburger span {
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  transition: var(--transition);
+  border-radius: 1px;
+}
+
+/* ===== AUTH MODAL ===== */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  padding: 20px;
+}
+
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  position: relative;
+  transform: scale(0.9) translateY(20px);
+  transition: var(--transition);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.modal-overlay.show .modal {
+  transform: scale(1) translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-muted);
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: var(--transition);
+}
+
+.modal-close:hover {
+  background: rgba(255, 51, 85, 0.15);
+  color: var(--neon-red);
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.modal-icon {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.modal-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+
+.modal-subtitle {
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+/* Tab Switcher */
+.auth-tabs {
+  display: flex;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.auth-tab.active {
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--neon-cyan);
+}
+
+.auth-tab:hover:not(.active) {
+  color: var(--text-secondary);
+}
+
+/* Form */
+.auth-form { display: none; }
+.auth-form.active { display: block; }
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border-glow);
+  border-radius: 10px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  transition: var(--transition);
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Role Selector */
+.role-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.role-option {
+  flex: 1;
+  padding: 14px 10px;
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius);
+  background: transparent;
+  cursor: pointer;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.role-option:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+}
+
+.role-option.selected {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+.role-option input { display: none; }
+
+.role-emoji {
+  font-size: 1.5rem;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.role-name {
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.role-desc {
+  font-family: var(--font-cn);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Avatar Picker */
+.avatar-picker {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+.avatar-option {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: var(--transition);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.avatar-option:hover {
+  border-color: rgba(0, 240, 255, 0.5);
+  transform: scale(1.1);
+}
+
+.avatar-option.selected {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  transform: scale(1.1);
+}
+
+/* Submit Button */
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: var(--gradient-main);
+  color: #fff;
+  font-family: var(--font-cn);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  letter-spacing: 1px;
+  margin-top: 8px;
+}
+
+.btn-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 240, 255, 0.3);
+}
+
+.btn-submit:active {
+  transform: translateY(0);
+}
+
+.form-error {
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  color: var(--neon-red);
+  margin-top: 8px;
+  min-height: 20px;
+}
+
+.form-hint {
+  font-family: var(--font-cn);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 40px 80px;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 900px;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 5px;
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  padding: 8px 20px;
+  border-radius: 30px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  animation: badgePulse 3s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 240, 255, 0.1); }
+  50% { box-shadow: 0 0 25px rgba(0, 240, 255, 0.2); }
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+.hero h1 .gradient-text {
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-family: var(--font-cn);
+  font-size: 1.3rem;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  font-weight: 300;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.hero-tag {
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  padding: 8px 18px;
+  border-radius: 25px;
+  border: 1px solid;
+  cursor: default;
+  transition: var(--transition);
+  font-weight: 500;
+}
+
+.hero-tag:hover {
+  transform: translateY(-2px);
+}
+
+.tag-game { color: var(--neon-pink); border-color: rgba(255, 0, 170, 0.3); background: rgba(255, 0, 170, 0.08); }
+.tag-game:hover { background: rgba(255, 0, 170, 0.15); box-shadow: 0 4px 15px rgba(255, 0, 170, 0.2); }
+.tag-sport { color: var(--neon-green); border-color: rgba(0, 255, 136, 0.3); background: rgba(0, 255, 136, 0.08); }
+.tag-sport:hover { background: rgba(0, 255, 136, 0.15); box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2); }
+.tag-learn { color: var(--neon-cyan); border-color: rgba(0, 240, 255, 0.3); background: rgba(0, 240, 255, 0.08); }
+.tag-learn:hover { background: rgba(0, 240, 255, 0.15); box-shadow: 0 4px 15px rgba(0, 240, 255, 0.2); }
+.tag-code { color: var(--neon-purple); border-color: rgba(176, 0, 255, 0.3); background: rgba(176, 0, 255, 0.08); }
+.tag-code:hover { background: rgba(176, 0, 255, 0.15); box-shadow: 0 4px 15px rgba(176, 0, 255, 0.2); }
+
+.hero-stats {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-label {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ===== SECTION COMMON ===== */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 100px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.section-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+}
+
+.section-subtitle {
+  font-family: var(--font-cn);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.section-divider {
+  width: 60px;
+  height: 3px;
+  background: var(--gradient-main);
+  margin: 16px auto 0;
+  border-radius: 2px;
+}
+
+/* ===== LEARNING CENTER ===== */
+.learning-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.subject-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.subject-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.subject-card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(0, 240, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.subject-card:hover::before {
+  opacity: 1;
+}
+
+.subject-card:nth-child(1)::before { background: var(--gradient-main); }
+.subject-card:nth-child(2)::before { background: var(--gradient-fire); }
+.subject-card:nth-child(3)::before { background: var(--gradient-nature); }
+.subject-card:nth-child(4)::before { background: linear-gradient(135deg, var(--neon-yellow), var(--neon-orange)); }
+.subject-card:nth-child(5)::before { background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink)); }
+.subject-card:nth-child(6)::before { background: linear-gradient(135deg, var(--neon-green), var(--neon-yellow)); }
+
+.subject-icon {
+  font-size: 2rem;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.subject-name {
+  font-family: var(--font-cn);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.subject-desc {
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.subject-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.subject-tag {
+  font-family: var(--font-cn);
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: rgba(0, 240, 255, 0.08);
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+}
+
+/* ===== VIDEO SECTION ===== */
+.video-tabs {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.video-tab {
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 10px 24px;
+  border-radius: 25px;
+  border: 1px solid var(--border-glow);
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.video-tab:hover {
+  border-color: rgba(0, 240, 255, 0.4);
+  color: var(--text-primary);
+}
+
+.video-tab.active {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.video-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.video-card.hidden {
+  display: none;
+}
+
+.video-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-thumb-placeholder {
+  font-size: 3rem;
+  opacity: 0.5;
+}
+
+.video-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.video-card:hover .video-play {
+  opacity: 1;
+}
+
+.play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(0, 240, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+}
+
+.play-btn::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 10px 0 10px 18px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 3px;
+}
+
+.video-source {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: var(--font-cn);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  backdrop-filter: blur(5px);
+}
+
+.source-bilibili { color: var(--neon-cyan); border: 1px solid rgba(0, 240, 255, 0.4); }
+.source-douyin { color: var(--neon-pink); border: 1px solid rgba(255, 0, 170, 0.4); }
+
+.video-info {
+  padding: 18px;
+}
+
+.video-title {
+  font-family: var(--font-cn);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+
+.video-meta {
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.video-category-tag {
+  display: inline-block;
+  font-family: var(--font-cn);
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-right: 8px;
+}
+
+.cat-game { background: rgba(255, 0, 170, 0.12); color: var(--neon-pink); }
+.cat-subject { background: rgba(0, 240, 255, 0.12); color: var(--neon-cyan); }
+.cat-code { background: rgba(176, 0, 255, 0.12); color: var(--neon-purple); }
+
+/* Add Video Button (owner only) */
+.btn-add-video {
+  display: none;
+  margin: 30px auto 0;
+  padding: 12px 28px;
+  border: 1px dashed var(--neon-cyan);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--neon-cyan);
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-add-video:hover {
+  background: rgba(0, 240, 255, 0.08);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.15);
+}
+
+.btn-add-video.owner-visible {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== CREATIONS SECTION ===== */
+.creations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 28px;
+}
+
+.creation-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.creation-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
+  border-color: rgba(176, 0, 255, 0.4);
+}
+
+.creation-media {
+  width: 100%;
+  aspect-ratio: 4/3;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+  position: relative;
+}
+
+.creation-type-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-family: var(--font-cn);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+}
+
+.type-art { background: rgba(255, 102, 0, 0.3); color: var(--neon-orange); border: 1px solid rgba(255, 102, 0, 0.4); }
+.type-music { background: rgba(176, 0, 255, 0.3); color: var(--neon-purple); border: 1px solid rgba(176, 0, 255, 0.4); }
+.type-hardware { background: rgba(0, 255, 136, 0.3); color: var(--neon-green); border: 1px solid rgba(0, 255, 136, 0.4); }
+.type-code { background: rgba(0, 240, 255, 0.3); color: var(--neon-cyan); border: 1px solid rgba(0, 240, 255, 0.4); }
+
+.creation-body {
+  padding: 22px;
+}
+
+.creation-title {
+  font-family: var(--font-cn);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.creation-desc {
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+
+.creation-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.creation-tech-tag {
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(176, 0, 255, 0.1);
+  color: var(--neon-purple);
+  border: 1px solid rgba(176, 0, 255, 0.2);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ===== DAILY LOG ===== */
+.log-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.log-header-left {
+  text-align: left;
+}
+
+.log-header-left .section-icon { margin-bottom: 8px; }
+.log-header-left .section-title { margin-bottom: 4px; text-align: left; }
+.log-header-left .section-subtitle { text-align: left; }
+.log-header-left .section-divider { margin: 12px 0 0; }
+
+.btn-write-log {
+  display: none;
+  padding: 12px 24px;
+  border: 1px solid var(--neon-green);
+  border-radius: 25px;
+  background: rgba(0, 255, 136, 0.08);
+  color: var(--neon-green);
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-write-log:hover {
+  background: rgba(0, 255, 136, 0.15);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+}
+
+.btn-write-log.owner-visible {
+  display: flex;
+}
+
+/* Log Editor Modal */
+.log-editor-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  padding: 20px;
+}
+
+.log-editor-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.log-editor {
+  width: 100%;
+  max-width: 600px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transform: scale(0.9);
+  transition: var(--transition);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.log-editor-overlay.show .log-editor {
+  transform: scale(1);
+}
+
+.log-editor h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.log-editor .form-input {
+  margin-bottom: 12px;
+}
+
+textarea.form-input {
+  min-height: 150px;
+  resize: vertical;
+  line-height: 1.7;
+}
+
+.mood-picker {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.mood-option {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--border-glow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: var(--transition);
+  background: transparent;
+}
+
+.mood-option:hover {
+  border-color: rgba(0, 240, 255, 0.5);
+  transform: scale(1.15);
+}
+
+.mood-option.selected {
+  border-color: var(--neon-cyan);
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.log-editor-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.btn-save-log {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: var(--gradient-nature);
+  color: #fff;
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-save-log:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+}
+
+.btn-cancel-log {
+  padding: 12px 20px;
+  border: 1px solid var(--border-glow);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-cancel-log:hover {
+  border-color: var(--text-muted);
+  color: var(--text-primary);
+}
+
+.log-timeline {
+  position: relative;
+  padding-left: 40px;
+}
+
+.log-timeline::before {
+  content: '';
+  position: absolute;
+  left: 15px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--neon-cyan), var(--neon-purple), transparent);
+}
+
+.log-entry {
+  position: relative;
+  margin-bottom: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  transition: var(--transition);
+}
+
+.log-entry:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.log-entry::before {
+  content: '';
+  position: absolute;
+  left: -33px;
+  top: 28px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--neon-cyan);
+  box-shadow: 0 0 12px var(--neon-cyan);
+}
+
+.log-entry.user-entry::before {
+  background: var(--neon-green);
+  box-shadow: 0 0 12px var(--neon-green);
+}
+
+.log-date {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--neon-cyan);
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.log-author-tag {
+  font-family: var(--font-cn);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+
+.log-author-tag.owner {
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--neon-cyan);
+}
+
+.log-author-tag.user {
+  background: rgba(0, 255, 136, 0.12);
+  color: var(--neon-green);
+}
+
+.log-title {
+  font-family: var(--font-cn);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.log-content {
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.log-mood {
+  margin-top: 12px;
+  font-size: 1.2rem;
+}
+
+/* Comments */
+.log-comments {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border-glow);
+}
+
+.comment {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+.comment-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.comment-body {
+  flex: 1;
+}
+
+.comment-author {
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--neon-cyan);
+  margin-bottom: 2px;
+}
+
+.comment-text {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.comment-time {
+  font-family: var(--font-cn);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.comment-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 8px 14px;
+  border: 1px solid var(--border-glow);
+  border-radius: 20px;
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  outline: none;
+  transition: var(--transition);
+}
+
+.comment-input:focus {
+  border-color: rgba(0, 240, 255, 0.4);
+}
+
+.btn-send-comment {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--neon-cyan);
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+
+.btn-send-comment:hover {
+  background: rgba(0, 240, 255, 0.2);
+}
+
+.login-to-comment {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.login-to-comment:hover {
+  color: var(--neon-cyan);
+}
+
+/* ===== INTERESTS WALL ===== */
+.interests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.interest-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius);
+  padding: 24px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.interest-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.interest-emoji {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.interest-name {
+  font-family: var(--font-cn);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.interest-detail {
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ===== DUOLINGO STREAK ===== */
+.streak-banner {
+  background: linear-gradient(135deg, rgba(88, 204, 2, 0.1), rgba(0, 240, 255, 0.1));
+  border: 1px solid rgba(88, 204, 2, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 28px 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+.streak-icon { font-size: 3rem; }
+
+.streak-info h3 {
+  font-family: var(--font-cn);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--neon-green);
+  margin-bottom: 4px;
+}
+
+.streak-info p {
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.streak-count {
+  margin-left: auto;
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--neon-green);
+  text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+/* ===== CODE SHOWCASE ===== */
+.code-showcase {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.code-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.code-card:hover {
+  border-color: rgba(176, 0, 255, 0.4);
+  box-shadow: 0 8px 30px rgba(176, 0, 255, 0.1);
+}
+
+.code-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid var(--border-glow);
+}
+
+.code-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.code-dot:nth-child(1) { background: #ff5f57; }
+.code-dot:nth-child(2) { background: #ffbd2e; }
+.code-dot:nth-child(3) { background: #28c940; }
+
+.code-filename {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+}
+
+.code-body {
+  padding: 20px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.85rem;
+  line-height: 1.8;
+  color: var(--text-secondary);
+  overflow-x: auto;
+}
+
+.code-body .keyword { color: var(--neon-purple); }
+.code-body .func { color: var(--neon-cyan); }
+.code-body .string { color: var(--neon-green); }
+.code-body .comment { color: var(--text-muted); font-style: italic; }
+.code-body .number { color: var(--neon-orange); }
+
+/* ===== MEMBERS SECTION ===== */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.member-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  transition: var(--transition);
+}
+
+.member-card:hover {
+  border-color: rgba(0, 240, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.member-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.member-name {
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.member-role {
+  font-family: font-cn;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 60px 40px 40px;
+  border-top: 1px solid var(--border-glow);
+}
+
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 12px;
+}
+
+.footer-text {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.footer-links a {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.footer-links a:hover { color: var(--neon-cyan); }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== TOAST ===== */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  padding: 14px 28px;
+  border-radius: 12px;
+  background: rgba(15, 15, 30, 0.95);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-glow);
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  z-index: 3000;
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.success { border-color: rgba(0, 255, 136, 0.4); }
+.toast.error { border-color: rgba(255, 51, 85, 0.4); }
+
+/* ===== PARTICLES ===== */
+.particles {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .nav { padding: 0 20px; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: rgba(10, 10, 15, 0.98);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-bottom: 1px solid var(--border-glow);
+  }
+
+  .nav-links.open { display: flex; }
+
+  .hamburger { display: flex; }
+
+  .nav-auth-btn { font-size: 0.8rem; padding: 6px 14px; }
+
+  .hero { padding: 100px 20px 60px; }
+  .hero-stats { gap: 30px; }
+  .section { padding: 60px 20px; }
+
+  .learning-grid,
+  .video-grid,
+  .creations-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .interests-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .streak-banner { flex-direction: column; text-align: center; }
+  .streak-count { margin-left: 0; }
+
+  .log-header-row { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .interests-grid { grid-template-columns: 1fr; }
+  .modal { padding: 24px; }
+  .role-selector { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- Background Effects -->
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<canvas class="particles" id="particles" width="1366" height="607"></canvas>
+
+<!-- Toast Notification -->
+<div class="toast" id="toast"></div>
+
+<!-- Auth Modal -->
+<div class="modal-overlay" id="authModal">
+  <div class="modal">
+    <button class="modal-close" id="authClose">✕</button>
+    <div class="modal-header">
+      <span class="modal-icon">🔐</span>
+      <h2 class="modal-title">ACCESS XG-SPACE</h2>
+      <p class="modal-subtitle">登录或注册，加入翔哥的数字空间</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">登录</button>
+      <button class="auth-tab" data-tab="register">注册</button>
+    </div>
+
+    <!-- Login Form -->
+    <form class="auth-form active" id="loginForm">
+      <div class="form-group">
+        <label class="form-label">用户名</label>
+        <input type="text" class="form-input" id="loginUsername" placeholder="输入用户名" autocomplete="username" required="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">密码</label>
+        <input type="password" class="form-input" id="loginPassword" placeholder="输入密码" autocomplete="current-password" required="">
+      </div>
+      <div class="form-error" id="loginError"></div>
+      <button type="submit" class="btn-submit">🚀 进入空间</button>
+      <p class="form-hint" style="text-align:center;margin-top:12px;color:var(--neon-red);">⚠ 首次使用请先「注册」，选择「站长」身份</p>
+    </form>
+
+    <!-- Register Form -->
+    <form class="auth-form" id="registerForm">
+      <div class="form-group">
+        <label class="form-label">选择你的身份</label>
+        <div class="role-selector">
+          <label class="role-option selected">
+            <input type="radio" name="role" value="classmate" checked="">
+            <span class="role-emoji">👨‍🎓</span>
+            <span class="role-name">同学</span>
+            <span class="role-desc">浏览 &amp; 评论</span>
+          </label>
+          <label class="role-option">
+            <input type="radio" name="role" value="owner">
+            <span class="role-emoji">👑</span>
+            <span class="role-name">站长</span>
+            <span class="role-desc">管理全部内容</span>
+          </label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">用户名</label>
+        <input type="text" class="form-input" id="regUsername" placeholder="取一个酷酷的名字" required="">
+        <p class="form-hint">2-16 个字符，支持中英文</p>
+      </div>
+      <div class="form-group">
+        <label class="form-label">密码</label>
+        <input type="password" class="form-input" id="regPassword" placeholder="设置密码（至少4位）" required="">
+      </div>
+      <div class="form-group">
+        <label class="form-label">选择头像</label>
+        <div class="avatar-picker" id="avatarPicker">
+          <div class="avatar-option selected" data-avatar="😎" style="background:rgba(0,240,255,0.15)">😎</div>
+          <div class="avatar-option" data-avatar="🎮" style="background:rgba(255,0,170,0.15)">🎮</div>
+          <div class="avatar-option" data-avatar="⚡" style="background:rgba(176,0,255,0.15)">⚡</div>
+          <div class="avatar-option" data-avatar="🚀" style="background:rgba(0,255,136,0.15)">🚀</div>
+          <div class="avatar-option" data-avatar="🐉" style="background:rgba(255,102,0,0.15)">🐉</div>
+          <div class="avatar-option" data-avatar="🎯" style="background:rgba(255,230,0,0.15)">🎯</div>
+          <div class="avatar-option" data-avatar="🦊" style="background:rgba(255,0,170,0.15)">🦊</div>
+          <div class="avatar-option" data-avatar="🐱" style="background:rgba(0,240,255,0.15)">🐱</div>
+          <div class="avatar-option" data-avatar="🤖" style="background:rgba(176,0,255,0.15)">🤖</div>
+          <div class="avatar-option" data-avatar="🌟" style="background:rgba(255,230,0,0.15)">🌟</div>
+        </div>
+      </div>
+      <div class="form-error" id="regError"></div>
+      <button type="submit" class="btn-submit">✨ 创建账号</button>
+    </form>
+  </div>
+</div>
+
+<!-- Log Editor Modal -->
+<div class="log-editor-overlay" id="logEditorOverlay">
+  <div class="log-editor">
+    <h3>✏️ 写日志</h3>
+    <div class="form-group">
+      <label class="form-label">日期</label>
+      <input type="date" class="form-input" id="logDate">
+    </div>
+    <div class="form-group">
+      <label class="form-label">标题</label>
+      <input type="text" class="form-input" id="logTitle" placeholder="今天发生了什么有趣的事？">
+    </div>
+    <div class="form-group">
+      <label class="form-label">内容</label>
+      <textarea class="form-input" id="logContent" placeholder="记录下来吧..."></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">心情</label>
+      <div class="mood-picker" id="moodPicker">
+        <div class="mood-option selected" data-mood="😎">😎</div>
+        <div class="mood-option" data-mood="🎉">🎉</div>
+        <div class="mood-option" data-mood="💪">💪</div>
+        <div class="mood-option" data-mood="🤔">🤔</div>
+        <div class="mood-option" data-mood="😴">😴</div>
+        <div class="mood-option" data-mood="🔥">🔥</div>
+        <div class="mood-option" data-mood="❤️">❤️</div>
+        <div class="mood-option" data-mood="😂">😂</div>
+        <div class="mood-option" data-mood="🏆">🏆</div>
+        <div class="mood-option" data-mood="📚">📚</div>
+      </div>
+    </div>
+    <div class="log-editor-actions">
+      <button class="btn-cancel-log" id="btnCancelLog">取消</button>
+      <button class="btn-save-log" id="btnSaveLog">💾 保存日志</button>
+    </div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="nav scrolled" id="nav">
+  <a href="#" class="nav-logo">XG-SPACE</a>
+  <div class="nav-right">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="">首页</a></li>
+      <li><a href="#learning" class="">学习</a></li>
+      <li><a href="#videos" class="">视频</a></li>
+      <li><a href="#creations" class="">创作</a></li>
+      <li><a href="#daily" class="">日志</a></li>
+      <li><a href="#interests" class="active">兴趣</a></li>
+    </ul>
+
+    <!-- Auth Area -->
+    <div id="authArea" style="display: block;">
+      <button class="nav-auth-btn" id="navLoginBtn">🔐 登录 / 注册</button>
+    </div>
+
+    <div id="userArea" style="display:none;">
+      <div class="nav-user" id="navUser">
+        <div class="nav-avatar" id="navAvatar"></div>
+        <span class="nav-username" id="navUsername"></span>
+        <span class="nav-user-badge" id="navBadge"></span>
+
+        <div class="user-dropdown" id="userDropdown">
+          <button class="dropdown-item" id="dropdownWriteLog">✏️ 写日志</button>
+          <button class="dropdown-item" id="dropdownProfile">👤 个人资料</button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item danger" id="dropdownLogout">🚪 退出登录</button>
+        </div>
+      </div>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="hero">
+  <div class="hero-content">
+    <span class="hero-badge">Welcome to my space</span>
+    <h1>
+      <span class="gradient-text">翔哥</span>的<br>数字空间
+    </h1>
+    <p class="hero-subtitle">初中生 · 编程少年 · 游戏玩家 · 终身学习者</p>
+    <div class="hero-tags">
+      <span class="hero-tag tag-code">🐍 Python</span>
+      <span class="hero-tag tag-code">⚡ C++</span>
+      <span class="hero-tag tag-game">🎮 Minecraft</span>
+      <span class="hero-tag tag-game">🃏 Kards</span>
+      <span class="hero-tag tag-game">🔫 和平精英</span>
+      <span class="hero-tag tag-sport">🏸 羽毛球</span>
+      <span class="hero-tag tag-sport">🚴 骑车</span>
+      <span class="hero-tag tag-learn">🎲 魔方</span>
+      <span class="hero-tag tag-learn">♟️ 国际象棋</span><span class="hero-tag tag-learn">🌍 多邻国英语</span>
+      <span class="hero-tag tag-code">🤖 ESP32 DIY</span>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-number" data-count="3">3</div>
+        <div class="stat-label">编程语言</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-count="3">3</div>
+        <div class="stat-label">游戏精通</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number" data-count="365">365</div>
+        <div class="stat-label">多邻国天数</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Learning Center -->
+<section class="section" id="learning">
+  <div class="section-header reveal visible">
+    <span class="section-icon">📚</span>
+    <h2 class="section-title">LEARNING CENTER</h2>
+    <p class="section-subtitle">各科学习资源 · 日常精心整理</p>
+    <div class="section-divider"></div>
+  </div>
+  <div class="learning-grid">
+    <div class="subject-card reveal visible">
+      <span class="subject-icon">🔢</span>
+      <h3 class="subject-name">数学</h3>
+      <p class="subject-desc">几何证明技巧、函数图像分析、竞赛题精选、解题思维导图</p>
+      <div class="subject-tags">
+        <span class="subject-tag">答题技巧</span>
+        <span class="subject-tag">错题本</span>
+        <span class="subject-tag">思维训练</span>
+      </div>
+    </div>
+    <div class="subject-card reveal visible">
+      <span class="subject-icon">📝</span>
+      <h3 class="subject-name">语文</h3>
+      <p class="subject-desc">阅读理解套路、作文素材库、文言文实词虚词总结、名著导读</p>
+      <div class="subject-tags">
+        <span class="subject-tag">作文模板</span>
+        <span class="subject-tag">古诗词</span>
+        <span class="subject-tag">阅读技巧</span>
+      </div>
+    </div>
+    <div class="subject-card reveal visible">
+      <span class="subject-icon">🌍</span>
+      <h3 class="subject-name">英语</h3>
+      <p class="subject-desc">语法专项突破、高频词汇表、听力训练素材、写作句型积累</p>
+      <div class="subject-tags">
+        <span class="subject-tag">词汇表</span>
+        <span class="subject-tag">语法笔记</span>
+        <span class="subject-tag">听力练习</span>
+      </div>
+    </div>
+    <div class="subject-card reveal visible">
+      <span class="subject-icon">🔬</span>
+      <h3 class="subject-name">物理</h3>
+      <p class="subject-desc">力学分析方法、电学实验要点、光学作图规范、易错题归纳</p>
+      <div class="subject-tags">
+        <span class="subject-tag">实验要点</span>
+        <span class="subject-tag">公式大全</span>
+        <span class="subject-tag">作图规范</span>
+      </div>
+    </div>
+    <div class="subject-card reveal visible">
+      <span class="subject-icon">🧪</span>
+      <h3 class="subject-name">化学</h3>
+      <p class="subject-desc">方程式配平、物质分类记忆法、实验操作规范、推断题攻略</p>
+      <div class="subject-tags">
+        <span class="subject-tag">方程式</span>
+        <span class="subject-tag">实验规范</span>
+        <span class="subject-tag">推断技巧</span>
+      </div>
+    </div>
+    <div class="subject-card reveal visible">
+      <span class="subject-icon">💻</span>
+      <h3 class="subject-name">编程</h3>
+      <p class="subject-desc">Python 项目实战、C++ 算法入门、ESP32 硬件编程、代码笔记</p>
+      <div class="subject-tags">
+        <span class="subject-tag">Python</span>
+        <span class="subject-tag">C++</span>
+        <span class="subject-tag">ESP32</span>
+        <span class="subject-tag">算法</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="code-showcase">
+    <div class="code-card reveal visible">
+      <div class="code-header">
+        <div class="code-dot"></div>
+        <div class="code-dot"></div>
+        <div class="code-dot"></div>
+        <span class="code-filename">hello_world.py</span>
+      </div>
+      <div class="code-body">
+        <span class="comment"># 翔哥的 Python 学习笔记</span><br>
+        <span class="keyword">import</span> turtle<br><br>
+        <span class="keyword">def</span> <span class="func">draw_spiral</span>():<br>
+        &nbsp;&nbsp;t = turtle.<span class="func">Turtle</span>()<br>
+        &nbsp;&nbsp;<span class="keyword">for</span> i <span class="keyword">in</span> <span class="func">range</span>(<span class="number">100</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;t.<span class="func">forward</span>(i * <span class="number">2</span>)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;t.<span class="func">right</span>(<span class="number">91</span>)<br><br>
+        <span class="func">draw_spiral</span>()
+      </div>
+    </div>
+    <div class="code-card reveal visible">
+      <div class="code-header">
+        <div class="code-dot"></div>
+        <div class="code-dot"></div>
+        <div class="code-dot"></div>
+        <span class="code-filename">main.cpp</span>
+      </div>
+      <div class="code-body">
+        <span class="comment">// 翔哥的 C++ 学习笔记</span><br>
+        <span class="keyword">#include</span> &lt;iostream&gt;<br>
+        <span class="keyword">using namespace</span> std;<br><br>
+        <span class="keyword">int</span> <span class="func">main</span>() {<br>
+        &nbsp;&nbsp;<span class="keyword">int</span> n;<br>
+        &nbsp;&nbsp;cin &gt;&gt; n;<br>
+        &nbsp;&nbsp;<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;=n; i++)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;cout &lt;&lt; i*i &lt;&lt; <span class="string">" "</span>;<br>
+        &nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;<br>
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Video Section -->
+<section class="section" id="videos">
+  <div class="section-header reveal visible">
+    <span class="section-icon">🎬</span>
+    <h2 class="section-title">VIDEO VAULT</h2>
+    <p class="section-subtitle">收藏的精彩视频 · 来自 B站 &amp; 抖音</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="video-tabs reveal visible">
+    <button class="video-tab" data-filter="all">全部</button>
+    <button class="video-tab" data-filter="game">🎮 游戏</button>
+    <button class="video-tab active" data-filter="subject">📖 学科</button>
+    <button class="video-tab" data-filter="code">💻 编程</button>
+  </div>
+
+  <div class="video-grid" id="videoGrid">
+    <a href="#" class="video-card reveal visible hidden" data-category="game" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">🎮</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">B站</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">Minecraft 红石计算机完整教程</h4>
+        <p class="video-meta"><span class="video-category-tag cat-game">游戏</span>收藏于 2026.03</p>
+      </div>
+    </a>
+    <a href="#" class="video-card reveal visible hidden" data-category="game" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">🃏</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">B站</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">Kards 卡组构建思路与对战复盘</h4>
+        <p class="video-meta"><span class="video-category-tag cat-game">游戏</span>收藏于 2026.03</p>
+      </div>
+    </a>
+    <a href="#" class="video-card reveal visible hidden" data-category="game" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">🔫</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-douyin">抖音</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">和平精英压枪技巧教学</h4>
+        <p class="video-meta"><span class="video-category-tag cat-game">游戏</span>收藏于 2026.03</p>
+      </div>
+    </a>
+    <a href="#" class="video-card reveal visible" data-category="subject" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">📐</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">B站</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">初中数学·二次函数压轴题突破</h4>
+        <p class="video-meta"><span class="video-category-tag cat-subject">学科</span>收藏于 2026.03</p>
+      </div>
+    </a>
+    <a href="#" class="video-card reveal visible" data-category="subject" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">⚡</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">B站</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">物理·电路分析从入门到精通</h4>
+        <p class="video-meta"><span class="video-category-tag cat-subject">学科</span>收藏于 2026.03</p>
+      </div>
+    </a>
+    <a href="#" class="video-card reveal visible hidden" data-category="code" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">🐍</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">B站</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">Python 从零开始做游戏</h4>
+        <p class="video-meta"><span class="video-category-tag cat-code">编程</span>收藏于 2026.03</p>
+      </div>
+    </a>
+    <a href="#" class="video-card reveal visible hidden" data-category="code" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">🤖</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">B站</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">ESP32 + AI 做一个会聊天的机器人</h4>
+        <p class="video-meta"><span class="video-category-tag cat-code">编程</span>收藏于 2026.03</p>
+      </div>
+    </a>
+    <a href="#" class="video-card reveal visible hidden" data-category="code" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <span class="video-thumb-placeholder">⚡</span>
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-douyin">抖音</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">C++ 算法竞赛入门 · 动态规划</h4>
+        <p class="video-meta"><span class="video-category-tag cat-code">编程</span>收藏于 2026.03</p>
+      </div>
+    </a>
+  </div>
+
+  <button class="btn-add-video" id="btnAddVideo">➕ 添加视频</button>
+</section>
+
+<!-- Creations Section -->
+<section class="section" id="creations">
+  <div class="section-header reveal visible">
+    <span class="section-icon">🛠️</span>
+    <h2 class="section-title">CREATIONS</h2>
+    <p class="section-subtitle">翔哥的创作作品展示</p>
+    <div class="section-divider"></div>
+  </div>
+  <div class="creations-grid">
+    <div class="creation-card reveal visible">
+      <div class="creation-media">🎨<span class="creation-type-badge type-art">美术</span></div>
+      <div class="creation-body">
+        <h3 class="creation-title">科幻城市 · 数字绘画</h3>
+        <p class="creation-desc">用 Procreate 绘制的赛博朋克风格城市夜景，融合了对未来的想象。</p>
+        <div class="creation-tech">
+          <span class="creation-tech-tag">Procreate</span>
+          <span class="creation-tech-tag">Digital Art</span>
+        </div>
+      </div>
+    </div>
+    <div class="creation-card reveal visible">
+      <div class="creation-media">🎵<span class="creation-type-badge type-music">AI 音乐</span></div>
+      <div class="creation-body">
+        <h3 class="creation-title">星际穿越 · AI 生成电子乐</h3>
+        <p class="creation-desc">用 Suno AI 创作的电子音乐，灵感来自宇宙探索和科幻电影。</p>
+        <div class="creation-tech">
+          <span class="creation-tech-tag">Suno AI</span>
+          <span class="creation-tech-tag">Electronic</span>
+        </div>
+      </div>
+    </div>
+    <div class="creation-card reveal visible">
+      <div class="creation-media">🤖<span class="creation-type-badge type-hardware">硬件 DIY</span></div>
+      <div class="creation-body">
+        <h3 class="creation-title">ESP32 AI 聊天机器人</h3>
+        <p class="creation-desc">基于 ESP32 的桌面机器人，接入语音识别和大语言模型，可以对话互动。3D 打印外壳。</p>
+        <div class="creation-tech">
+          <span class="creation-tech-tag">ESP32</span>
+          <span class="creation-tech-tag">Arduino</span>
+          <span class="creation-tech-tag">3D Print</span>
+          <span class="creation-tech-tag">AI API</span>
+        </div>
+      </div>
+    </div>
+    <div class="creation-card reveal visible">
+      <div class="creation-media">🐍<span class="creation-type-badge type-code">编程</span></div>
+      <div class="creation-body">
+        <h3 class="creation-title">Python 贪吃蛇游戏</h3>
+        <p class="creation-desc">用 Python + Pygame 编写的经典贪吃蛇游戏，加入了加速模式和皮肤系统。</p>
+        <div class="creation-tech">
+          <span class="creation-tech-tag">Python</span>
+          <span class="creation-tech-tag">Pygame</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Daily Log -->
+<section class="section" id="daily">
+  <div class="log-header-row">
+    <div class="log-header-left">
+      <span class="section-icon">📝</span>
+      <h2 class="section-title">DAILY LOG</h2>
+      <p class="section-subtitle">翔哥的日常记录 · 每天都可以写一点</p>
+      <div class="section-divider"></div>
+    </div>
+    <button class="btn-write-log" id="btnWriteLog">✏️ 写日志</button>
+  </div>
+
+  <div class="log-timeline" id="logTimeline">
+        <div class="log-entry reveal  visible">
+          <div class="log-date">
+            2026.03.24
+            <span class="log-author-tag owner">站长</span>
+          </div>
+          <h3 class="log-title">今天搭了一个超酷的红石机关！</h3>
+          <div class="log-content">在 Minecraft 里终于把自动农场搭好了，用了观察器和活塞的组合。还试了用 C++ 写了一个简单的排序算法，虽然冒泡排序很简单但跑起来还是很有成就感。晚上和爸爸打了半小时羽毛球，赢了两局 💪</div>
+          <div class="log-mood">😎 🏸 💻</div>
+          <div class="log-comments">
+            
+        <div class="comment">
+          <div class="comment-avatar" style="background:rgba(176,0,255,0.15)">🎮</div>
+          <div class="comment-body">
+            <div class="comment-author">小明</div>
+            <div class="comment-text">红石农场好厉害！能教教我吗？</div>
+            <div class="comment-time">3 小时前</div>
+          </div>
+        </div>
+      
+            <div class="login-to-comment" onclick="UI.openAuthModal()">🔐 登录后可以评论</div>
+          </div>
+        </div>
+      
+        <div class="log-entry reveal  visible">
+          <div class="log-date">
+            2026.03.23
+            <span class="log-author-tag owner">站长</span>
+          </div>
+          <h3 class="log-title">多邻国国际象棋连胜第 15 天</h3>
+          <div class="log-content">今天在多邻国上国际象棋的连胜到了 15 天！还学了一个新开局叫「西西里防御」。英语那边也完成了每日任务，感觉词汇量又涨了一点。下午骑车去了公园，天气很好。</div>
+          <div class="log-mood">♟️ 🚴 ☀️</div>
+          <div class="log-comments">
+            
+            <div class="login-to-comment" onclick="UI.openAuthModal()">🔐 登录后可以评论</div>
+          </div>
+        </div>
+      
+        <div class="log-entry reveal  visible">
+          <div class="log-date">
+            2026.03.22
+            <span class="log-author-tag owner">站长</span>
+          </div>
+          <h3 class="log-title">ESP32 机器人终于能说话了！</h3>
+          <div class="log-content">调了一整天，ESP32 终成功接上了语音模块！现在它能识别我说的话然后用 AI 生成回复念出来。下一步要给它 3D 打印一个外壳。Kards 今天用了一个新卡组连赢了五把。</div>
+          <div class="log-mood">🤖 🃏 🎉</div>
+          <div class="log-comments">
+            
+        <div class="comment">
+          <div class="comment-avatar" style="background:rgba(176,0,255,0.15)">🚀</div>
+          <div class="comment-body">
+            <div class="comment-author">阿杰</div>
+            <div class="comment-text">这也太酷了吧！什么时候能看看实物？</div>
+            <div class="comment-time">3月22日</div>
+          </div>
+        </div>
+      
+        <div class="comment">
+          <div class="comment-avatar" style="background:rgba(176,0,255,0.15)">🌟</div>
+          <div class="comment-body">
+            <div class="comment-author">小美</div>
+            <div class="comment-text">ESP32 + AI 好有意思，我也想学！</div>
+            <div class="comment-time">3月22日</div>
+          </div>
+        </div>
+      
+            <div class="login-to-comment" onclick="UI.openAuthModal()">🔐 登录后可以评论</div>
+          </div>
+        </div>
+      </div>
+</section>
+
+<!-- Interests Section -->
+<section class="section" id="interests">
+  <div class="section-header reveal visible">
+    <span class="section-icon">⭐</span>
+    <h2 class="section-title">INTERESTS</h2>
+    <p class="section-subtitle">翔哥的兴趣世界</p>
+    <div class="section-divider"></div>
+  </div>
+  <div class="interests-grid">
+    <div class="interest-card reveal visible"><span class="interest-emoji">🏸</span><h3 class="interest-name">羽毛球</h3><p class="interest-detail">每周和爸爸对战</p></div>
+    <div class="interest-card reveal visible"><span class="interest-emoji">🚴</span><h3 class="interest-name">骑车</h3><p class="interest-detail">探索城市周边</p></div>
+    <div class="interest-card reveal visible"><span class="interest-emoji">🎮</span><h3 class="interest-name">Minecraft</h3><p class="interest-detail">红石 &amp; 建筑大师</p></div>
+    <div class="interest-card reveal visible"><span class="interest-emoji">🃏</span><h3 class="interest-name">Kards</h3><p class="interest-detail">策略卡牌对战</p></div>
+    <div class="interest-card reveal visible"><span class="interest-emoji">🔫</span><h3 class="interest-name">和平精英</h3><p class="interest-detail">战术竞技</p></div>
+    <div class="interest-card reveal visible"><span class="interest-emoji">♟️</span><h3 class="interest-name">国际象棋</h3><p class="interest-detail">多邻国每日练习</p></div>
+    <div class="interest-card reveal visible"><span class="interest-emoji">🌍</span><h3 class="interest-name">英语学习</h3><p class="interest-detail">多邻国每日打卡</p></div>
+    <div class="interest-card reveal visible"><span class="interest-emoji">💻</span><h3 class="interest-name">编程</h3><p class="interest-detail">Python · C++ · ESP32</p></div>
+  </div>
+  <div class="streak-banner reveal visible">
+    <span class="streak-icon">🔥</span>
+    <div class="streak-info">
+      <h3>多邻国连续打卡</h3>
+      <p>国际象棋 ♟️ + 英语 🌍 · 每天坚持</p>
+    </div>
+    <span class="streak-count" id="streakCount">365</span>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-brand">XG-SPACE</div>
+  <p class="footer-text">翔哥的数字空间 · 持续更新中</p>
+  <p class="footer-text">Built with ❤️ by 翔哥 &amp; 爸爸</p>
+  <div class="footer-links">
+    <a href="#">B站主页</a>
+    <a href="https://luozhenxiang793.github.io/xg-space/">GitHub</a>
+    <a href="#">联系我</a>
+  </div>
+</footer>
+
+<script>
+// ==========================================
+// DATA STORE (localStorage)
+// ==========================================
+const Store = {
+  get(key, fallback = null) {
+    try { return JSON.parse(localStorage.getItem('xg_' + key)) || fallback; }
+    catch { return fallback; }
+  },
+  set(key, val) { localStorage.setItem('xg_' + key, JSON.stringify(val)); },
+  remove(key) { localStorage.removeItem('xg_' + key); }
+};
+
+// ==========================================
+// AUTH SYSTEM
+// ==========================================
+const Auth = {
+  getAllUsers() { return Store.get('users', []); },
+  saveAllUsers(users) { Store.set('users', users); },
+  getCurrentUser() { return Store.get('current_user', null); },
+  setCurrentUser(user) { Store.set('current_user', user); },
+  clearCurrentUser() { Store.remove('current_user'); },
+
+  register(username, password, role, avatar) {
+    const users = this.getAllUsers();
+    if (users.find(u => u.username === username)) {
+      return { ok: false, msg: '用户名已存在，换一个试试' };
+    }
+    if (username.length < 2 || username.length > 16) {
+      return { ok: false, msg: '用户名需要 2-16 个字符' };
+    }
+    if (password.length < 4) {
+      return { ok: false, msg: '密码至少需要 4 位' };
+    }
+    const user = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+      username,
+      password,
+      role, // 'owner' or 'classmate'
+      avatar,
+      createdAt: new Date().toISOString()
+    };
+    users.push(user);
+    this.saveAllUsers(users);
+    this.setCurrentUser(user);
+    return { ok: true, user };
+  },
+
+  login(username, password) {
+    const users = this.getAllUsers();
+    const user = users.find(u => u.username === username && u.password === password);
+    if (!user) return { ok: false, msg: '用户名或密码错误' };
+    this.setCurrentUser(user);
+    return { ok: true, user };
+  },
+
+  logout() {
+    this.clearCurrentUser();
+  },
+
+  isOwner() {
+    const u = this.getCurrentUser();
+    return u && u.role === 'owner';
+  },
+
+  isLoggedIn() {
+    return !!this.getCurrentUser();
+  }
+};
+
+// No hardcoded default accounts — owner registers on first visit
+
+// ==========================================
+// DAILY LOG SYSTEM
+// ==========================================
+const LogStore = {
+  DEFAULT_LOGS: [
+    {
+      id: 'default-1',
+      date: '2026-03-24',
+      title: '今天搭了一个超酷的红石机关！',
+      content: '在 Minecraft 里终于把自动农场搭好了，用了观察器和活塞的组合。还试了用 C++ 写了一个简单的排序算法，虽然冒泡排序很简单但跑起来还是很有成就感。晚上和爸爸打了半小时羽毛球，赢了两局 💪',
+      mood: '😎 🏸 💻',
+      author: 'xiangge',
+      authorAvatar: '😎',
+      isOwner: true,
+      comments: [
+        { id: 'c1', author: '小明', avatar: '🎮', text: '红石农场好厉害！能教教我吗？', time: '2026-03-24T18:30:00' }
+      ]
+    },
+    {
+      id: 'default-2',
+      date: '2026-03-23',
+      title: '多邻国国际象棋连胜第 15 天',
+      content: '今天在多邻国上国际象棋的连胜到了 15 天！还学了一个新开局叫「西西里防御」。英语那边也完成了每日任务，感觉词汇量又涨了一点。下午骑车去了公园，天气很好。',
+      mood: '♟️ 🚴 ☀️',
+      author: 'xiangge',
+      authorAvatar: '😎',
+      isOwner: true,
+      comments: []
+    },
+    {
+      id: 'default-3',
+      date: '2026-03-22',
+      title: 'ESP32 机器人终于能说话了！',
+      content: '调了一整天，ESP32 终成功接上了语音模块！现在它能识别我说的话然后用 AI 生成回复念出来。下一步要给它 3D 打印一个外壳。Kards 今天用了一个新卡组连赢了五把。',
+      mood: '🤖 🃏 🎉',
+      author: 'xiangge',
+      authorAvatar: '😎',
+      isOwner: true,
+      comments: [
+        { id: 'c2', author: '阿杰', avatar: '🚀', text: '这也太酷了吧！什么时候能看看实物？', time: '2026-03-22T21:00:00' },
+        { id: 'c3', author: '小美', avatar: '🌟', text: 'ESP32 + AI 好有意思，我也想学！', time: '2026-03-22T21:15:00' }
+      ]
+    }
+  ],
+
+  getLogs() {
+    return Store.get('logs', this.DEFAULT_LOGS);
+  },
+
+  saveLogs(logs) {
+    Store.set('logs', logs);
+  },
+
+  addLog(log) {
+    const logs = this.getLogs();
+    logs.unshift(log);
+    this.saveLogs(logs);
+    return logs;
+  },
+
+  addComment(logId, comment) {
+    const logs = this.getLogs();
+    const log = logs.find(l => l.id === logId);
+    if (log) {
+      if (!log.comments) log.comments = [];
+      log.comments.push(comment);
+      this.saveLogs(logs);
+    }
+  }
+};
+
+// ==========================================
+// UI CONTROLLER
+// ==========================================
+const UI = {
+  toast(msg, type = 'success') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = 'toast ' + type;
+    setTimeout(() => el.classList.add('show'), 10);
+    setTimeout(() => el.classList.remove('show'), 3000);
+  },
+
+  updateAuthUI() {
+    const user = Auth.getCurrentUser();
+    const authArea = document.getElementById('authArea');
+    const userArea = document.getElementById('userArea');
+
+    if (user) {
+      authArea.style.display = 'none';
+      userArea.style.display = 'block';
+
+      const colors = {
+        owner: { bg: 'rgba(0,240,255,0.2)', border: '2px solid var(--neon-cyan)' },
+        classmate: { bg: 'rgba(176,0,255,0.2)', border: '2px solid var(--neon-purple)' }
+      };
+      const c = colors[user.role] || colors.classmate;
+
+      document.getElementById('navAvatar').textContent = user.avatar;
+      document.getElementById('navAvatar').style.background = c.bg;
+      document.getElementById('navAvatar').style.border = c.border;
+      document.getElementById('navUsername').textContent = user.username;
+
+      const badge = document.getElementById('navBadge');
+      if (user.role === 'owner') {
+        badge.textContent = '站长';
+        badge.className = 'nav-user-badge badge-owner';
+      } else {
+        badge.textContent = '同学';
+        badge.className = 'nav-user-badge badge-classmate';
+      }
+
+      // Show/hide owner-only elements
+      document.querySelectorAll('.btn-write-log').forEach(el => {
+        el.classList.toggle('owner-visible', user.role === 'owner');
+      });
+      document.querySelectorAll('.btn-add-video').forEach(el => {
+        el.classList.toggle('owner-visible', user.role === 'owner');
+      });
+    } else {
+      authArea.style.display = 'block';
+      userArea.style.display = 'none';
+      document.querySelectorAll('.btn-write-log, .btn-add-video').forEach(el => {
+        el.classList.remove('owner-visible');
+      });
+    }
+
+    // Re-render logs to show/hide comment inputs
+    this.renderLogs();
+  },
+
+  renderLogs() {
+    const timeline = document.getElementById('logTimeline');
+    const logs = LogStore.getLogs();
+    const user = Auth.getCurrentUser();
+    const isLoggedIn = Auth.isLoggedIn();
+
+    timeline.innerHTML = logs.map(log => {
+      const commentsHTML = (log.comments || []).map(c => `
+        <div class="comment">
+          <div class="comment-avatar" style="background:${c.author === 'xiangge' ? 'rgba(0,240,255,0.15)' : 'rgba(176,0,255,0.15)'}">${c.avatar || '👤'}</div>
+          <div class="comment-body">
+            <div class="comment-author">${this.esc(c.author)}</div>
+            <div class="comment-text">${this.esc(c.text)}</div>
+            <div class="comment-time">${this.formatTime(c.time)}</div>
+          </div>
+        </div>
+      `).join('');
+
+      const commentFormHTML = isLoggedIn ? `
+        <div class="comment-input-row">
+          <input type="text" class="comment-input" placeholder="说点什么..." data-logid="${log.id}" onkeydown="if(event.key==='Enter')UI.sendComment('${log.id}', this)">
+          <button class="btn-send-comment" onclick="UI.sendComment('${log.id}', this.previousElementSibling)">发送</button>
+        </div>
+      ` : `<div class="login-to-comment" onclick="UI.openAuthModal()">🔐 登录后可以评论</div>`;
+
+      const authorTag = log.isOwner
+        ? '<span class="log-author-tag owner">站长</span>'
+        : `<span class="log-author-tag user">${this.esc(log.author)}</span>`;
+
+      return `
+        <div class="log-entry reveal ${log.isOwner ? '' : 'user-entry'} visible">
+          <div class="log-date">
+            ${log.date.replace(/-/g, '.')}
+            ${authorTag}
+          </div>
+          <h3 class="log-title">${this.esc(log.title)}</h3>
+          <div class="log-content">${this.esc(log.content)}</div>
+          <div class="log-mood">${log.mood || ''}</div>
+          <div class="log-comments">
+            ${commentsHTML}
+            ${commentFormHTML}
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  sendComment(logId, inputEl) {
+    const text = inputEl.value.trim();
+    if (!text) return;
+    const user = Auth.getCurrentUser();
+    if (!user) { this.openAuthModal(); return; }
+
+    LogStore.addComment(logId, {
+      id: 'c' + Date.now(),
+      author: user.username,
+      avatar: user.avatar,
+      text,
+      time: new Date().toISOString()
+    });
+
+    inputEl.value = '';
+    this.renderLogs();
+    this.toast('评论发送成功 ✨');
+  },
+
+  openAuthModal() {
+    document.getElementById('authModal').classList.add('show');
+  },
+
+  closeAuthModal() {
+    document.getElementById('authModal').classList.remove('show');
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('regError').textContent = '';
+  },
+
+  openLogEditor() {
+    if (!Auth.isOwner()) return;
+    const overlay = document.getElementById('logEditorOverlay');
+    document.getElementById('logDate').value = new Date().toISOString().split('T')[0];
+    document.getElementById('logTitle').value = '';
+    document.getElementById('logContent').value = '';
+    overlay.classList.add('show');
+  },
+
+  closeLogEditor() {
+    document.getElementById('logEditorOverlay').classList.remove('show');
+  },
+
+  saveLog() {
+    const date = document.getElementById('logDate').value;
+    const title = document.getElementById('logTitle').value.trim();
+    const content = document.getElementById('logContent').value.trim();
+    if (!title || !content) {
+      this.toast('标题和内容不能为空', 'error');
+      return;
+    }
+
+    const selectedMoods = [...document.querySelectorAll('#moodPicker .mood-option.selected')]
+      .map(el => el.dataset.mood).join(' ');
+
+    const user = Auth.getCurrentUser();
+    LogStore.addLog({
+      id: 'log-' + Date.now(),
+      date,
+      title,
+      content,
+      mood: selectedMoods || '📝',
+      author: user.username,
+      authorAvatar: user.avatar,
+      isOwner: user.role === 'owner',
+      comments: []
+    });
+
+    this.closeLogEditor();
+    this.renderLogs();
+    this.toast('日志发布成功 🎉');
+  },
+
+  formatTime(isoStr) {
+    if (!isoStr) return '';
+    const d = new Date(isoStr);
+    const now = new Date();
+    const diff = now - d;
+    if (diff < 60000) return '刚刚';
+    if (diff < 3600000) return Math.floor(diff / 60000) + ' 分钟前';
+    if (diff < 86400000) return Math.floor(diff / 3600000) + ' 小时前';
+    return d.getMonth() + 1 + '月' + d.getDate() + '日';
+  },
+
+  esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+};
+
+// ==========================================
+// EVENT BINDINGS
+// ==========================================
+
+// Auth modal
+document.getElementById('navLoginBtn').addEventListener('click', () => UI.openAuthModal());
+document.getElementById('authClose').addEventListener('click', () => UI.closeAuthModal());
+document.getElementById('authModal').addEventListener('click', e => {
+  if (e.target === e.currentTarget) UI.closeAuthModal();
+});
+
+// Auth tabs
+document.querySelectorAll('.auth-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab + 'Form').classList.add('active');
+  });
+});
+
+// Role selector
+document.querySelectorAll('.role-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.role-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    opt.querySelector('input').checked = true;
+  });
+});
+
+// Avatar picker
+let selectedAvatar = '😎';
+document.querySelectorAll('.avatar-option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.querySelectorAll('.avatar-option').forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    selectedAvatar = opt.dataset.avatar;
+  });
+});
+
+// Login form
+document.getElementById('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const username = document.getElementById('loginUsername').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const result = Auth.login(username, password);
+  if (result.ok) {
+    UI.closeAuthModal();
+    UI.updateAuthUI();
+    UI.toast('欢迎回来，' + result.user.username + '！🎉');
+  } else {
+    document.getElementById('loginError').textContent = result.msg;
+  }
+});
+
+// Register form
+document.getElementById('registerForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const username = document.getElementById('regUsername').value.trim();
+  const password = document.getElementById('regPassword').value;
+  const role = document.querySelector('input[name="role"]:checked').value;
+  const result = Auth.register(username, password, role, selectedAvatar);
+  if (result.ok) {
+    UI.closeAuthModal();
+    UI.updateAuthUI();
+    UI.toast('注册成功，欢迎加入！🎉');
+  } else {
+    document.getElementById('regError').textContent = result.msg;
+  }
+});
+
+// User dropdown
+document.getElementById('navUser').addEventListener('click', e => {
+  e.stopPropagation();
+  document.getElementById('userDropdown').classList.toggle('show');
+});
+document.addEventListener('click', () => {
+  document.getElementById('userDropdown').classList.remove('show');
+});
+
+// Dropdown actions
+document.getElementById('dropdownWriteLog').addEventListener('click', () => UI.openLogEditor());
+document.getElementById('dropdownLogout').addEventListener('click', () => {
+  Auth.logout();
+  UI.updateAuthUI();
+  UI.toast('已退出登录');
+});
+
+// Write log button
+document.getElementById('btnWriteLog').addEventListener('click', () => UI.openLogEditor());
+
+// Log editor
+document.getElementById('btnCancelLog').addEventListener('click', () => UI.closeLogEditor());
+document.getElementById('btnSaveLog').addEventListener('click', () => UI.saveLog());
+document.getElementById('logEditorOverlay').addEventListener('click', e => {
+  if (e.target === e.currentTarget) UI.closeLogEditor();
+});
+
+// Mood picker
+document.querySelectorAll('#moodPicker .mood-option').forEach(opt => {
+  opt.addEventListener('click', () => opt.classList.toggle('selected'));
+});
+
+// ==========================================
+// PARTICLES
+// ==========================================
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = (Math.random() - 0.5) * 0.3;
+    this.speedY = (Math.random() - 0.5) * 0.3;
+    this.opacity = Math.random() * 0.5 + 0.1;
+    this.color = ['#00f0ff', '#b000ff', '#ff00aa'][Math.floor(Math.random() * 3)];
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+  }
+  draw() {
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fillStyle = this.color;
+    ctx.globalAlpha = this.opacity;
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+}
+
+for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i + 1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.strokeStyle = `rgba(0, 240, 255, ${0.06 * (1 - dist / 120)})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ==========================================
+// NAVIGATION
+// ==========================================
+const nav = document.getElementById('nav');
+const hamburger = document.getElementById('hamburger');
+const navLinks = document.getElementById('navLinks');
+
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+hamburger.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+const sections = document.querySelectorAll('section[id]');
+const navItems = document.querySelectorAll('.nav-links a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.getAttribute('id'); });
+  navItems.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+navItems.forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+// ==========================================
+// VIDEO FILTER
+// ==========================================
+document.querySelectorAll('.video-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter;
+    document.querySelectorAll('.video-card').forEach(card => {
+      card.classList.toggle('hidden', filter !== 'all' && card.dataset.category !== filter);
+    });
+  });
+});
+
+// ==========================================
+// SCROLL REVEAL
+// ==========================================
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ==========================================
+// COUNTER ANIMATION
+// ==========================================
+const counterObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const target = parseInt(entry.target.dataset.count);
+    let current = 0;
+    const increment = target / 40;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) { entry.target.textContent = target; clearInterval(timer); }
+      else entry.target.textContent = Math.floor(current);
+    }, 30);
+    counterObserver.unobserve(entry.target);
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(el));
+
+// ==========================================
+// STREAK COUNTER
+// ==========================================
+const streakEl = document.getElementById('streakCount');
+const streakTarget = parseInt(localStorage.getItem('xg_duolingo_streak') || '365');
+let streakCurrent = 0;
+
+const streakObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const timer = setInterval(() => {
+      streakCurrent += Math.ceil(streakTarget / 50);
+      if (streakCurrent >= streakTarget) { streakEl.textContent = streakTarget; clearInterval(timer); }
+      else streakEl.textContent = streakCurrent;
+    }, 20);
+    streakObserver.unobserve(entry.target);
+  });
+}, { threshold: 0.5 });
+
+streakObserver.observe(streakEl);
+
+// ==========================================
+// TYPING EFFECT
+// ==========================================
+const subtitle = document.querySelector('.hero-subtitle');
+const originalText = '初中生 · 编程少年 · 游戏玩家 · 终身学习者';
+subtitle.textContent = '';
+let charIndex = 0;
+function typeEffect() {
+  if (charIndex < originalText.length) {
+    subtitle.textContent += originalText[charIndex];
+    charIndex++;
+    setTimeout(typeEffect, 50);
+  }
+}
+setTimeout(typeEffect, 800);
+
+// ==========================================
+// INIT
+// ==========================================
+UI.updateAuthUI();
+</script>
+
+</body>
+</html>
