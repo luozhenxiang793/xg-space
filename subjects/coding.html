@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>编程学习 | 翔哥的数字空间</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg-primary:#0a0a0f;--bg-card:rgba(15,15,30,0.8);--neon-cyan:#00f0ff;--neon-purple:#b000ff;--neon-pink:#ff00aa;--neon-green:#00ff88;--neon-orange:#ff6600;--neon-yellow:#ffe600;--text-primary:#e0e0f0;--text-secondary:#8888aa;--text-muted:#555577;--border-glow:rgba(0,240,255,0.15);--gradient-main:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));--font-display:'Orbitron','Rajdhani',sans-serif;--font-body:'Rajdhani','Noto Sans SC',sans-serif;--font-cn:'Noto Sans SC',sans-serif;--radius:12px;--radius-lg:20px;--transition:0.3s cubic-bezier(0.4,0,0.2,1)}
+html{scroll-behavior:smooth}body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);line-height:1.6;overflow-x:hidden;min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-primary)}::-webkit-scrollbar-thumb{background:var(--neon-cyan);border-radius:3px}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,240,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.03) 1px,transparent 1px);background-size:60px 60px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-glow);transition:var(--transition)}
+.nav-logo{font-family:var(--font-display);font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,var(--neon-green),var(--neon-yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;letter-spacing:3px}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-links a{font-family:var(--font-cn);font-size:0.95rem;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:8px 16px;border-radius:8px;transition:var(--transition);position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--neon-green);background:rgba(0,255,136,0.08)}
+.nav-links a.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--neon-green);border-radius:1px;box-shadow:0 0 8px var(--neon-green)}
+.nav-auth-btn{font-family:var(--font-cn);font-size:0.85rem;font-weight:600;padding:8px 20px;border-radius:25px;border:1px solid var(--neon-green);background:transparent;color:var(--neon-green);cursor:pointer;transition:var(--transition);white-space:nowrap}
+.nav-auth-btn:hover{background:rgba(0,255,136,0.12);box-shadow:0 0 15px rgba(0,255,136,0.2)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.hamburger span{width:24px;height:2px;background:var(--text-primary);transition:var(--transition);border-radius:1px}
+.section{position:relative;z-index:1;padding:100px 40px;max-width:1200px;margin:0 auto}
+.subject-header{text-align:center;margin-bottom:80px;padding-top:120px}
+.subject-header .section-icon{font-size:4rem;margin-bottom:20px}
+.subject-header .section-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:900;background:linear-gradient(135deg,var(--neon-green),var(--neon-yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;display:block}
+.subject-header .section-title::after{display:none}
+.subject-header .section-subtitle{font-family:var(--font-cn);font-size:1.2rem;color:var(--text-secondary);max-width:600px;margin:0 auto}
+.section-divider{width:60px;height:3px;background:linear-gradient(135deg,var(--neon-green),var(--neon-yellow));margin:16px auto 0;border-radius:2px}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:60px}
+.resource-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-lg);padding:30px;transition:var(--transition);position:relative;overflow:hidden}
+.resource-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(135deg,var(--neon-green),var(--neon-yellow));border-radius:var(--radius-lg) var(--radius-lg) 0 0;opacity:0;transition:var(--transition)}
+.resource-card:hover{background:var(--bg-card-hover);border-color:rgba(0,255,136,0.3);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
+.resource-card:hover::before{opacity:1}
+.resource-title{font-family:var(--font-cn);font-size:1.2rem;font-weight:700;margin-bottom:12px;color:var(--neon-green)}
+.resource-content{font-family:var(--font-cn);font-size:0.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:20px}
+.resource-links{display:flex;flex-direction:column;gap:8px}
+.resource-link{display:flex;align-items:center;gap:8px;font-family:var(--font-cn);font-size:0.9rem;color:var(--text-primary);text-decoration:none;padding:8px 12px;border-radius:8px;transition:var(--transition);background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.1)}
+.resource-link:hover{background:rgba(0,255,136,0.12);border-color:rgba(0,255,136,0.3);transform:translateX(4px)}
+.container{max-width:1100px;margin:0 auto;padding:0 24px 80px;position:relative;z-index:1}
+.content-section{margin-bottom:48px}
+.section-title{font-family:var(--font-cn);font-size:1.3rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border-glow)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.topic-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-lg);padding:24px;transition:var(--transition)}
+.topic-card:hover{border-color:rgba(0,255,136,0.3);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.3)}
+.topic-card h4{font-family:var(--font-cn);font-size:1.05rem;font-weight:700;margin-bottom:8px;color:var(--neon-green)}
+.topic-card p{font-family:var(--font-cn);font-size:0.88rem;color:var(--text-secondary);line-height:1.6}
+.topic-card ul{list-style:none;margin-top:10px}
+.topic-card li{font-family:var(--font-cn);font-size:0.85rem;color:var(--text-secondary);padding:4px 0;padding-left:16px;position:relative}
+.topic-card li::before{content:'▸';position:absolute;left:0;color:var(--neon-green)}
+.example-block{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-lg);padding:28px;margin-bottom:20px}
+.example-block h4{font-family:var(--font-cn);font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--neon-cyan)}
+.example-block .problem{font-family:var(--font-cn);font-size:0.95rem;color:var(--text-primary);margin-bottom:16px;padding:16px;background:rgba(0,255,136,0.04);border-radius:8px;border-left:3px solid var(--neon-green)}
+.example-block .solution{font-family:var(--font-cn);font-size:0.88rem;color:var(--text-secondary);line-height:1.8}
+.example-block .solution strong{color:var(--neon-green)}
+.example-block .tip{font-family:var(--font-cn);font-size:0.85rem;color:var(--neon-purple);margin-top:12px;padding:10px 14px;background:rgba(176,0,255,0.06);border-radius:8px;border-left:3px solid var(--neon-purple)}
+.code-block{background:rgba(0,0,0,0.4);border:1px solid var(--border-glow);border-radius:var(--radius);padding:20px;font-family:'Courier New',monospace;font-size:0.85rem;line-height:1.7;overflow-x:auto;margin:12px 0;color:var(--neon-green)}
+.code-block .comment{color:var(--text-muted)}
+.code-block .keyword{color:var(--neon-purple)}
+.code-block .string{color:var(--neon-orange)}
+.code-block .func{color:var(--neon-cyan)}
+.code-block .number{color:var(--neon-yellow)}
+.image-placeholder{background:var(--bg-card);border:2px dashed var(--border-glow);border-radius:var(--radius);padding:40px;text-align:center;color:var(--text-muted);font-family:var(--font-cn);font-size:0.9rem;margin:16px 0}
+.image-placeholder span{font-size:2rem;display:block;margin-bottom:8px}
+.cta-box{background:var(--bg-card);border:1px solid rgba(176,0,255,0.2);border-radius:var(--radius-lg);padding:32px;text-align:center;margin-top:40px;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple),var(--neon-pink))}
+.cta-box h3{font-family:var(--font-cn);font-size:1.2rem;margin-bottom:8px;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cta-box p{font-family:var(--font-cn);font-size:0.9rem;color:var(--text-secondary);margin-bottom:20px}
+.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{font-family:var(--font-cn);font-size:0.95rem;font-weight:600;padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));color:#fff;text-decoration:none;transition:var(--transition)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(176,0,255,0.3)}
+.btn-outline{font-family:var(--font-cn);font-size:0.95rem;font-weight:600;padding:12px 28px;border-radius:10px;border:1px solid rgba(0,255,136,0.25);background:transparent;color:var(--neon-green);text-decoration:none;transition:var(--transition)}
+.btn-outline:hover{background:rgba(0,255,136,0.08)}
+.footer{position:relative;z-index:1;text-align:center;padding:60px 40px 40px;border-top:1px solid var(--border-glow);margin-top:100px}
+.footer-brand{font-family:var(--font-display);font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--neon-green),var(--neon-yellow));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.footer-text{font-family:var(--font-cn);font-size:0.85rem;color:var(--text-muted);margin-bottom:6px}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-top:16px}
+.footer-links a{font-family:var(--font-cn);font-size:0.85rem;color:var(--text-secondary);text-decoration:none;transition:var(--transition)}
+.footer-links a:hover{color:var(--neon-green)}
+@media(max-width:768px){.nav{padding:0 20px}.nav-links{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:rgba(10,10,15,0.98);backdrop-filter:blur(20px);padding:20px;border-bottom:1px solid var(--border-glow)}.nav-links.open{display:flex}.hamburger{display:flex}.nav-auth-btn{font-size:0.8rem;padding:6px 14px}.section{padding:60px 20px}.subject-header{padding-top:100px;margin-bottom:60px}.subject-header .section-title{font-size:1.8rem}.container{padding:0 16px 60px}.card-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<nav class="nav" id="nav">
+  <a href="../index.html" class="nav-logo">XG-SPACE</a>
+  <div class="nav-right">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#hero">首页</a></li>
+      <li><a href="../index.html#learning" class="active">学习</a></li>
+      <li><a href="../index.html#videos">视频</a></li>
+      <li><a href="../index.html#creations">创作</a></li>
+      <li><a href="../index.html#daily">日志</a></li>
+      <li><a href="../index.html#interests">兴趣</a></li>
+      <li><a href="https://open.maic.chat/" target="_blank">在线课堂</a></li>
+    </ul>
+    <div id="authArea"><button class="nav-auth-btn" id="navLoginBtn">🔐 登录 / 注册</button></div>
+    <button class="hamburger" id="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<section class="subject-header">
+  <span class="section-icon">💻</span>
+  <h1 class="section-title">编程学习中心</h1>
+  <p class="section-subtitle">Python 项目实战、C++ 算法入门、ESP32 硬件编程、代码笔记</p>
+  <div class="section-divider"></div>
+</section>
+<section class="section">
+  <div class="resource-grid">
+    <div class="resource-card">
+      <h3 class="resource-title">Python 项目实战</h3>
+      <p class="resource-content">通过实际项目学习Python编程，包括爬虫、数据分析、游戏开发、Web应用等。从基础到进阶，掌握Python的核心技能和应用场景。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">🐍 Python基础语法</a>
+        <a href="#" class="resource-link">🕷️ 网络爬虫</a>
+        <a href="#" class="resource-link">📊 数据分析</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">C++ 算法入门</h3>
+      <p class="resource-content">学习C++编程语言和算法基础，包括数据结构、排序算法、搜索算法、动态规划等。通过编程竞赛题练习，提高算法思维和编程能力。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">⚡ C++基础语法</a>
+        <a href="#" class="resource-link">📚 数据结构</a>
+        <a href="#" class="resource-link">🏆 算法竞赛</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">ESP32 硬件编程</h3>
+      <p class="resource-content">学习ESP32开发板的硬件编程，包括传感器连接、物联网应用、智能家居项目等。通过实践项目，掌握嵌入式系统开发技能。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">🔌 ESP32基础</a>
+        <a href="#" class="resource-link">📡 物联网应用</a>
+        <a href="#" class="resource-link">🏠 智能家居</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">代码笔记</h3>
+      <p class="resource-content">整理编程学习过程中的代码笔记，包括常用函数、编程技巧、调试方法等。通过笔记总结，加深对编程知识的理解和记忆。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">📝 Python笔记</a>
+        <a href="#" class="resource-link">📝 C++笔记</a>
+        <a href="#" class="resource-link">💡 编程技巧</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">编程工具</h3>
+      <p class="resource-content">介绍常用的编程工具和环境配置，包括IDE选择、版本控制、调试工具等。掌握这些工具，提高编程效率和代码质量。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">🛠️ IDE推荐</a>
+        <a href="#" class="resource-link">📁 版本控制</a>
+        <a href="#" class="resource-link">🐛 调试技巧</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">项目实战</h3>
+      <p class="resource-content">通过完整的项目实战，将所学知识应用到实际场景中。从需求分析到代码实现，体验完整的软件开发流程。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">🎮 游戏开发</a>
+        <a href="#" class="resource-link">🌐 Web应用</a>
+        <a href="#" class="resource-link">🤖 人工智能</a>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <div class="content-section">
+    <h2 class="section-title">📂 知识模块</h2>
+    <div class="card-grid">
+      <div class="topic-card">
+        <h4>🐍 Python</h4>
+        <p>从入门到项目实战，数据分析与自动化</p>
+        <ul>
+          <li>基础语法与数据类型</li>
+          <li>函数、类与面向对象</li>
+          <li>文件操作与数据处理</li>
+          <li> turtle 绘图与小游戏</li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <h4>⚡ C++ 算法</h4>
+        <p>竞赛算法入门，数据结构与常用算法</p>
+        <ul>
+          <li>排序算法（快排、归并…）</li>
+          <li>搜索（DFS、BFS）</li>
+          <li>动态规划入门</li>
+          <li>STL 容器与常用函数</li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <h4>🔌 ESP32 硬件</h4>
+        <p>物联网入门，传感器与硬件编程</p>
+        <ul>
+          <li>ESP32 开发环境搭建</li>
+          <li>GPIO 控制与传感器读取</li>
+          <li>WiFi 联网与 HTTP 通信</li>
+          <li>MicroPython 快速上手</li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <h4>🛠️ 开发工具</h4>
+        <p>Git、VS Code、命令行等开发工具使用</p>
+        <ul>
+          <li>Git 版本控制基础</li>
+          <li>VS Code 插件推荐</li>
+          <li>Linux 命令行入门</li>
+          <li>GitHub Pages 部署</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-title">✏️ 示例代码</h2>
+    <div class="example-block">
+      <h4>Python：快速排序算法</h4>
+      <div class="code-block">
+<span class="keyword">def</span> <span class="func">quick_sort</span>(arr):
+    <span class="comment"># 快速排序 — 分治思想</span>
+    <span class="keyword">if</span> <span class="func">len</span>(arr) <= <span class="number">1</span>:
+        <span class="keyword">return</span> arr
+    pivot = arr[<span class="func">len</span>(arr) // <span class="number">2</span>]
+    left = [x <span class="keyword">for</span> x <span class="keyword">in</span> arr <span class="keyword">if</span> x < pivot]
+    mid = [x <span class="keyword">for</span> x <span class="keyword">in</span> arr <span class="keyword">if</span> x == pivot]
+    right = [x <span class="keyword">for</span> x <span class="keyword">in</span> arr <span class="keyword">if</span> x > pivot]
+    <span class="keyword">return</span> <span class="func">quick_sort</span>(left) + mid + <span class="func">quick_sort</span>(right)
+
+<span class="comment"># 测试</span>
+print(<span class="func">quick_sort</span>([<span class="number">3</span>, <span class="number">6</span>, <span class="number">8</span>, <span class="number">10</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">1</span>]))
+<span class="comment"># 输出: [1, 1, 2, 3, 6, 8, 10]</span>
+      </div>
+      <div class="tip">💡 快速排序平均时间复杂度 O(n log n)，是最常用的排序算法之一</div>
+    </div>
+
+    <div class="example-block">
+      <h4>C++：冒泡排序</h4>
+      <div class="code-block">
+<span class="keyword">#include</span> &lt;iostream&gt;
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">int</span> <span class="func">main</span>() {
+    <span class="keyword">int</span> arr[] = {<span class="number">64</span>, <span class="number">34</span>, <span class="number">25</span>, <span class="number">12</span>, <span class="number">22</span>, <span class="number">11</span>, <span class="number">90</span>};
+    <span class="keyword">int</span> n = <span class="keyword">sizeof</span>(arr)/<span class="keyword">sizeof</span>(arr[<span class="number">0</span>]);
+
+    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n-<span class="number">1</span>; i++)
+        <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; n-i-<span class="number">1</span>; j++)
+            <span class="keyword">if</span>(arr[j] &gt; arr[j+<span class="number">1</span>])
+                <span class="func">swap</span>(arr[j], arr[j+<span class="number">1</span>]);
+
+    <span class="keyword">for</span>(<span class="keyword">int</span> x : arr) cout &lt;&lt; x &lt;&lt; <span class="string">" "</span>;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}
+      </div>
+      <div class="tip">💡 冒泡排序虽然简单，但时间复杂度 O(n²)，适合理解排序基本思想</div>
+    </div>
+    <div class="image-placeholder">
+      <span>📸</span>
+      在 images/ 文件夹中放入项目截图、电路图等后引用
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-title">📝 学习笔记模板</h2>
+    <div class="example-block">
+      <h4>如何使用本页面</h4>
+      <div class="solution">
+        <strong>添加内容：</strong>直接编辑本 HTML 文件，复制已有卡片/代码块的格式<br>
+        <strong>添加图片：</strong>将图片放入 <code>images/</code> 文件夹<br>
+        <strong>添加新模块：</strong>复制 <code>&lt;div class="topic-card"&gt;...&lt;/div&gt;</code> 修改内容<br>
+        <strong>添加新代码：</strong>复制 <code>&lt;div class="example-block"&gt;...&lt;/div&gt;</code> 修改内容
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h3>🤖 遇到 Bug？让 AI 老师来帮你！</h3>
+    <p>使用清华大学 OpenMAIC 在线课堂，上传你的代码问题，获得调试和优化建议</p>
+    <div class="cta-buttons">
+      <a href="https://open.maic.chat/" class="btn-primary" target="_blank" rel="noopener">🚀 进入在线课堂</a>
+      <a href="https://github.com/THU-MAIC/OpenMAIC" class="btn-outline" target="_blank" rel="noopener">⭐ GitHub 仓库</a>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-brand">XG-SPACE</div>
+  <p class="footer-text">翔哥的数字空间 | 初中生 · 编程少年 · 游戏玩家 · 终身学习者</p>
+  <p class="footer-text">© 2026 翔哥的数字空间. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="../index.html#hero">首页</a>
+    <a href="../index.html#learning">学习</a>
+    <a href="../index.html#videos">视频</a>
+    <a href="../index.html#creations">创作</a>
+    <a href="../index.html#daily">日志</a>
+    <a href="../index.html#interests">兴趣</a>
+  </div>
+</footer>
+<script>const hamburger=document.getElementById('hamburger');const navLinks=document.getElementById('navLinks');hamburger.addEventListener('click',()=>{navLinks.classList.toggle('open')});</script>
+</body></html>

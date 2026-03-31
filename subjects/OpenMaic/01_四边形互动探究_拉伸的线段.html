@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>四边形闭合条件可视化</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; overflow: hidden; }
+        .slider-label { font-family: 'Times New Roman', serif; font-style: italic; }
+        canvas { touch-action: none; }
+    </style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const katexOptions = {
+        delimiters: [
+            {left: '\\[', right: '\\]', display: true},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+        ],
+        throwOnError: false,
+        strict: false,
+        trust: true
+    };
+
+    let renderTimeout;
+    function safeRender() {
+        if (renderTimeout) clearTimeout(renderTimeout);
+        renderTimeout = setTimeout(() => {
+            renderMathInElement(document.body, katexOptions);
+        }, 100);
+    }
+
+    renderMathInElement(document.body, katexOptions);
+
+    const observer = new MutationObserver((mutations) => {
+        let shouldRender = false;
+        mutations.forEach((mutation) => {
+            if (mutation.target &&
+                mutation.target.className &&
+                typeof mutation.target.className === 'string' &&
+                mutation.target.className.includes('katex')) {
+                return;
+            }
+            shouldRender = true;
+        });
+
+        if (shouldRender) {
+            safeRender();
+        }
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        characterData: true
+    });
+
+    setInterval(() => {
+        const text = document.body.innerText;
+        if (text.includes('\\(') || text.includes('$$')) {
+            safeRender();
+        }
+    }, 2000);
+});
+</script>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+<div class="flex flex-col h-screen p-4 md:p-8">
+    <!-- Header -->
+    <header class="mb-4">
+        <h1 class="text-2xl font-bold text-slate-800">四边形闭合条件可视化</h1>
+        <p class="text-slate-600">通过动态调整边长 \(x\)，探索多边形存在的几何边界</p>
+    </header>
+
+    <div class="flex flex-col lg:flex-row gap-6 flex-grow overflow-hidden">
+        <!-- Control Panel -->
+        <div class="w-full lg:w-80 flex flex-col gap-6 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-2 flex justify-between">
+                    <span>边长 \(x\) 的长度</span>
+                    <span id="x-val-display" class="font-mono font-bold text-blue-600">3.00</span>
+                </label>
+                <input type="range" id="x-slider" min="0.1" max="6.5" step="0.01" value="3" 
+                       class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                <div class="flex justify-between text-xs text-slate-400 mt-1">
+                    <span>0.1</span>
+                    <span>5.0 (临界点)</span>
+                    <span>6.5</span>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-2 flex justify-between">
+                    <span>形状自由度 (角度 \(\alpha\))</span>
+                </label>
+                <input type="range" id="alpha-slider" min="0" max="6.28" step="0.01" value="0.8" 
+                       class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+                <p class="text-xs text-slate-500 mt-2 italic text-center">由于四边形具有不稳定性，当边长固定时，形状仍可变。</p>
+            </div>
+
+            <div id="status-card" class="mt-auto p-4 rounded-xl border-l-4">
+                <h3 id="status-title" class="font-bold mb-1">正在计算...</h3>
+                <p id="status-desc" class="text-sm"></p>
+            </div>
+
+            <div class="text-xs text-slate-400 leading-relaxed">
+                <p class="font-semibold mb-1 uppercase tracking-wider text-slate-500">已知边长：</p>
+                <div class="grid grid-cols-3 gap-2 text-center">
+                    <div class="bg-slate-100 p-1 rounded">\(a=1\)</div>
+                    <div class="bg-slate-100 p-1 rounded">\(b=1\)</div>
+                    <div class="bg-slate-100 p-1 rounded">\(c=3\)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Visualization Area -->
+        <div class="flex-grow relative bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex items-center justify-center">
+            <canvas id="canvas" class="w-full h-full"></canvas>
+            
+            <!-- Mathematical Overlay -->
+            <div class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-4 rounded-lg border border-slate-200 shadow-sm pointer-events-none">
+                <div id="math-inequality" class="text-sm space-y-2">
+                    <!-- Formulas will be injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+/**
+ * Quadrilateral Closure Condition Logic
+ * Constraints: Fixed sides 1, 1, 3. Variable side x.
+ * A=(0,0), B=(3,0)
+ * D moves on a circle around A (radius 1).
+ * C is the intersection of circle(D, radius 1) and circle(B, radius x).
+ */
+
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const xSlider = document.getElementById('x-slider');
+const alphaSlider = document.getElementById('alpha-slider');
+const xDisplay = document.getElementById('x-val-display');
+const statusCard = document.getElementById('status-card');
+const statusTitle = document.getElementById('status-title');
+const statusDesc = document.getElementById('status-desc');
+const mathBox = document.getElementById('math-inequality');
+
+let x = 3.0;
+let alpha = 0.8;
+let scale = 80;
+let offset = { x: 0, y: 0 };
+
+function resize() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+    scale = Math.min(rect.width, rect.height) / 8;
+    offset = { x: rect.width / 2 - (3 * scale) / 2, y: rect.height / 2 + scale / 2 };
+    draw();
+}
+
+window.addEventListener('resize', resize);
+xSlider.addEventListener('input', (e) => {
+    x = parseFloat(e.target.value);
+    xDisplay.innerText = x.toFixed(2);
+    draw();
+});
+alphaSlider.addEventListener('input', (e) => {
+    alpha = parseFloat(e.target.value);
+    draw();
+});
+
+function drawCircle(x, y, r, color, dashed = false) {
+    ctx.beginPath();
+    if (dashed) ctx.setLineDash([5, 5]);
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.setLineDash([]);
+}
+
+function solveIntersection(p1, r1, p2, r2) {
+    const d2 = (p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2;
+    const d = Math.sqrt(d2);
+
+    if (d > r1 + r2 || d < Math.abs(r1 - r2) || d === 0) return null;
+
+    const a = (r1 ** 2 - r2 ** 2 + d2) / (2 * d);
+    const h = Math.sqrt(Math.max(0, r1 ** 2 - a ** 2));
+    const x2 = p1.x + a * (p2.x - p1.x) / d;
+    const y2 = p1.y + a * (p2.y - p1.y) / d;
+
+    return {
+        c1: {
+            x: x2 + h * (p2.y - p1.y) / d,
+            y: y2 - h * (p2.x - p1.x) / d
+        },
+        c2: {
+            x: x2 - h * (p2.y - p1.y) / d,
+            y: y2 + h * (p2.x - p1.x) / d
+        }
+    };
+}
+
+function updateStatus(isValid, isDegenerate) {
+    if (isDegenerate) {
+        statusCard.className = "mt-auto p-4 rounded-xl border-l-4 border-amber-500 bg-amber-50";
+        statusTitle.className = "font-bold mb-1 text-amber-700";
+        statusTitle.innerText = "退化状态";
+        statusDesc.innerText = "边长处于临界点，四边形塌陷为一条线段。";
+    } else if (isValid) {
+        statusCard.className = "mt-auto p-4 rounded-xl border-l-4 border-emerald-500 bg-emerald-50";
+        statusTitle.className = "font-bold mb-1 text-emerald-700";
+        statusTitle.innerText = "可构成四边形";
+        statusDesc.innerText = "满足多边形不等式。拖动形状滑块可改变内角。";
+    } else {
+        statusCard.className = "mt-auto p-4 rounded-xl border-l-4 border-rose-500 bg-rose-50";
+        statusTitle.className = "font-bold mb-1 text-rose-700";
+        statusTitle.innerText = "无法闭合";
+        statusDesc.innerText = x >= 5 ? "边长 x 太长，无法与其他三边首尾相接。" : "边长 x 太短，无法跨越其余两边的跨度。";
+    }
+
+    const check1 = (x < 5) ? "<" : (x === 5 ? "=" : ">");
+    const check2 = (x > 1) ? ">" : (x === 1 ? "=" : "<");
+
+    mathBox.innerHTML = `
+        <div class="font-mono">
+            <div class="${x < 5 ? 'text-emerald-600' : 'text-rose-600'} font-bold">
+                x ${check1} 1 + 1 + 3 (5)
+            </div>
+            <div class="${x > 1 ? 'text-emerald-600' : 'text-rose-600'} font-bold">
+                x ${check2} 3 - (1 + 1) (1)
+            </div>
+        </div>
+        <hr class="my-2">
+        <div class="text-[10px] text-slate-500">条件: \\( |a+b-c| < x < a+b+c \\)</div>
+    `;
+}
+
+function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const A = { x: offset.x, y: offset.y };
+    const B = { x: offset.x + 3 * scale, y: offset.y };
+    const D = { 
+        x: A.x + Math.cos(alpha) * scale, 
+        y: A.y - Math.sin(alpha) * scale 
+    };
+
+    // Calculate C
+    const intersections = solveIntersection(D, scale, B, x * scale);
+    const C = intersections ? intersections.c1 : null;
+
+    const isValid = x > 1 && x < 5;
+    const isDegenerate = (Math.abs(x - 5) < 0.02) || (Math.abs(x - 1) < 0.02);
+
+    updateStatus(isValid, isDegenerate);
+
+    // Draw Help Circles
+    drawCircle(D.x, D.y, scale, '#cbd5e1', true);
+    drawCircle(B.x, B.y, x * scale, '#cbd5e1', true);
+
+    // Draw fixed side c=3
+    ctx.beginPath();
+    ctx.moveTo(A.x, A.y);
+    ctx.lineTo(B.x, B.y);
+    ctx.strokeStyle = '#64748b';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Draw side a=1
+    ctx.beginPath();
+    ctx.moveTo(A.x, A.y);
+    ctx.lineTo(D.x, D.y);
+    ctx.strokeStyle = '#f43f5e'; // Red
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    if (C) {
+        // Draw side b=1
+        ctx.beginPath();
+        ctx.moveTo(D.x, D.y);
+        ctx.lineTo(C.x, C.y);
+        ctx.strokeStyle = '#10b981'; // Green
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Draw side x
+        ctx.beginPath();
+        ctx.moveTo(C.x, C.y);
+        ctx.lineTo(B.x, B.y);
+        ctx.strokeStyle = '#3b82f6'; // Blue
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        // Points
+        [A, B, C, D].forEach((p, i) => {
+            ctx.fillStyle = i < 2 ? '#1e293b' : '#334155';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    } else {
+        // Draw unconnected segments
+        const distDB = Math.sqrt((D.x - B.x)**2 + (D.y - B.y)**2);
+        const dirX = (B.x - D.x) / distDB;
+        const dirY = (B.y - D.y) / distDB;
+
+        // Side b=1 starts from D towards B
+        ctx.beginPath();
+        ctx.moveTo(D.x, D.y);
+        ctx.lineTo(D.x + dirX * scale, D.y + dirY * scale);
+        ctx.strokeStyle = '#10b98188';
+        ctx.setLineDash([2, 2]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Side x starts from B towards D
+        ctx.beginPath();
+        ctx.moveTo(B.x, B.y);
+        ctx.lineTo(B.x - dirX * x * scale, B.y - dirY * x * scale);
+        ctx.strokeStyle = '#3b82f688';
+        ctx.setLineDash([2, 2]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        [A, B, D].forEach(p => {
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+            ctx.fill();
+        });
+    }
+
+    // Labels
+    ctx.font = '14px serif';
+    ctx.fillStyle = '#475569';
+    ctx.fillText('A', A.x - 15, A.y + 20);
+    ctx.fillText('B', B.x + 10, B.y + 20);
+    ctx.fillText('D', D.x - 5, D.y - 10);
+    if (C) ctx.fillText('C', C.x - 5, C.y - 10);
+    
+    // Length Labels
+    ctx.font = 'bold 12px sans-serif';
+    ctx.fillStyle = '#f43f5e'; ctx.fillText('1', (A.x + D.x)/2 - 10, (A.y + D.y)/2 - 5);
+    ctx.fillStyle = '#64748b'; ctx.fillText('3', (A.x + B.x)/2, A.y + 15);
+    if (C) {
+        ctx.fillStyle = '#10b981'; ctx.fillText('1', (D.x + C.x)/2, (D.y + C.y)/2 - 5);
+        ctx.fillStyle = '#3b82f6'; ctx.fillText('x=' + x.toFixed(2), (C.x + B.x)/2, (C.y + B.y)/2 + 20);
+    }
+}
+
+// Interaction: Auto-adjust alpha if C becomes impossible
+xSlider.addEventListener('input', () => {
+    // Check if current alpha is valid for new x
+    const A = { x: 0, y: 0 };
+    const B = { x: 3, y: 0 };
+    const checkAlpha = (a) => {
+        const Dx = Math.cos(a);
+        const Dy = -Math.sin(a);
+        const distDB = Math.sqrt((Dx - B.x)**2 + (Dy - B.y)**2);
+        return distDB <= (1 + x) && distDB >= Math.abs(1 - x);
+    };
+
+    if (!checkAlpha(alpha)) {
+        // Try to find a valid alpha
+        for (let a = 0; a < 2 * Math.PI; a += 0.1) {
+            if (checkAlpha(a)) {
+                alpha = a;
+                alphaSlider.value = a;
+                break;
+            }
+        }
+    }
+});
+
+resize();
+</script>
+</body>
+</html>

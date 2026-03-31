@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英语学习 | 翔哥的数字空间</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌍</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg-primary:#0a0a0f;--bg-card:rgba(15,15,30,0.8);--bg-card-hover:rgba(20,20,45,0.9);--neon-cyan:#00f0ff;--neon-purple:#b000ff;--neon-pink:#ff00aa;--neon-green:#00ff88;--neon-orange:#ff6600;--neon-yellow:#ffe600;--text-primary:#e0e0f0;--text-secondary:#8888aa;--text-muted:#555577;--border-glow:rgba(0,240,255,0.15);--gradient-main:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));--gradient-nature:linear-gradient(135deg,var(--neon-green),var(--neon-cyan));--font-display:'Orbitron','Rajdhani',sans-serif;--font-body:'Rajdhani','Noto Sans SC',sans-serif;--font-cn:'Noto Sans SC',sans-serif;--radius:12px;--radius-lg:20px;--transition:0.3s cubic-bezier(0.4,0,0.2,1)}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);line-height:1.6;overflow-x:hidden;min-height:100vh}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-primary)}::-webkit-scrollbar-thumb{background:var(--neon-cyan);border-radius:3px}
+.bg-grid{position:fixed;inset:0;z-index:0;background-image:linear-gradient(rgba(0,240,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,240,255,0.03) 1px,transparent 1px);background-size:60px 60px}
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:0 40px;height:70px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-glow);transition:var(--transition)}
+.nav-logo{font-family:var(--font-display);font-size:1.4rem;font-weight:900;background:var(--gradient-nature);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;letter-spacing:3px}
+.nav-right{display:flex;align-items:center;gap:16px}
+.nav-links{display:flex;gap:8px;list-style:none}
+.nav-links a{font-family:var(--font-cn);font-size:0.95rem;font-weight:500;color:var(--text-secondary);text-decoration:none;padding:8px 16px;border-radius:8px;transition:var(--transition);position:relative}
+.nav-links a:hover,.nav-links a.active{color:var(--neon-green);background:rgba(0,255,136,0.08)}
+.nav-links a.active::after{content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--neon-green);border-radius:1px;box-shadow:0 0 8px var(--neon-green)}
+.nav-auth-btn{font-family:var(--font-cn);font-size:0.85rem;font-weight:600;padding:8px 20px;border-radius:25px;border:1px solid var(--neon-green);background:transparent;color:var(--neon-green);cursor:pointer;transition:var(--transition);white-space:nowrap}
+.nav-auth-btn:hover{background:rgba(0,255,136,0.12);box-shadow:0 0 15px rgba(0,255,136,0.2)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;background:none;border:none}
+.hamburger span{width:24px;height:2px;background:var(--text-primary);transition:var(--transition);border-radius:1px}
+.section{position:relative;z-index:1;padding:100px 40px;max-width:1200px;margin:0 auto}
+.subject-header{text-align:center;margin-bottom:80px;padding-top:120px}
+.subject-header .section-icon{font-size:4rem;margin-bottom:20px}
+.subject-header .section-title{font-family:var(--font-display);font-size:clamp(2rem,5vw,3rem);font-weight:900;background:var(--gradient-nature);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;display:block}
+.subject-header .section-title::after{display:none}
+.subject-header .section-subtitle{font-family:var(--font-cn);font-size:1.2rem;color:var(--text-secondary);max-width:600px;margin:0 auto}
+.section-divider{width:60px;height:3px;background:var(--gradient-nature);margin:16px auto 0;border-radius:2px}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px;margin-bottom:60px}
+.resource-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-lg);padding:30px;transition:var(--transition);position:relative;overflow:hidden}
+.resource-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--gradient-nature);border-radius:var(--radius-lg) var(--radius-lg) 0 0;opacity:0;transition:var(--transition)}
+.resource-card:hover{background:var(--bg-card-hover);border-color:rgba(0,255,136,0.3);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.4)}
+.resource-card:hover::before{opacity:1}
+.resource-title{font-family:var(--font-cn);font-size:1.2rem;font-weight:700;margin-bottom:12px;color:var(--neon-green)}
+.resource-content{font-family:var(--font-cn);font-size:0.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:20px}
+.resource-links{display:flex;flex-direction:column;gap:8px}
+.resource-link{display:flex;align-items:center;gap:8px;font-family:var(--font-cn);font-size:0.9rem;color:var(--text-primary);text-decoration:none;padding:8px 12px;border-radius:8px;transition:var(--transition);background:rgba(0,255,136,0.05);border:1px solid rgba(0,255,136,0.1)}
+.resource-link:hover{background:rgba(0,255,136,0.12);border-color:rgba(0,255,136,0.3);transform:translateX(4px)}
+.container{max-width:1100px;margin:0 auto;padding:0 24px 80px;position:relative;z-index:1}
+.content-section{margin-bottom:48px}
+.section-title{font-family:var(--font-cn);font-size:1.3rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border-glow)}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.topic-card{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-lg);padding:24px;transition:var(--transition)}
+.topic-card:hover{border-color:rgba(0,255,136,0.3);transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,0.3)}
+.topic-card h4{font-family:var(--font-cn);font-size:1.05rem;font-weight:700;margin-bottom:8px;color:var(--neon-green)}
+.topic-card p{font-family:var(--font-cn);font-size:0.88rem;color:var(--text-secondary);line-height:1.6}
+.topic-card ul{list-style:none;margin-top:10px}
+.topic-card li{font-family:var(--font-cn);font-size:0.85rem;color:var(--text-secondary);padding:4px 0;padding-left:16px;position:relative}
+.topic-card li::before{content:'▸';position:absolute;left:0;color:var(--neon-green)}
+.example-block{background:var(--bg-card);border:1px solid var(--border-glow);border-radius:var(--radius-lg);padding:28px;margin-bottom:20px}
+.example-block h4{font-family:var(--font-cn);font-size:1rem;font-weight:700;margin-bottom:12px;color:var(--neon-yellow)}
+.example-block .problem{font-family:var(--font-cn);font-size:0.95rem;color:var(--text-primary);margin-bottom:16px;padding:16px;background:rgba(0,255,136,0.04);border-radius:8px;border-left:3px solid var(--neon-green)}
+.example-block .solution{font-family:var(--font-cn);font-size:0.88rem;color:var(--text-secondary);line-height:1.8}
+.example-block .solution strong{color:var(--neon-green)}
+.example-block .tip{font-family:var(--font-cn);font-size:0.85rem;color:var(--neon-purple);margin-top:12px;padding:10px 14px;background:rgba(176,0,255,0.06);border-radius:8px;border-left:3px solid var(--neon-purple)}
+.image-placeholder{background:var(--bg-card);border:2px dashed var(--border-glow);border-radius:var(--radius);padding:40px;text-align:center;color:var(--text-muted);font-family:var(--font-cn);font-size:0.9rem;margin:16px 0}
+.image-placeholder span{font-size:2rem;display:block;margin-bottom:8px}
+.cta-box{background:var(--bg-card);border:1px solid rgba(176,0,255,0.2);border-radius:var(--radius-lg);padding:32px;text-align:center;margin-top:40px;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--neon-cyan),var(--neon-purple),var(--neon-pink))}
+.cta-box h3{font-family:var(--font-cn);font-size:1.2rem;margin-bottom:8px;background:linear-gradient(135deg,var(--neon-cyan),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.cta-box p{font-family:var(--font-cn);font-size:0.9rem;color:var(--text-secondary);margin-bottom:20px}
+.cta-buttons{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-primary{font-family:var(--font-cn);font-size:0.95rem;font-weight:600;padding:12px 28px;border-radius:10px;background:linear-gradient(135deg,var(--neon-purple),var(--neon-cyan));color:#fff;text-decoration:none;transition:var(--transition)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(176,0,255,0.3)}
+.btn-outline{font-family:var(--font-cn);font-size:0.95rem;font-weight:600;padding:12px 28px;border-radius:10px;border:1px solid rgba(0,255,136,0.25);background:transparent;color:var(--neon-green);text-decoration:none;transition:var(--transition)}
+.btn-outline:hover{background:rgba(0,255,136,0.08)}
+.footer{position:relative;z-index:1;text-align:center;padding:60px 40px 40px;border-top:1px solid var(--border-glow);margin-top:100px}
+.footer-brand{font-family:var(--font-display);font-size:1.2rem;font-weight:700;background:var(--gradient-nature);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.footer-text{font-family:var(--font-cn);font-size:0.85rem;color:var(--text-muted);margin-bottom:6px}
+.footer-links{display:flex;gap:20px;justify-content:center;margin-top:16px}
+.footer-links a{font-family:var(--font-cn);font-size:0.85rem;color:var(--text-secondary);text-decoration:none;transition:var(--transition)}
+.footer-links a:hover{color:var(--neon-green)}
+@media(max-width:768px){.nav{padding:0 20px}.nav-links{display:none;position:absolute;top:70px;left:0;right:0;flex-direction:column;background:rgba(10,10,15,0.98);backdrop-filter:blur(20px);padding:20px;border-bottom:1px solid var(--border-glow)}.nav-links.open{display:flex}.hamburger{display:flex}.nav-auth-btn{font-size:0.8rem;padding:6px 14px}.section{padding:60px 20px}.subject-header{padding-top:100px;margin-bottom:60px}.subject-header .section-title{font-size:1.8rem}.container{padding:0 16px 60px}.card-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+<nav class="nav" id="nav">
+  <a href="../index.html" class="nav-logo">XG-SPACE</a>
+  <div class="nav-right">
+    <ul class="nav-links" id="navLinks">
+      <li><a href="../index.html#hero">首页</a></li>
+      <li><a href="../index.html#learning" class="active">学习</a></li>
+      <li><a href="../index.html#videos">视频</a></li>
+      <li><a href="../index.html#creations">创作</a></li>
+      <li><a href="../index.html#daily">日志</a></li>
+      <li><a href="../index.html#interests">兴趣</a></li>
+      <li><a href="https://open.maic.chat/" target="_blank">在线课堂</a></li>
+    </ul>
+    <div id="authArea"><button class="nav-auth-btn" id="navLoginBtn">🔐 登录 / 注册</button></div>
+    <button class="hamburger" id="hamburger" aria-label="菜单"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<section class="subject-header">
+  <span class="section-icon">🌍</span>
+  <h1 class="section-title">英语学习中心</h1>
+  <p class="section-subtitle">语法专项突破、高频词汇表、听力训练素材、写作句型积累</p>
+  <div class="section-divider"></div>
+</section>
+<section class="section">
+  <div class="resource-grid">
+    <div class="resource-card">
+      <h3 class="resource-title">语法专项突破</h3>
+      <p class="resource-content">系统学习英语语法知识，包括时态、语态、从句、非谓语动词等重点语法点。通过专项练习，掌握语法规则并能灵活运用。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">📚 语法知识点总结</a>
+        <a href="#" class="resource-link">💡 语法易错点分析</a>
+        <a href="#" class="resource-link">🧩 语法专项练习</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">高频词汇表</h3>
+      <p class="resource-content">整理初中阶段高频词汇，按主题和难度分类。提供词汇的发音、释义、用法和例句，帮助快速记忆和掌握。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">📝 核心词汇表</a>
+        <a href="#" class="resource-link">💭 词汇记忆方法</a>
+        <a href="#" class="resource-link">🔥 易错词汇辨析</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">听力训练素材</h3>
+      <p class="resource-content">提供各种听力训练素材，包括对话、短文、新闻等。通过有针对性的听力练习，提高听力理解能力和答题技巧。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">🎧 听力材料汇总</a>
+        <a href="#" class="resource-link">🔍 听力技巧指导</a>
+        <a href="#" class="resource-link">📚 听力常见场景</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">写作句型积累</h3>
+      <p class="resource-content">收集整理各类写作句型和模板，包括议论文、记叙文、说明文等不同文体的写作技巧。帮助提高写作水平和得分。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">📔 写作句型库</a>
+        <a href="#" class="resource-link">👥 写作模板</a>
+        <a href="#" class="resource-link">🎯 写作技巧指导</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">阅读技巧</h3>
+      <p class="resource-content">学习英语阅读理解的解题技巧，包括快速阅读、细节理解、推理判断等。通过典型例题分析，提高阅读能力和答题准确率。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">📖 阅读方法总结</a>
+        <a href="#" class="resource-link">🔍 答题技巧指南</a>
+        <a href="#" class="resource-link">🌟 阅读素材推荐</a>
+      </div>
+    </div>
+    <div class="resource-card">
+      <h3 class="resource-title">口语训练</h3>
+      <p class="resource-content">提供口语训练素材和方法，包括日常对话、话题讨论、演讲等。帮助提高口语表达能力和自信心。</p>
+      <div class="resource-links">
+        <a href="#" class="resource-link">💬 日常对话素材</a>
+        <a href="#" class="resource-link">🎤 口语话题库</a>
+        <a href="#" class="resource-link">🎯 口语技巧指导</a>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="container">
+  <div class="content-section">
+    <h2 class="section-title">📂 知识模块</h2>
+    <div class="card-grid">
+      <div class="topic-card">
+        <h4>📐 语法专项</h4>
+        <p>时态、语态、从句、非谓语动词系统梳理</p>
+        <ul>
+          <li>八大时态结构与用法对比</li>
+          <li>被动语态转换规则</li>
+          <li>定语从句关系词选择</li>
+          <li>宾语从句语序与连接词</li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <h4>📝 高频词汇</h4>
+        <p>中考核心词汇 1600+ 分类记忆</p>
+        <ul>
+          <li>按主题分类（校园、家庭、旅行…）</li>
+          <li>词根词缀记忆法</li>
+          <li>同义词/反义词辨析</li>
+          <li>易混词对比（affect/effect…）</li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <h4>🎧 听力训练</h4>
+        <p>听力技巧与每日练习素材</p>
+        <ul>
+          <li>关键词捕捉技巧</li>
+          <li>数字/时间/地点听辨</li>
+          <li>对话理解与推理</li>
+          <li>每日听力素材推荐</li>
+        </ul>
+      </div>
+      <div class="topic-card">
+        <h4>✍️ 写作句型</h4>
+        <p>高分句型、连接词、常见话题范文</p>
+        <ul>
+          <li>开头/结尾万能句型</li>
+          <li>高级连接词替换表</li>
+          <li>书信/通知/日记格式</li>
+          <li>话题范文（环保/科技/校园…）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-title">✏️ 示例题目</h2>
+    <div class="example-block">
+      <h4>例题 1：时态辨析</h4>
+      <div class="problem">
+        选择正确答案：I _____ TV when my mother _____ back yesterday.<br>
+        A. watched; came &nbsp; B. was watching; came &nbsp; C. watched; was coming &nbsp; D. was watching; was coming
+      </div>
+      <div class="solution">
+        <strong>答案：B</strong><br>
+        过去进行时 + 一般过去时的搭配：当一个动作正在进行时（was watching），另一个动作突然发生（came）。<br>
+        <strong>句意：</strong>昨天妈妈回来的时候，我正在看电视。
+      </div>
+      <div class="tip">💡 口诀："长动作"用进行时，"短动作"用一般时，when 引导时间状语从句</div>
+    </div>
+    <div class="image-placeholder">
+      <span>📸</span>
+      在 images/ 文件夹中放入单词表或笔记图片后引用
+    </div>
+  </div>
+
+  <div class="content-section">
+    <h2 class="section-title">📝 学习笔记模板</h2>
+    <div class="example-block">
+      <h4>如何使用本页面</h4>
+      <div class="solution">
+        <strong>添加内容：</strong>直接编辑本 HTML 文件，复制已有卡片/例题的格式<br>
+        <strong>添加图片：</strong>将图片放入 <code>images/</code> 文件夹<br>
+        <strong>添加新模块：</strong>复制 <code>&lt;div class="topic-card"&gt;...&lt;/div&gt;</code> 修改内容<br>
+        <strong>添加新例题：</strong>复制 <code>&lt;div class="example-block"&gt;...&lt;/div&gt;</code> 修改内容
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-box">
+    <h3>🤖 遇到难题？让 AI 老师来帮你！</h3>
+    <p>使用清华大学 OpenMAIC 在线课堂，上传你的英语题目，获得语法分析和写作指导</p>
+    <div class="cta-buttons">
+      <a href="https://open.maic.chat/" class="btn-primary" target="_blank" rel="noopener">🚀 进入在线课堂</a>
+      <a href="https://github.com/THU-MAIC/OpenMAIC" class="btn-outline" target="_blank" rel="noopener">⭐ GitHub 仓库</a>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div class="footer-brand">XG-SPACE</div>
+  <p class="footer-text">翔哥的数字空间 | 初中生 · 编程少年 · 游戏玩家 · 终身学习者</p>
+  <p class="footer-text">© 2026 翔哥的数字空间. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="../index.html#hero">首页</a>
+    <a href="../index.html#learning">学习</a>
+    <a href="../index.html#videos">视频</a>
+    <a href="../index.html#creations">创作</a>
+    <a href="../index.html#daily">日志</a>
+    <a href="../index.html#interests">兴趣</a>
+  </div>
+</footer>
+<script>const hamburger=document.getElementById('hamburger');const navLinks=document.getElementById('navLinks');hamburger.addEventListener('click',()=>{navLinks.classList.toggle('open')});</script>
+</body></html>
