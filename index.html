@@ -856,6 +856,295 @@ body {
   background: rgba(0, 240, 255, 0.08);
   color: var(--neon-cyan);
   border: 1px solid rgba(0, 240, 255, 0.15);
+  text-decoration: none;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.subject-tag:hover {
+  background: rgba(0, 240, 255, 0.18);
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+}
+
+.subject-tag.tag-maic {
+  background: rgba(176, 0, 255, 0.1);
+  color: var(--neon-purple);
+  border-color: rgba(176, 0, 255, 0.25);
+}
+
+.subject-tag.tag-maic:hover {
+  background: rgba(176, 0, 255, 0.2);
+  box-shadow: 0 0 12px rgba(176, 0, 255, 0.25);
+}
+
+.subject-tag.tag-page {
+  background: rgba(0, 255, 136, 0.08);
+  color: var(--neon-green);
+  border-color: rgba(0, 255, 136, 0.2);
+}
+
+.subject-tag.tag-page:hover {
+  background: rgba(0, 255, 136, 0.18);
+  box-shadow: 0 0 12px rgba(0, 255, 136, 0.2);
+}
+
+/* ===== CLASSROOM SECTION ===== */
+.classroom-intro {
+  margin-bottom: 40px;
+}
+
+.classroom-hero-card {
+  background: var(--bg-card);
+  border: 1px solid rgba(176, 0, 255, 0.2);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.classroom-hero-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+}
+
+.classroom-hero-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+
+.classroom-hero-title {
+  font-family: var(--font-cn);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.classroom-hero-desc {
+  font-family: var(--font-cn);
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.classroom-features {
+  list-style: none;
+  text-align: left;
+  max-width: 500px;
+  margin: 0 auto 28px;
+  display: grid;
+  gap: 10px;
+}
+
+.classroom-features li {
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  padding: 8px 16px;
+  background: rgba(0, 240, 255, 0.04);
+  border-radius: 8px;
+  border-left: 3px solid var(--neon-cyan);
+}
+
+.classroom-cta {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-classroom-primary {
+  font-family: var(--font-cn);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+  color: #fff;
+  text-decoration: none;
+  transition: var(--transition);
+  display: inline-block;
+}
+
+.btn-classroom-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(176, 0, 255, 0.3);
+}
+
+.btn-classroom-secondary {
+  font-family: var(--font-cn);
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(176, 0, 255, 0.3);
+  background: transparent;
+  color: var(--neon-purple);
+  text-decoration: none;
+  transition: var(--transition);
+  display: inline-block;
+}
+
+.btn-classroom-secondary:hover {
+  background: rgba(176, 0, 255, 0.1);
+  box-shadow: 0 0 20px rgba(176, 0, 255, 0.15);
+}
+
+.classroom-subtitle {
+  font-family: var(--font-cn);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 28px;
+  color: var(--text-primary);
+}
+
+.classroom-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.classroom-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+.classroom-card:hover {
+  border-color: rgba(176, 0, 255, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.classroom-card-header {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.classroom-card-icon {
+  font-size: 1.6rem;
+}
+
+.classroom-card-subject {
+  font-family: var(--font-cn);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.classroom-card-body {
+  padding: 20px 24px 24px;
+}
+
+.classroom-card-body p {
+  font-family: var(--font-cn);
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.classroom-card-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-classroom-card {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+  color: #fff;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-classroom-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(176, 0, 255, 0.3);
+}
+
+.btn-classroom-outline {
+  font-family: var(--font-cn);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 136, 0.25);
+  background: transparent;
+  color: var(--neon-green);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.btn-classroom-outline:hover {
+  background: rgba(0, 255, 136, 0.08);
+}
+
+.classroom-resources {
+  margin-top: 20px;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.resource-link {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-glow);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.resource-link:hover {
+  border-color: rgba(176, 0, 255, 0.3);
+  background: var(--bg-card-hover);
+  transform: translateY(-2px);
+}
+
+.resource-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.resource-link strong {
+  font-family: var(--font-cn);
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  display: block;
+  margin-bottom: 2px;
+}
+
+.resource-link p {
+  font-family: var(--font-cn);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 /* ===== VIDEO SECTION ===== */
@@ -1822,9 +2111,12 @@ textarea.form-input {
 
   .learning-grid,
   .video-grid,
-  .creations-grid {
+  .creations-grid,
+  .classroom-grid {
     grid-template-columns: 1fr;
   }
+
+  .resource-grid { grid-template-columns: 1fr; }
 
   .interests-grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -1979,6 +2271,7 @@ textarea.form-input {
     <ul class="nav-links" id="navLinks">
       <li><a href="#hero" class="">首页</a></li>
       <li><a href="#learning" class="">学习</a></li>
+      <li><a href="#classroom" class="">在线课堂</a></li>
       <li><a href="#videos" class="">视频</a></li>
       <li><a href="#creations" class="">创作</a></li>
       <li><a href="#daily" class="">日志</a></li>
@@ -2057,7 +2350,7 @@ textarea.form-input {
     <div class="section-divider"></div>
   </div>
   <div class="learning-grid">
-    <div class="subject-card reveal visible">
+    <div class="subject-card reveal visible" data-href="subjects/math.html">
       <span class="subject-icon">🔢</span>
       <h3 class="subject-name">数学</h3>
       <p class="subject-desc">几何证明技巧、函数图像分析、竞赛题精选、解题思维导图</p>
@@ -2065,10 +2358,11 @@ textarea.form-input {
         <span class="subject-tag">答题技巧</span>
         <a href="https://open.maic.chat/classroom/Pa7XtRPIah" class="subject-tag" target="_blank">错题本</a>
         <a href="https://open.maic.chat/classroom/l0J_G5IXic" class="subject-tag" target="_blank">思维训练</a>
-
+        <a href="https://open.maic.chat/" class="subject-tag tag-maic" target="_blank">🎓 在线课堂</a>
+        <a href="subjects/math.html" class="subject-tag tag-page">📚 学习资源</a>
       </div>
     </div>
-    <div class="subject-card reveal visible">
+    <div class="subject-card reveal visible" data-href="subjects/chinese.html">
       <span class="subject-icon">📝</span>
       <h3 class="subject-name">语文</h3>
       <p class="subject-desc">阅读理解套路、作文素材库、文言文实词虚词总结、名著导读</p>
@@ -2076,9 +2370,11 @@ textarea.form-input {
         <span class="subject-tag">作文模板</span>
         <span class="subject-tag">古诗词</span>
         <span class="subject-tag">阅读技巧</span>
+        <a href="https://open.maic.chat/" class="subject-tag tag-maic" target="_blank">🎓 在线课堂</a>
+        <a href="subjects/chinese.html" class="subject-tag tag-page">📚 学习资源</a>
       </div>
     </div>
-    <div class="subject-card reveal visible">
+    <div class="subject-card reveal visible" data-href="subjects/english.html">
       <span class="subject-icon">🌍</span>
       <h3 class="subject-name">英语</h3>
       <p class="subject-desc">语法专项突破、高频词汇表、听力训练素材、写作句型积累</p>
@@ -2086,9 +2382,11 @@ textarea.form-input {
         <span class="subject-tag">词汇表</span>
         <span class="subject-tag">语法笔记</span>
         <span class="subject-tag">听力练习</span>
+        <a href="https://open.maic.chat/" class="subject-tag tag-maic" target="_blank">🎓 在线课堂</a>
+        <a href="subjects/english.html" class="subject-tag tag-page">📚 学习资源</a>
       </div>
     </div>
-    <div class="subject-card reveal visible">
+    <div class="subject-card reveal visible" data-href="subjects/physics.html">
       <span class="subject-icon">🔬</span>
       <h3 class="subject-name">物理</h3>
       <p class="subject-desc">力学分析方法、电学实验要点、光学作图规范、易错题归纳</p>
@@ -2096,9 +2394,11 @@ textarea.form-input {
         <span class="subject-tag">实验要点</span>
         <span class="subject-tag">公式大全</span>
         <span class="subject-tag">作图规范</span>
+        <a href="https://open.maic.chat/" class="subject-tag tag-maic" target="_blank">🎓 在线课堂</a>
+        <a href="subjects/physics.html" class="subject-tag tag-page">📚 学习资源</a>
       </div>
     </div>
-    <div class="subject-card reveal visible">
+    <div class="subject-card reveal visible" data-href="subjects/chemistry.html">
       <span class="subject-icon">🧪</span>
       <h3 class="subject-name">化学</h3>
       <p class="subject-desc">方程式配平、物质分类记忆法、实验操作规范、推断题攻略</p>
@@ -2106,9 +2406,11 @@ textarea.form-input {
         <span class="subject-tag">方程式</span>
         <span class="subject-tag">实验规范</span>
         <span class="subject-tag">推断技巧</span>
+        <a href="https://open.maic.chat/" class="subject-tag tag-maic" target="_blank">🎓 在线课堂</a>
+        <a href="subjects/chemistry.html" class="subject-tag tag-page">📚 学习资源</a>
       </div>
     </div>
-    <div class="subject-card reveal visible">
+    <div class="subject-card reveal visible" data-href="subjects/coding.html">
       <span class="subject-icon">💻</span>
       <h3 class="subject-name">编程</h3>
       <p class="subject-desc">Python 项目实战、C++ 算法入门、ESP32 硬件编程、代码笔记</p>
@@ -2117,6 +2419,8 @@ textarea.form-input {
         <span class="subject-tag">C++</span>
         <span class="subject-tag">ESP32</span>
         <span class="subject-tag">算法</span>
+        <a href="https://open.maic.chat/" class="subject-tag tag-maic" target="_blank">🎓 在线课堂</a>
+        <a href="subjects/coding.html" class="subject-tag tag-page">📚 学习资源</a>
       </div>
     </div>
   </div>
@@ -2159,6 +2463,87 @@ textarea.form-input {
         &nbsp;&nbsp;<span class="keyword">return</span> <span class="number">0</span>;<br>
         }
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- Online Classroom Section -->
+<section class="section" id="classroom">
+  <div class="section-header reveal visible">
+    <span class="section-icon">🎓</span>
+    <h2 class="section-title">ONLINE CLASSROOM</h2>
+    <p class="section-subtitle">基于清华大学 OpenMAIC · AI 多智能体互动课堂</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="classroom-intro reveal visible">
+    <div class="classroom-hero-card">
+      <div class="classroom-hero-icon">🤖</div>
+      <h3 class="classroom-hero-title">遇到难题？让 AI 老师来帮你！</h3>
+      <p class="classroom-hero-desc">基于清华大学开源项目 <strong>OpenMAIC</strong>（Open Multi-Agent Interactive Classroom），你可以：</p>
+      <ul class="classroom-features">
+        <li>📸 <strong>上传题目照片</strong> — 拍下你的错题或疑难问题</li>
+        <li>🧠 <strong>获得详细解题步骤</strong> — AI 教师逐步讲解思路分析</li>
+        <li>💬 <strong>多智能体讨论</strong> — AI 老师和 AI 同学一起帮你理解</li>
+        <li>📝 <strong>互动测验</strong> — 自动生成练习题，巩固所学知识</li>
+        <li>🎨 <strong>白板讲解</strong> — AI 在白板上画图、写公式，直观易懂</li>
+      </ul>
+      <div class="classroom-cta">
+        <a href="https://open.maic.chat/" class="btn-classroom-primary" target="_blank" rel="noopener">
+          🚀 立即体验 OpenMAIC 在线课堂
+        </a>
+        <a href="https://github.com/THU-MAIC/OpenMAIC" class="btn-classroom-secondary" target="_blank" rel="noopener">
+          ⭐ GitHub 开源仓库
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="classroom-resources reveal visible">
+    <h3 class="classroom-subtitle">🔗 OpenMAIC 学习资源</h3>
+    <div class="resource-grid">
+      <a href="https://open.maic.chat/" class="resource-link" target="_blank" rel="noopener">
+        <span class="resource-icon">🌐</span>
+        <div>
+          <strong>OpenMAIC 官方体验</strong>
+          <p>直接在浏览器中体验 AI 互动课堂</p>
+        </div>
+      </a>
+      <a href="https://github.com/THU-MAIC/OpenMAIC" class="resource-link" target="_blank" rel="noopener">
+        <span class="resource-icon">⭐</span>
+        <div>
+          <strong>GitHub 仓库</strong>
+          <p>查看源码、提交 Issue、参与贡献</p>
+        </div>
+      </a>
+      <a href="https://github.com/THU-MAIC/OpenMAIC/blob/main/README-zh.md" class="resource-link" target="_blank" rel="noopener">
+        <span class="resource-icon">📖</span>
+        <div>
+          <strong>中文文档</strong>
+          <p>安装指南、功能介绍、使用教程</p>
+        </div>
+      </a>
+      <a href="https://discord.gg/PtZaaTbH" class="resource-link" target="_blank" rel="noopener">
+        <span class="resource-icon">💬</span>
+        <div>
+          <strong>社区交流</strong>
+          <p>加入 Discord 社区，与其他学习者交流</p>
+        </div>
+      </a>
+      <a href="https://github.com/THU-MAIC/OpenMAIC/blob/main/LICENSE" class="resource-link" target="_blank" rel="noopener">
+        <span class="resource-icon">📜</span>
+        <div>
+          <strong>开源协议</strong>
+          <p>MIT 开源协议，自由使用和修改</p>
+        </div>
+      </a>
+      <a href="https://jcst.ict.ac.cn/en/article/doi/10.1007/s11390-025-6000-0" class="resource-link" target="_blank" rel="noopener">
+        <span class="resource-icon">📄</span>
+        <div>
+          <strong>学术论文</strong>
+          <p>清华大学 MAIC 项目研究成果论文</p>
+        </div>
+      </a>
     </div>
   </div>
 </section>
@@ -2456,6 +2841,14 @@ textarea.form-input {
 </footer>
 
 <script>
+// Subject card click to navigate
+document.querySelectorAll('.subject-card[data-href]').forEach(card => {
+  card.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return; // don't hijack inner links
+    window.location.href = card.dataset.href;
+  });
+});
+
 // ==========================================
 // DATA STORE (localStorage)
 // ==========================================
