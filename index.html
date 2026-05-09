@@ -2334,7 +2334,7 @@ textarea.form-input {
         <div class="stat-label">游戏精通</div>
       </div>
       <div class="stat">
-        <div class="stat-number" data-count="365">365</div>
+        <div class="stat-number" data-count="385">385</div>
         <div class="stat-label">多邻国天数</div>
       </div>
     </div>
@@ -2415,6 +2415,7 @@ textarea.form-input {
       <h3 class="subject-name">编程</h3>
       <p class="subject-desc">Python 项目实战、C++ 算法入门、ESP32 硬件编程、代码笔记</p>
       <div class="subject-tags">
+        <a href="subjects/competition_guide.html" class="subject-tag" target="_blank">打比赛</a>
         <span class="subject-tag">Python</span>
         <span class="subject-tag">C++</span>
         <span class="subject-tag">ESP32</span>
@@ -2732,6 +2733,28 @@ window.addEventListener('load', function() {
         <p class="video-meta"><span class="video-category-tag cat-subject">学科</span>收藏于 2026.03</p>
       </div>
     </a>
+     <a href="https://area-edu-cdn.oss-cn-zhangjiakou.aliyuncs.com/comp/2026/eventDoc/sfyy/sfxdp.mp4" class="video-card reveal visible hidden" data-category="code" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <img src="https://raw.githubusercontent.com/luozhenxiang793/xg-space/main/subjects/images/%E6%98%9F%E7%81%AB%E5%BE%81%E9%80%94%E5%B0%81%E9%9D%A2.png" class="video-thumb-placeholder" style="width:100%;height:100%;object-fit:cover;">
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">KPCB</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">全国信息素养大赛·星火征途</h4>
+        <p class="video-meta"><span class="video-category-tag cat-code">编程</span>收藏于 2026.05</p>
+      </div>
+    </a>
+    <a href="https://area-edu-cdn.oss-cn-zhangjiakou.aliyuncs.com/comp/2026/eventDoc/sfyy/xhzt.mp4" class="video-card reveal visible hidden" data-category="code" target="_blank" rel="noopener">
+      <div class="video-thumb">
+        <img src="https://raw.githubusercontent.com/luozhenxiang793/xg-space/main/subjects/images/%E6%98%9F%E7%81%AB%E5%BE%81%E9%80%94%E4%BB%8B%E7%BB%8D.png" class="video-thumb-placeholder" style="width:100%;height:100%;object-fit:cover;">
+        <div class="video-play"><div class="play-btn"></div></div>
+        <span class="video-source source-bilibili">KPCB</span>
+      </div>
+      <div class="video-info">
+        <h4 class="video-title">全国信息素养大赛·星火征途赛项说明</h4>
+        <p class="video-meta"><span class="video-category-tag cat-code">编程</span>收藏于 2026.05</p>
+      </div>
+    </a>
     <a href="#" class="video-card reveal visible hidden" data-category="code" target="_blank" rel="noopener">
       <div class="video-thumb">
         <span class="video-thumb-placeholder">🐍</span>
@@ -2936,7 +2959,7 @@ window.addEventListener('load', function() {
       <h3>多邻国连续打卡</h3>
       <p>国际象棋 ♟️ + 英语 🌍 · 每天坚持</p>
     </div>
-    <span class="streak-count" id="streakCount">365</span>
+    <span class="streak-count" id="streakCount">385</span>
   </div>
 </section>
 
@@ -3535,7 +3558,7 @@ document.querySelectorAll('[data-count]').forEach(el => counterObserver.observe(
 // STREAK COUNTER
 // ==========================================
 const streakEl = document.getElementById('streakCount');
-const streakTarget = parseInt(localStorage.getItem('xg_duolingo_streak') || '365');
+const streakTarget = parseInt(localStorage.getItem('xg_duolingo_streak') || '385');
 let streakCurrent = 0;
 
 const streakObserver = new IntersectionObserver(entries => {
