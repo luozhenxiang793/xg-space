@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 全国青少年科技竞赛赛事安排 · 翔哥参赛指南</title>
+<style>
+  :root {
+    --bg-dark: #0a0e1a;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --accent-cyan: #00e5ff;
+    --accent-purple: #7c3aed;
+    --accent-pink: #ec4899;
+    --accent-green: #10b981;
+    --accent-orange: #f59e0b;
+    --accent-red: #ef4444;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: #1e293b;
+    --glow-cyan: 0 0 20px rgba(0,229,255,0.3);
+    --glow-purple: 0 0 20px rgba(124,58,237,0.3);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+  /* Animated background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+
+  /* Hero Header */
+  .hero {
+    text-align: center;
+    padding: 60px 20px 40px;
+    position: relative;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 200px; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  }
+  .hero-badge {
+    display: inline-block;
+    padding: 6px 20px;
+    border: 1px solid var(--accent-cyan);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--accent-cyan);
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    animation: pulse-border 2s ease-in-out infinite;
+  }
+  @keyframes pulse-border {
+    0%, 100% { border-color: var(--accent-cyan); box-shadow: 0 0 5px rgba(0,229,255,0.2); }
+    50% { border-color: var(--accent-purple); box-shadow: 0 0 15px rgba(124,58,237,0.3); }
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 48px);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple), var(--accent-pink));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 16px;
+    letter-spacing: 2px;
+  }
+  .hero .subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .hero .meta-info {
+    margin-top: 24px;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero .meta-info span {
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.02);
+  }
+
+  /* Timeline Overview */
+  .timeline-section {
+    margin: 40px 0;
+    padding: 30px;
+    background: var(--bg-card);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+  }
+  .timeline-section h2 {
+    font-size: 22px;
+    color: var(--accent-cyan);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .timeline-bar {
+    display: flex;
+    gap: 0;
+    position: relative;
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+  .timeline-item {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+    padding: 16px;
+    border-left: 3px solid;
+    transition: all 0.3s;
+  }
+  .timeline-item:hover { background: rgba(255,255,255,0.02); }
+  .timeline-item:nth-child(1) { border-color: var(--accent-cyan); }
+  .timeline-item:nth-child(2) { border-color: var(--accent-purple); }
+  .timeline-item:nth-child(3) { border-color: var(--accent-pink); }
+  .timeline-item:nth-child(4) { border-color: var(--accent-green); }
+  .timeline-item .tl-date {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .timeline-item .tl-event {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .timeline-item .tl-comp {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* Competition Cards */
+  .comp-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin: 30px 0;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .comp-card:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: var(--glow-cyan);
+    transform: translateY(-2px);
+  }
+  .comp-card-header {
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .comp-card-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .comp-card:nth-child(1) .comp-card-header::before { background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple)); }
+  .comp-card:nth-child(2) .comp-card-header::before { background: linear-gradient(90deg, var(--accent-red), var(--accent-orange)); }
+  .comp-card:nth-child(3) .comp-card-header::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-pink)); }
+  .comp-card:nth-child(4) .comp-card-header::before { background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan)); }
+  .comp-icon {
+    width: 56px; height: 56px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    flex-shrink: 0;
+  }
+  .comp-card:nth-child(1) .comp-icon { background: rgba(0,229,255,0.1); }
+  .comp-card:nth-child(2) .comp-icon { background: rgba(239,68,68,0.1); }
+  .comp-card:nth-child(3) .comp-icon { background: rgba(124,58,237,0.1); }
+  .comp-card:nth-child(4) .comp-icon { background: rgba(16,185,129,0.1); }
+  .comp-header-text h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .comp-header-text .comp-org {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+  .comp-tag {
+    margin-left: auto;
+    padding: 4px 14px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .tag-白名单 { background: rgba(16,185,129,0.15); color: var(--accent-green); border: 1px solid rgba(16,185,129,0.3); }
+  .tag-首届 { background: rgba(245,158,11,0.15); color: var(--accent-orange); border: 1px solid rgba(245,158,11,0.3); }
+  .tag-进行中 { background: rgba(0,229,255,0.15); color: var(--accent-cyan); border: 1px solid rgba(0,229,255,0.3); }
+
+  .comp-card-body { padding: 24px 28px; }
+  .comp-card-body h4 {
+    font-size: 16px;
+    color: var(--accent-cyan);
+    margin: 20px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .comp-card-body h4:first-child { margin-top: 0; }
+  .comp-card-body p, .comp-card-body li {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+  }
+  .comp-card-body ul { padding-left: 20px; }
+  .comp-card-body li { margin: 4px 0; }
+  .comp-card-body li strong { color: var(--text-primary); }
+
+  /* Info Grid */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    margin: 14px 0;
+  }
+  .info-box {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    transition: all 0.2s;
+  }
+  .info-box:hover { border-color: var(--accent-cyan); background: rgba(0,229,255,0.03); }
+  .info-box .label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .info-box .value {
+    font-size: 14px;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  .info-box .desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+  }
+
+  /* Table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+  .data-table th {
+    background: rgba(0,229,255,0.08);
+    color: var(--accent-cyan);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid var(--accent-cyan);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .data-table strong { color: var(--text-primary); }
+
+  /* Highlight box */
+  .highlight-box {
+    background: linear-gradient(135deg, rgba(0,229,255,0.05), rgba(124,58,237,0.05));
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 14px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+  .highlight-box strong { color: var(--accent-cyan); }
+  .highlight-box.warn {
+    border-color: rgba(245,158,11,0.3);
+    background: linear-gradient(135deg, rgba(245,158,11,0.05), rgba(239,68,68,0.05));
+  }
+  .highlight-box.warn strong { color: var(--accent-orange); }
+  .highlight-box.success {
+    border-color: rgba(16,185,129,0.3);
+    background: linear-gradient(135deg, rgba(16,185,129,0.05), rgba(0,229,255,0.05));
+  }
+  .highlight-box.success strong { color: var(--accent-green); }
+
+  /* Links */
+  a {
+    color: var(--accent-cyan);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  a:hover { color: var(--accent-purple); text-decoration: underline; }
+
+  /* Video Section */
+  .video-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+  }
+  .video-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(124,58,237,0.1);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--accent-purple);
+    transition: all 0.2s;
+  }
+  .video-link:hover {
+    background: rgba(124,58,237,0.2);
+    text-decoration: none;
+    color: var(--accent-pink);
+  }
+
+  /* Section divider */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 40px 0;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+  .footer a { color: var(--text-muted); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .container { padding: 12px; }
+    .comp-card-body, .comp-card-header { padding: 16px; }
+    .timeline-bar { flex-direction: column; }
+    .info-grid { grid-template-columns: 1fr; }
+    .hero .meta-info { flex-direction: column; align-items: center; }
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .comp-card { animation: fadeInUp 0.6s ease-out both; }
+  .comp-card:nth-child(1) { animation-delay: 0.1s; }
+  .comp-card:nth-child(2) { animation-delay: 0.2s; }
+  .comp-card:nth-child(3) { animation-delay: 0.3s; }
+  .comp-card:nth-child(4) { animation-delay: 0.4s; }
+
+  /* Skill tags */
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0;
+  }
+  .skill-tag {
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .skill-tag.core {
+    background: rgba(0,229,255,0.1);
+    border-color: rgba(0,229,255,0.3);
+    color: var(--accent-cyan);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-badge">⚡ 2026 Competition Guide</div>
+    <h1>全国青少年科技竞赛<br>翔哥上半年赛事安排总览</h1>
+    <p class="subtitle">江西省初中生参赛指南 · 四大赛事全解析 · 赛程 / 项目 / 知识点 / 报名一网打尽</p>
+    <div class="meta-info">
+      <span>📍 江西省 · 初中组</span>
+      <span>📅 更新于 2026年5月9日</span>
+      <span>🎯 4项赛事 · 6个参赛方向</span>
+    </div>
+  </header>
+
+  <!-- Timeline Overview -->
+  <section class="timeline-section">
+    <h2>📊 赛程时间线总览</h2>
+    <div class="timeline-bar">
+      <div class="timeline-item">
+        <div class="tl-date">2026年4月18日起</div>
+        <div class="tl-event">🧠 全国青少年心理成长大赛 · 初赛</div>
+        <div class="tl-comp">线上答题，官网进行</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">2026年5月23-24日 / 30-31日</div>
+        <div class="tl-event">💻 全国信息素养大赛 · 初赛</div>
+        <div class="tl-comp">线上答题，60分钟</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">省选拔赛 → 全国决赛</div>
+        <div class="tl-event">🎨 全国青少年AIGC数字艺术大赛</div>
+        <div class="tl-comp">作品提交制，AI音乐方向</div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-date">赛区初赛 → 省赛 → 总决赛</div>
+        <div class="tl-event">🔴 全国青少年红色文化创新大赛</div>
+        <div class="tl-comp">四赛道，实践探索方向</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Competition 1: 信息素养大赛 ====== -->
+  <div class="comp-card">
+    <div class="comp-card-header">
+      <div class="comp-icon">💻</div>
+      <div class="comp-header-text">
+        <h3>2026世界机器人大会青少年机器人设计与信息素养大赛（信息素养类）</h3>
+        <div class="comp-org">又名"全国青少年信息素养大赛" · 主办：中国电子学会</div>
+      </div>
+      <span class="comp-tag tag-白名单">✅ 教育部白名单</span>
+    </div>
+    <div class="comp-card-body">
+
+      <h4>🏆 赛事介绍</h4>
+      <p>全国青少年信息素养大赛是经教育部批准的白名单赛事，旨在推动青少年信息素养教育，培养计算思维和编程能力。大赛设多个主题赛项，其中<strong>算法应用主题赛</strong>面向C++/Python编程选手，是最受关注的赛道之一。</p>
+
+      <h4>🎯 参赛项目：算法应用主题赛 · 星火征途</h4>
+      <div class="highlight-box success">
+        <strong>🔥 星火征途</strong> —— 2026年算法应用主题赛全新子项。以"红色历史场景"为背景，要求选手通过编程算法解决红军路径规划、革命物资分类、红色根据地民生数据分析等现实问题，用技术驱动红色历史的永恒流传。这是一项将<strong>编程算法</strong>与<strong>红色文化</strong>深度融合的创新赛项。
+      </div>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="label">赛项类别</div>
+          <div class="value">算法应用主题赛</div>
+          <div class="desc">星火征途子项</div>
+        </div>
+        <div class="info-box">
+          <div class="label">编程语言</div>
+          <div class="value">C++</div>
+          <div class="desc">初中组使用C++语言</div>
+        </div>
+        <div class="info-box">
+          <div class="label">参赛形式</div>
+          <div class="value">个人赛</div>
+          <div class="desc">独立完成全部答题</div>
+        </div>
+        <div class="info-box">
+          <div class="label">比赛形式</div>
+          <div class="value">线上答题</div>
+          <div class="desc">需配备在线监考设备</div>
+        </div>
+      </div>
+
+      <h4>📅 赛程安排</h4>
+      <table class="data-table">
+        <thead>
+          <tr><th>阶段</th><th>时间</th><th>形式</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>🟢 模拟测试</strong></td>
+            <td>5月18-19日、25-26日<br>每天 18:00—21:00</td>
+            <td>线上</td>
+            <td>熟悉比赛环境，题目为通用模拟题（不分赛项），成绩不计入初赛</td>
+          </tr>
+          <tr>
+            <td><strong>🔵 初赛（市赛）</strong></td>
+            <td>5月23-24日、30-31日<br>（具体场次以官网公布为准）</td>
+            <td>线上答题</td>
+            <td>答题时间60分钟；需提前1小时登录监考群；需准备身份证/户口本</td>
+          </tr>
+          <tr>
+            <td><strong>🟣 复赛（省赛）</strong></td>
+            <td>初赛后5个工作日内公布晋级<br>具体时间待通知</td>
+            <td>待定</td>
+            <td>根据初赛成绩+答题用时综合排名；需达到最低分数线</td>
+          </tr>
+          <tr>
+            <td><strong>🔴 决赛（国赛）</strong></td>
+            <td>待通知</td>
+            <td>待定</td>
+            <td>全国总决赛</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>📝 初赛流程详解</h4>
+      <ul>
+        <li>登录大赛官网 <a href="https://ceic.kpcb.org.cn" target="_blank">ceic.kpcb.org.cn</a> 进行答题</li>
+        <li>需配备<strong>在线监考设备</strong>（手机或电脑），提前安装腾讯会议或钉钉</li>
+        <li>比赛当天提前1小时登录监考群，准备身份证，按要求摆放监考设备</li>
+        <li>答题时间60分钟，提交后不可修改；超时系统自动提交</li>
+        <li><strong>严禁</strong>在培训机构等场所集中比赛，须独立完成</li>
+        <li>推荐使用 <strong>Chrome 69.0+</strong> 浏览器，不建议手机/平板</li>
+      </ul>
+
+      <h4>🧠 考察知识点（星火征途 · C++）</h4>
+      <div class="skill-tags">
+        <span class="skill-tag core">基础语法</span>
+        <span class="skill-tag core">数据类型与变量</span>
+        <span class="skill-tag core">条件判断 if/else</span>
+        <span class="skill-tag core">循环结构 for/while</span>
+        <span class="skill-tag core">数组与字符串</span>
+        <span class="skill-tag core">函数定义与调用</span>
+        <span class="skill-tag">排序算法（冒泡/选择/插入）</span>
+        <span class="skill-tag">查找算法（顺序/二分）</span>
+        <span class="skill-tag">贪心算法</span>
+        <span class="skill-tag">简单动态规划</span>
+        <span class="skill-tag">递归与递推</span>
+        <span class="skill-tag">模拟与枚举</span>
+        <span class="skill-tag">图论基础（BFS/DFS）</span>
+        <span class="skill-tag">路径规划算法</span>
+        <span class="skill-tag">数据分类与统计</span>
+        <span class="skill-tag">STL基础容器</span>
+      </div>
+
+      <div class="highlight-box">
+        <strong>🌟 星火征途特色考察方向：</strong><br>
+        ① <strong>红军路径规划</strong>：运用BFS/DFS/最短路径算法，模拟红军行军路线规划问题<br>
+        ② <strong>革命物资分类</strong>：运用分类算法、贪心策略，解决物资分配与调度问题<br>
+        ③ <strong>红色根据地民生数据分析</strong>：运用数据统计、排序、查找算法，分析根据地经济民生数据<br>
+        ④ <strong>综合应用</strong>：将算法能力与红色历史场景结合，体现"用技术传承红色基因"的赛题理念
+      </div>
+
+      <h4>🎬 宣传视频</h4>
+      <div class="video-links">
+        <a class="video-link" href="https://area-edu-cdn.oss-cn-zhangjiakou.aliyuncs.com/comp/2026/eventDoc/sfyy/sfxdp.mp4" target="_blank">▶ 算法应用主题赛宣传视频</a>
+        <a class="video-link" href="https://area-edu-cdn.oss-cn-zhangjiakou.aliyuncs.com/comp/2026/eventDoc/sfyy/xhzt.mp4" target="_blank">▶ 星火征途详细介绍视频</a>
+      </div>
+
+      <h4>📎 相关链接</h4>
+      <ul>
+        <li>官方网站：<a href="https://ceic.kpcb.org.cn/cms/" target="_blank">ceic.kpcb.org.cn</a></li>
+        <li>初赛通知：<a href="https://ceic.kpcb.org.cn/cms/sstz/8540.htm" target="_blank">关于举办初赛的通知</a></li>
+        <li>赛项说明PDF：<a href="https://area-edu-cdn.oss-cn-zhangjiakou.aliyuncs.com/comp/2026/eventDoc/sfyy/sfyy0403.pdf" target="_blank">sfyy0403.pdf</a></li>
+        <li>报名入口：<a href="https://ceic.kpcb.org.cn/comp/enrollMatch/theme/3" target="_blank">算法应用主题赛报名</a></li>
+        <li>咨询电话：400-161-9885 &nbsp;|&nbsp; 监督电话：010-68600718</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ====== Competition 2: 心理成长大赛 ====== -->
+  <div class="comp-card">
+    <div class="comp-card-header">
+      <div class="comp-icon">🧠</div>
+      <div class="comp-header-text">
+        <h3>全国青少年心理成长知识与应用创新大赛</h3>
+        <div class="comp-org">主办：中国心理卫生协会 · 首届举办</div>
+      </div>
+      <span class="comp-tag tag-首届">🆕 首届</span>
+    </div>
+    <div class="comp-card-body">
+
+      <h4>🏆 赛事介绍</h4>
+      <p>全国青少年心理成长知识与应用创新大赛是经教育部批准的全国性竞赛活动，以"促进青少年心理成长"为核心，通过心理学知识竞赛与创新应用，培养青少年的心理健康素养和创新思维能力。首届大赛于2026年启动。</p>
+
+      <h4>🎯 参赛项目：小小心理学家创新大赛 — 认知计算方向（初中组 C++）</h4>
+      <p>该项目要求选手运用C++编程能力，结合心理学认知计算方向的知识，完成与心理认知相关的编程任务。考察选手将编程技术与心理学应用相结合的创新能力。</p>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="label">赛项名称</div>
+          <div class="value">小小心理学家创新大赛</div>
+          <div class="desc">认知计算方向</div>
+        </div>
+        <div class="info-box">
+          <div class="label">编程语言</div>
+          <div class="value">C++</div>
+          <div class="desc">初中组使用C++语言</div>
+        </div>
+        <div class="info-box">
+          <div class="label">参赛对象</div>
+          <div class="value">初中学生</div>
+          <div class="desc">含普通初中、职业初中在校学生</div>
+        </div>
+        <div class="info-box">
+          <div class="label">主办单位</div>
+          <div class="value">中国心理卫生协会</div>
+          <div class="desc">全国性权威心理卫生学术组织</div>
+        </div>
+      </div>
+
+      <h4>📅 赛程安排</h4>
+      <table class="data-table">
+        <thead>
+          <tr><th>阶段</th><th>时间</th><th>形式</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>📋 报名注册</strong></td>
+            <td>已开放</td>
+            <td>官网注册</td>
+            <td>登录官网 <a href="https://www.camh-edu.org.cn" target="_blank">www.camh-edu.org.cn</a> 注册报名</td>
+          </tr>
+          <tr>
+            <td><strong>🟢 模拟考</strong></td>
+            <td>与初赛同步开放</td>
+            <td>线上</td>
+            <td>不限次数模拟练习</td>
+          </tr>
+          <tr>
+            <td><strong>🔵 初赛</strong></td>
+            <td>2026年4月18日起</td>
+            <td>线上答题</td>
+            <td>官网在线进行，一次正式答题机会</td>
+          </tr>
+          <tr>
+            <td><strong>🟣 复赛</strong></td>
+            <td>初赛后通知</td>
+            <td>待定</td>
+            <td>初赛获奖者晋级</td>
+          </tr>
+          <tr>
+            <td><strong>🔴 决赛</strong></td>
+            <td>待通知</td>
+            <td>现场</td>
+            <td>全国总决赛，颁发国家级证书</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>🏅 奖项设置</h4>
+      <ul>
+        <li>初赛阶段设置<strong>优秀奖</strong>，由组委会统一颁发证书</li>
+        <li>复赛、决赛分别设置<strong>一等奖、二等奖、三等奖</strong>及优秀奖</li>
+        <li>获奖选手及指导教师、组织单位均可获得相应荣誉证书</li>
+        <li>初中学生可获得<strong>"社会实践证书"</strong></li>
+      </ul>
+
+      <h4>🧠 考察知识点（认知计算方向 · C++）</h4>
+      <div class="skill-tags">
+        <span class="skill-tag core">C++基础语法</span>
+        <span class="skill-tag core">数据结构基础</span>
+        <span class="skill-tag">心理学认知基础概念</span>
+        <span class="skill-tag">认知模型与计算建模</span>
+        <span class="skill-tag">数据处理与分析</span>
+        <span class="skill-tag">简单机器学习概念</span>
+        <span class="skill-tag">模式识别基础</span>
+        <span class="skill-tag">统计分析编程</span>
+      </div>
+
+      <h4>📎 相关链接</h4>
+      <ul>
+        <li>官方网站：<a href="https://www.camh-edu.org.cn" target="_blank">www.camh-edu.org.cn</a></li>
+        <li>竞赛规则：<a href="https://www.camh-edu.org.cn/#/rules" target="_blank">竞赛规则详情</a></li>
+        <li>初赛通知来源：<a href="https://world.newssc.org/system/20260501/001609148.html" target="_blank">四川新闻网报道</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ====== Competition 3: 红色文化大赛 ====== -->
+  <div class="comp-card">
+    <div class="comp-card-header">
+      <div class="comp-icon">🔴</div>
+      <div class="comp-header-text">
+        <h3>全国青少年红色文化传承与实践创新大赛</h3>
+        <div class="comp-org">主办：中国红色文化研究会 · 教育部2025-2028白名单赛事</div>
+      </div>
+      <span class="comp-tag tag-白名单">✅ 教育部白名单</span>
+    </div>
+    <div class="comp-card-body">
+
+      <h4>🏆 赛事介绍</h4>
+      <p>全国青少年红色文化传承与实践创新大赛经教育部批准，列入《2025-2028学年面向中小学生的全国性竞赛活动》名单，以"传承红色基因·赓续红色血脉"为主题，覆盖小学、初中、高中（含中专、职高）全学段。大赛设有四个赛项，覆盖知识、创意、技术与实践多个维度。</p>
+
+      <h4>🎯 参赛项目：红色文化实践探索赛</h4>
+      <p><strong>实践探索赛</strong>是大赛四大赛项之一，引导青少年围绕红色资源开展<strong>社会调查、综合实践、志愿服务</strong>等项目，推动红色精神内化于心、外化于行，实现知行合一。要求选手将红色文化学习与实际行动相结合，体现青少年的社会责任感和实践创新能力。</p>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="label">赛项名称</div>
+          <div class="value">红色文化实践探索赛</div>
+          <div class="desc">四大赛项之一（实践维度）</div>
+        </div>
+        <div class="info-box">
+          <div class="label">四大赛项</div>
+          <div class="value">知识 · 创意 · 数字 · 实践</div>
+          <div class="desc">覆盖多维度红色文化传承</div>
+        </div>
+        <div class="info-box">
+          <div class="label">主办单位</div>
+          <div class="value">中国红色文化研究会</div>
+          <div class="desc">全国性红色文化学术组织</div>
+        </div>
+        <div class="info-box">
+          <div class="label">白名单有效期</div>
+          <div class="value">2025-2028学年</div>
+          <div class="desc">教育部批准的全国性竞赛</div>
+        </div>
+      </div>
+
+      <h4>📅 赛程安排（参考已公布省份）</h4>
+      <table class="data-table">
+        <thead>
+          <tr><th>阶段</th><th>时间（参考）</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>📋 报名启动</strong></td>
+            <td>2026年初起</td>
+            <td>各省陆续启动报名，关注官网及各省赛区通知</td>
+          </tr>
+          <tr>
+            <td><strong>🔵 初赛（市/区赛）</strong></td>
+            <td>1月1日开始，5月20日截止</td>
+            <td>区域性赛事由大赛组委会组织安排</td>
+          </tr>
+          <tr>
+            <td><strong>🟣 复赛（省赛）</strong></td>
+            <td>5月21日开始，6月30日截止</td>
+            <td>省级选拔，湖南已纳入省级白名单</td>
+          </tr>
+          <tr>
+            <td><strong>🔴 决赛（全国总决赛）</strong></td>
+            <td>7月1日~8月15日</td>
+            <td>总决赛由领导小组组织安排</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box warn">
+        <strong>⚠️ 江西省参赛提示：</strong>目前各省赛区正在陆续启动中，建议密切关注大赛官网 <a href="https://www.hswhds.com" target="_blank">www.hswhds.com</a> 的最新通知，查看江西省赛区是否已成立组委会并开放报名。也可关注当地教育局或团委的相关通知。
+      </div>
+
+      <h4>💡 四大赛项概览</h4>
+      <table class="data-table">
+        <thead>
+          <tr><th>赛项</th><th>维度</th><th>内容</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>红色文化知识挑战</strong></td><td>知识</td><td>系统性知识竞答与探究，夯实红色历史、理论与精神基础</td></tr>
+          <tr><td><strong>红色文化创意设计</strong></td><td>创意</td><td>围绕红色主题进行艺术创作、产品设计、剧本编写</td></tr>
+          <tr><td><strong>红色文化数字传承</strong></td><td>技术</td><td>结合AI、VR、数字媒体等技术，创作数字化红色文化作品</td></tr>
+          <tr><td><strong>红色文化实践探索</strong></td><td>实践</td><td>按要求的主题完成软件代码编写或人工智能编程上传参赛材料</td></tr>
+        </tbody>
+      </table>
+
+      <h4>📎 相关链接</h4>
+      <ul>
+        <li>官方网站：<a href="https://www.hswhds.com/" target="_blank">www.hswhds.com</a></li>
+        <li>竞赛规则：<a href="https://www.hswhds.com/about?category=12" target="_blank">竞赛规则详情</a></li>
+        <li>红色文化实践探索赛：<a href="https://www.hswhds.com/about?category=13&tab=32" target="_blank">赛项详情页</a></li>
+        <li>中新网报道：<a href="https://www.chinanews.com/sh/2025/12-22/10538432.shtml" target="_blank">大赛在京启动</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ====== Competition 4: AIGC数字艺术大赛 ====== -->
+  <div class="comp-card">
+    <div class="comp-card-header">
+      <div class="comp-icon">🎨</div>
+      <div class="comp-header-text">
+        <h3>第一届全国青少年人工智能辅助生成数字艺术创作者大赛</h3>
+        <div class="comp-org">简称 AIGCNYACC · 首届举办</div>
+      </div>
+      <span class="comp-tag tag-首届">🆕 首届</span>
+    </div>
+    <div class="comp-card-body">
+
+      <h4>🏆 赛事介绍</h4>
+      <p>第一届全国青少年人工智能辅助生成数字艺术创作者大赛（AIGCNYACC）是面向全国青少年的AIGC数字艺术创作赛事，鼓励青少年运用人工智能工具辅助进行艺术创作，探索AI与艺术的融合创新。大赛覆盖小学、初中、高中、中职四个学段。</p>
+
+      <h4>🎯 参赛项目：初中阶段 — AI与音频艺术</h4>
+      <p>该项目要求选手运用AI工具辅助创作音频艺术作品，将人工智能技术与音乐/声音艺术创作相结合。作品需体现AI辅助创作的过程，同时展现选手的艺术创意和审美能力。</p>
+
+      <div class="info-grid">
+        <div class="info-box">
+          <div class="label">赛项名称</div>
+          <div class="value">AI与音频艺术</div>
+          <div class="desc">初中阶段第6赛项</div>
+        </div>
+        <div class="info-box">
+          <div class="label">作品格式</div>
+          <div class="value">WAV / MP3</div>
+          <div class="desc">WAV首选，MP3≥320kbps</div>
+        </div>
+        <div class="info-box">
+          <div class="label">时长要求</div>
+          <div class="value">30秒 ~ 5分钟</div>
+          <div class="desc">含片头片尾</div>
+        </div>
+        <div class="info-box">
+          <div class="label">文件大小</div>
+          <div class="value">WAV ≤ 300MB / MP3 ≤ 100MB</div>
+          <div class="desc">采样率≥44.1kHz，16bit，立体声</div>
+        </div>
+      </div>
+
+      <h4>📅 赛程安排</h4>
+      <table class="data-table">
+        <thead>
+          <tr><th>阶段</th><th>时间</th><th>形式</th><th>说明</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>📋 报名</strong></td>
+            <td>已开放</td>
+            <td>官网报名</td>
+            <td><a href="https://www.aigcnyacc.com/www/signUp.html?id=signUp&v=0507" target="_blank">报名入口</a></td>
+          </tr>
+          <tr>
+            <td><strong>🔵 省选拔赛</strong></td>
+            <td>待通知</td>
+            <td>作品提交</td>
+            <td>提交作品zip包（含作品+AIGC过程截图+创作草稿）</td>
+          </tr>
+          <tr>
+            <td><strong>🔴 全国决赛</strong></td>
+            <td>待通知</td>
+            <td>作品提交</td>
+            <td>晋级后提交新作品参加全国决赛评审</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>📦 作品提交要求（音频类）</h4>
+      <ul>
+        <li><strong>格式：</strong>WAV（首选）/ MP3（≥320kbps）</li>
+        <li><strong>采样率：</strong>≥ 44.1 kHz &nbsp;|&nbsp; <strong>位深：</strong>≥ 16 bit（WAV）&nbsp;|&nbsp; <strong>声道：</strong>立体声</li>
+        <li><strong>时长：</strong>30秒 ~ 5分钟 &nbsp;|&nbsp; <strong>文件大小：</strong>WAV ≤ 300MB，MP3 ≤ 100MB</li>
+        <li><strong>创作说明：</strong>30-100字</li>
+        <li><strong>创作草稿：</strong>≤3个文件（可含图片/音频片段），单个2-6MB</li>
+        <li><strong>AIGC过程截图：</strong>≥3张，展示提示词输入框+生成结果页面（0.5-2MB/张）</li>
+      </ul>
+
+      <h4>📋 文件命名规范</h4>
+      <table class="data-table">
+        <thead>
+          <tr><th>阶段</th><th>总文件夹命名</th><th>作品文件命名</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>省选拔赛</td>
+            <td><code>姓名_身份证号_SS_作品名称</code></td>
+            <td><code>SS_作品名称_序号</code></td>
+          </tr>
+          <tr>
+            <td>全国决赛</td>
+            <td><code>姓名_身份证号_GS_作品名称</code></td>
+            <td><code>GS_作品名称_序号</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="highlight-box warn">
+        <strong>⚠️ 江西赛区情况：</strong>目前该赛事暂未设置江西赛区。建议：① 关注官网是否会新增江西赛区；② 联系组委会（电话：010-63529818 / 18610760190，邮箱：aigcnyacc@dartblab.com）咨询是否可以跨省报名其他赛区；③ 部分赛事允许无赛区选手通过其他渠道参赛，具体以组委会答复为准。
+      </div>
+
+      <h4>📎 相关链接</h4>
+      <ul>
+        <li>官方网站：<a href="https://www.aigcnyacc.com/www/index.html?tag=index" target="_blank">www.aigcnyacc.com</a></li>
+        <li>报名入口：<a href="https://www.aigcnyacc.com/www/signUp.html?id=signUp&v=0507" target="_blank">参赛报名</a></li>
+        <li>报名指南：<a href="https://www.aigcnyacc.com/www/signUpDetails.html?id=signUp" target="_blank">参赛作品指南（技术规范）</a></li>
+        <li>联系电话：010-63529818 / 18610760190</li>
+        <li>联络邮箱：aigcnyacc@dartblab.com</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Summary Section -->
+  <section class="timeline-section" style="margin-top: 40px;">
+    <h2>📋 四大赛事对比速查</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>赛事</th>
+          <th>你的参赛项目</th>
+          <th>初赛时间</th>
+          <th>比赛形式</th>
+          <th>白名单</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>🧠 心理成长大赛</strong></td>
+          <td>小小心理学家·认知计算·C++</td>
+          <td>2026年4月18日起</td>
+          <td>线上答题</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td><strong>💻 信息素养大赛</strong></td>
+          <td>算法应用·星火征途·C++</td>
+          <td>2026年5月23-31日</td>
+          <td>线上答题60分钟</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td><strong>🔴 红色文化大赛</strong></td>
+          <td>红色文化实践探索赛</td>
+          <td>2026年1月1日·5月20日</td>
+          <td>线上答题</td>
+          <td>✅</td>
+        </tr>
+        <tr>
+          <td><strong>🎨 AIGC数字艺术</strong></td>
+          <td>AI与音频艺术</td>
+          <td>作品提交制</td>
+          <td>提交作品</td>
+          <td>🆕首届</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Tips -->
+  <section class="timeline-section">
+    <h2>💡 参赛建议</h2>
+    <div class="highlight-box success">
+      <strong>📌 优先级建议：</strong><br>
+      ① <strong>信息素养大赛（星火征途）</strong>—— 初赛在即（5月23日），优先备战，重点练习C++算法与红色场景结合的题目<br>
+      ② <strong>心理成长大赛</strong>—— 初赛已启动（4月18日起），尽快登录官网完成报名和答题<br>
+      ③ <strong>红色文化实践探索赛</strong>—— 初赛已启动，线上答题，5月20日截止<br>
+      ④ <strong>AIGC数字艺术</strong>—— 联系组委会确认跨省报名可行性，同步准备音频创作作品
+    </div>
+
+    <div class="highlight-box" style="margin-top: 14px;">
+      <strong>🔧 备赛资源：</strong><br>
+      • 信息素养大赛模拟题可在CSDN等平台搜索"2026信息素养大赛C++模拟训练"获取练习题<br>
+      • 星火征途赛项重点关注：<strong>路径规划（BFS/DFS/最短路）</strong>、<strong>分类算法</strong>、<strong>数据统计分析</strong>三大方向<br>
+      • AIGC音频艺术可使用Suno、Udio等AI音乐生成工具辅助创作<br>
+      • 四项赛事均为<strong>零收费</strong>，谨防以赛事名义的收费培训
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>数据来源：各赛事官方网站及公开通知 · 请以官方最新公告为准</p>
+    <p style="margin-top:8px;">
+      <a href="https://ceic.kpcb.org.cn" target="_blank">信息素养大赛</a> ·
+      <a href="https://www.camh-edu.org.cn" target="_blank">心理成长大赛</a> ·
+      <a href="https://www.hswhds.com" target="_blank">红色文化大赛</a> ·
+      <a href="https://www.aigcnyacc.com" target="_blank">AIGC数字艺术大赛</a>
+    </p>
+    <p style="margin-top: 16px; font-size: 12px; color: #475569;">⚡ Generated for 江西省初中生参赛规划 · 2026.05.09</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
