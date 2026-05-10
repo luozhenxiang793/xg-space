@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星火征途 - C++选择题练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a2a 100%);
+            color: #e0e0ff;
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(90deg, transparent, rgba(0, 150, 255, 0.1), transparent);
+            border-bottom: 2px solid #0088ff;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #00ffff, #0088ff, #ff00ff);
+            animation: rainbow 3s linear infinite;
+            background-size: 200% 100%;
+        }
+        
+        @keyframes rainbow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            color: #ff8800;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            padding-left: 15px;
+            border-left: 4px solid #ff8800;
+        }
+        
+        h3 {
+            color: #00ffff;
+            margin-top: 25px;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            color: #ffcc00;
+            font-size: 1.2em;
+        }
+        
+        .intro {
+            background: rgba(0, 50, 100, 0.3);
+            border: 1px solid #0088ff;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .question-card {
+            background: rgba(10, 20, 40, 0.9);
+            border: 2px solid #0066aa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .question-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #ff0000, #ff8800, #ffff00);
+        }
+        
+        .question-card:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+        
+        .question-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff8800, #ffcc00);
+            color: #000;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .options {
+            margin: 20px 0;
+            padding-left: 20px;
+        }
+        
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background: rgba(0, 136, 255, 0.2);
+        }
+        
+        .answer-toggle {
+            background: rgba(0, 136, 255, 0.3);
+            border: 1px solid #0088ff;
+            color: #00ffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+        
+        .answer-toggle:hover {
+            background: rgba(0, 136, 255, 0.5);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+        
+        .answer-content {
+            display: none;
+            background: rgba(0, 100, 50, 0.2);
+            border: 1px solid #00ff88;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .answer-content.show {
+            display: block;
+        }
+        
+        .correct-answer {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        
+        .explanation {
+            color: #e0e0ff;
+        }
+        
+        .knowledge-point {
+            background: rgba(255, 200, 0, 0.1);
+            border-left: 3px solid #ffcc00;
+            padding: 10px 15px;
+            margin-top: 15px;
+            color: #ffcc00;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th {
+            background: rgba(0, 136, 255, 0.3);
+            color: #00ffff;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #0088ff;
+        }
+        
+        td {
+            padding: 12px;
+            border: 1px solid #0066aa;
+            color: #ccccee;
+        }
+        
+        tr:hover {
+            background: rgba(0, 136, 255, 0.1);
+        }
+        
+        pre {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            overflow-x: auto;
+            color: #c9d1d9;
+            font-family: 'Courier New', monospace;
+        }
+        
+        code {
+            font-family: 'Courier New', monospace;
+            color: #ffcc00;
+        }
+        
+        .tips {
+            background: linear-gradient(135deg, rgba(255, 136, 0, 0.1), rgba(255, 204, 0, 0.1));
+            border: 1px solid #ff8800;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .tips h4 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+        
+        .tips li {
+            color: #ddddee;
+            margin: 8px 0;
+            padding-left: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px;
+            margin-top: 50px;
+            border-top: 1px solid #0066aa;
+            color: #6688aa;
+        }
+        
+        .highlight-text {
+            color: #ffcc00;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            .question-card { padding: 20px; }
+            .container { padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><span style="color: #ff0000;">★</span> <a href="https://luozhenxiang793.github.io/xg-space/subjects/competition_guide.html" target="_blank">星火征途 <span style="color: #ff0000;">★</span></h1>
+            <h1>C++选择题练习（初中组）</h1>
+            <p class="subtitle">信息素养大赛 · 算法应用主题赛</p>
+        </header>
+        
+        <div class="intro">
+            <h2>练习说明</h2>
+            <p>📌 共40道选择题，覆盖四大特色考察方向</p>
+            <p>⏱️ 建议每题用时：1-2分钟</p>
+            <p>💡 每题附详细解析，建议先独立完成再对答案</p>
+        </div>
+        
+        <div class="tips">
+            <h3>考察方向概览</h3>
+            <table>
+                <tr>
+                    <th>方向</th>
+                    <th>题号</th>
+                    <th>题数</th>
+                    <th>主要考点</th>
+                </tr>
+                <tr>
+                    <td>①红军路径规划</td>
+                    <td>T1-T10</td>
+                    <td>10题</td>
+                    <td>BFS/DFS、图论基础、队列/栈</td>
+                </tr>
+                <tr>
+                    <td>②革命物资分类</td>
+                    <td>T11-T18</td>
+                    <td>8题</td>
+                    <td>排序算法、贪心策略、复杂度</td>
+                </tr>
+                <tr>
+                    <td>③民生数据分析</td>
+                    <td>T19-T26</td>
+                    <td>8题</td>
+                    <td>数据统计、查找算法、数组操作</td>
+                </tr>
+                <tr>
+                    <td>④综合应用</td>
+                    <td>T27-T34</td>
+                    <td>8题</td>
+                    <td>综合算法、模拟、代码阅读</td>
+                </tr>
+                <tr>
+                    <td>C++基础语法</td>
+                    <td>T35-T40</td>
+                    <td>6题</td>
+                    <td>基础语法、数据类型、输入输出</td>
+                </tr>
+            </table>
+        </div>
+
+        <h2>方向一：红军路径规划（T1-T10）</h2>
+
+        <div class="question-card">
+            <h3><span class="question-number">T1</span></h3>
+            <p>红军侦察兵在n×m的网格地图上执行侦察任务，从左上角出发，每次只能向上下左右移动一步。要遍历所有可达格子且不重复访问，最适合使用的搜索策略是：</p>
+            <div class="options">
+                <div class="option">A. 广度优先搜索（BFS）</div>
+                <div class="option">B. 深度优先搜索（DFS）</div>
+                <div class="option">C. Dijkstra算法</div>
+                <div class="option">D. 二分查找</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans1')">点击查看答案</button>
+            <div class="answer-content" id="ans1">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>题目要求"遍历所有可达格子且不重复访问"，这是典型的图遍历问题。DFS沿着一条路走到底再回溯，适合遍历所有节点。BFS按层扩展，虽然也能遍历所有节点，但需要更多内存（队列中同时存储更多节点）。Dijkstra用于求最短路径，二分查找用于有序数组，都不适用。</p>
+                </div>
+                <div class="knowledge-point">知识点：DFS vs BFS的选择——遍历所有路径/节点用DFS，求最短路径用BFS。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T2</span></h3>
+            <p>在BFS求最短路径的算法中，使用队列（queue）的核心原因是：</p>
+            <div class="options">
+                <div class="option">A. 队列可以自动排序</div>
+                <div class="option">B. 队列保证先访问的节点先被扩展（先进先出）</div>
+                <div class="option">C. 队列可以存储所有节点的最短距离</div>
+                <div class="option">D. 队列比数组更快</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans2')">点击查看答案</button>
+            <div class="answer-content" id="ans2">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>BFS的核心是"按层扩展"——先扩展距离起点近的节点，再扩展距离远的节点。队列的"先进先出"（FIFO）特性正好保证了这一点：先入队的节点（距离近）先出队被扩展。这样第一次到达某节点时一定经过最少的步数。</p>
+                </div>
+                <div class="knowledge-point">知识点：BFS用队列（FIFO），DFS用栈（LIFO）或递归调用栈。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T3</span></h3>
+            <p>在n×m的网格中进行BFS，方向数组的写法如下：</p>
+            <pre>int dx[] = {-1, 1, 0, 0};
+int dy[] = {0, 0, -1, 1};</pre>
+            <p>这四个方向分别表示：</p>
+            <div class="options">
+                <div class="option">A. 左、右、上、下</div>
+                <div class="option">B. 上、下、左、右</div>
+                <div class="option">C. 上、下、右、左</div>
+                <div class="option">D. 北、南、西、东</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans3')">点击查看答案</button>
+            <div class="answer-content" id="ans3">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>dx[0]=-1, dy[0]=0：行减1，即向上（北）</p>
+                    <p>dx[1]=1, dy[1]=0：行加1，即向下（南）</p>
+                    <p>dx[2]=0, dy[2]=-1：列减1，即向左（西）</p>
+                    <p>dx[3]=0, dy[3]=1：列加1，即向右（东）</p>
+                    <p>所以顺序是：上、下、左、右。</p>
+                </div>
+                <div class="knowledge-point">知识点：方向数组的含义取决于坐标系定义。行号增大=向下，列号增大=向右。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T4</span></h3>
+            <p>某次BFS中，起点到某点的最短距离为5。如果图中所有边的权重都改为2，那么BFS求出的最短距离变为：</p>
+            <div class="options">
+                <div class="option">A. 5</div>
+                <div class="option">B. 10</div>
+                <div class="option">C. 不确定</div>
+                <div class="option">D. BFS无法求解</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans4')">点击查看答案</button>
+            <div class="answer-content" id="ans4">
+                <div class="correct-answer">答案：D</div>
+                <div class="explanation">
+                    <p>BFS只能处理<strong>无权图</strong>（所有边权重相同且为1）。当边权变为2时，虽然仍然是"等权图"，但BFS记录的"步数"需要乘以2才是实际距离。更重要的是，如果边权不相等（有的边权重1，有的权重2），BFS就无法保证找到的是最短路径。此时应该使用<strong>Dijkstra算法</strong>。</p>
+                </div>
+                <div class="knowledge-point">知识点：BFS处理无权图最短路，Dijkstra处理非负权图最短路。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T5</span></h3>
+            <p>以下关于Dijkstra算法的说法，<strong>错误</strong>的是：</p>
+            <div class="options">
+                <div class="option">A. 每次选择距离起点最近的未确定节点</div>
+                <div class="option">B. 可以处理含有负权边的图</div>
+                <div class="option">C. 时间复杂度为O(n²)（朴素实现）</div>
+                <div class="option">D. 使用贪心策略</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans5')">点击查看答案</button>
+            <div class="answer-content" id="ans5">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>Dijkstra算法<strong>不能处理负权边</strong>！因为Dijkstra基于贪心思想——一旦确定某节点的最短距离就不再更新。如果存在负权边，已确定的距离可能通过负权边变得更短，导致算法出错。负权图需要使用Bellman-Ford或SPFA算法。</p>
+                </div>
+                <div class="knowledge-point">知识点：Dijkstra的限制——不能有负权边；适用条件——所有边权≥0。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T6</span></h3>
+            <p>在BFS中，visited数组的作用是：</p>
+            <div class="options">
+                <div class="option">A. 记录每个节点到起点的最短距离</div>
+                <div class="option">B. 防止同一个节点被重复访问，避免死循环</div>
+                <div class="option">C. 存储图的邻接矩阵</div>
+                <div class="option">D. 记录每个节点的前驱节点</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans6')">点击查看答案</button>
+            <div class="answer-content" id="ans6">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>在图的搜索中，如果不标记已访问的节点，可能会出现：A→B→A→B→...的死循环。visited数组标记哪些节点已经访问过，遇到已访问节点直接跳过。记录最短距离用dist数组，记录前驱用pre数组，存储图用邻接矩阵或邻接表。</p>
+                </div>
+                <div class="knowledge-point">知识点：visited数组是BFS/DFS的标准配置，防止重复访问和死循环。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T7</span></h3>
+            <p>以下哪种情况适合用DFS而不是BFS？</p>
+            <div class="options">
+                <div class="option">A. 求迷宫中从起点到终点的最短路径</div>
+                <div class="option">B. 枚举从起点到终点的所有可行路径</div>
+                <div class="option">C. 求无权图中两点间的最少步数</div>
+                <div class="option">D. 按层遍历二叉树</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans7')">点击查看答案</button>
+            <div class="answer-content" id="ans7">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>A、C都是求最短路径，适合BFS</p>
+                    <p>B是枚举所有路径，DFS沿着一条路走到底再回溯，天然适合穷举</p>
+                    <p>D是按层遍历，BFS的典型应用</p>
+                    <p>DFS的递归+回溯结构非常适合"枚举所有可能性"的问题。</p>
+                </div>
+                <div class="knowledge-point">知识点：BFS→最短路径/按层遍历；DFS→枚举所有路径/回溯搜索。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T8</span></h3>
+            <p>某网格地图为3×3，全部为可通行区域（0）。从(0,0)到(2,2)，只能向下或向右走，共有多少条不同路径？</p>
+            <div class="options">
+                <div class="option">A. 4</div>
+                <div class="option">B. 6</div>
+                <div class="option">C. 8</div>
+                <div class="option">D. 12</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans8')">点击查看答案</button>
+            <div class="answer-content" id="ans8">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>从(0,0)到(2,2)需要走4步：恰好2步向下 + 2步向右。问题等价于在4步中选择2步向下（其余自动向右），即组合数 C(4,2) = 4!/(2!×2!) = 6。</p>
+                    <p>也可以手动枚举：</p>
+                    <p>1. 下下右右 2. 下右下右 3. 下右右下 4. 右下下右 5. 右下右下 6. 右右下下</p>
+                </div>
+                <div class="knowledge-point">知识点：网格路径计数=组合数学。从(0,0)到(n-1,m-1)需要(n-1)步下+(m-1)步右，共C(n+m-2, n-1)条路径。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T9</span></h3>
+            <p>BFS求最短路径时，如果需要输出具体的最短路径（而不只是距离），需要额外维护的数据结构是：</p>
+            <div class="options">
+                <div class="option">A. visited数组</div>
+                <div class="option">B. 前驱数组（记录每个点是从哪个点扩展来的）</div>
+                <div class="option">C. 邻接矩阵</div>
+                <div class="option">D. 栈</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans9')">点击查看答案</button>
+            <div class="answer-content" id="ans9">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>BFS默认只记录距离，不记录路径。要输出具体路径，需要在BFS过程中记录每个节点的"前驱"——即它是从哪个节点扩展来的。到达终点后，沿着前驱链从终点回溯到起点，再反转即可得到完整路径。</p>
+                </div>
+                <div class="knowledge-point">知识点：路径记录=BFS+前驱数组（pre_x, pre_y）+回溯输出。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T10</span></h3>
+            <p>关于栈（stack）和队列（queue），以下说法正确的是：</p>
+            <div class="options">
+                <div class="option">A. 栈是先进先出（FIFO），队列是后进先出（LIFO）</div>
+                <div class="option">B. 栈是后进先出（LIFO），队列是先进先出（FIFO）</div>
+                <div class="option">C. 栈和队列都是先进先出</div>
+                <div class="option">D. 栈和队列都是后进先出</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans10')">点击查看答案</button>
+            <div class="answer-content" id="ans10">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p><strong>栈（Stack）</strong>：后进先出（LIFO），像叠盘子，最后放的最先拿走。DFS使用栈。</p>
+                    <p><strong>队列（Queue）</strong>：先进先出（FIFO），像排队，先来的先走。BFS使用队列。</p>
+                </div>
+                <div class="knowledge-point">知识点：栈→LIFO→DFS；队列→FIFO→BFS。这是最基础的数据结构概念。</div>
+            </div>
+        </div>
+
+        <h2>方向二：革命物资分类（T11-T18）</h2>
+
+        <div class="question-card">
+            <h3><span class="question-number">T11</span></h3>
+            <p>对数组 [5, 2, 8, 1, 9] 进行<strong>选择排序</strong>，第一轮结束后数组变为：</p>
+            <div class="options">
+                <div class="option">A. [1, 2, 8, 5, 9]</div>
+                <div class="option">B. [2, 5, 8, 1, 9]</div>
+                <div class="option">C. [1, 5, 8, 2, 9]</div>
+                <div class="option">D. [5, 2, 1, 8, 9]</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans11')">点击查看答案</button>
+            <div class="answer-content" id="ans11">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>选择排序第一轮：从整个数组中找到最小值1（下标3），与第一个元素5交换。</p>
+                    <p>交换前：[5, 2, 8, 1, 9]</p>
+                    <p>交换后：[1, 2, 8, 5, 9]</p>
+                    <p>第一轮结束后，最小值1已经在正确位置。</p>
+                </div>
+                <div class="knowledge-point">知识点：选择排序每轮：找最小值→交换到当前位置。第i轮后前i+1个元素有序。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T12</span></h3>
+            <p>对数组 [3, 1, 4, 1, 5] 进行<strong>冒泡排序</strong>，第一轮比较交换后数组变为：</p>
+            <div class="options">
+                <div class="option">A. [1, 3, 1, 4, 5]</div>
+                <div class="option">B. [1, 1, 3, 4, 5]</div>
+                <div class="option">C. [3, 1, 1, 4, 5]</div>
+                <div class="option">D. [1, 3, 4, 1, 5]</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans12')">点击查看答案</button>
+            <div class="answer-content" id="ans12">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>冒泡排序第一轮：相邻元素两两比较，把最大值"冒泡"到末尾。</p>
+                    <p>比较3和1：3>1，交换 → [1, 3, 4, 1, 5]</p>
+                    <p>比较3和4：3<4，不换 → [1, 3, 4, 1, 5]</p>
+                    <p>比较4和1：4>1，交换 → [1, 3, 1, 4, 5]</p>
+                    <p>比较4和5：4<5，不换 → [1, 3, 1, 4, 5]</p>
+                    <p>第一轮结束后，最大值5已经在最后。</p>
+                </div>
+                <div class="knowledge-point">知识点：冒泡排序每轮：相邻比较+交换，最大值"冒泡"到末尾。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T13</span></h3>
+            <p>以下排序算法中，时间复杂度为O(n log n)的是：</p>
+            <div class="options">
+                <div class="option">A. 选择排序</div>
+                <div class="option">B. 冒泡排序</div>
+                <div class="option">C. 归并排序</div>
+                <div class="option">D. 以上都不是</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans13')">点击查看答案</button>
+            <div class="answer-content" id="ans13">
+                <div class="correct-answer">答案：C</div>
+                <div class="explanation">
+                    <p>选择排序：O(n²) —— 双重循环</p>
+                    <p>冒泡排序：O(n²) —— 双重循环</p>
+                    <p>归并排序：O(n log n) —— 分治思想，每次折半</p>
+                    <p>C++ STL的<code>sort()</code>函数内部使用了优化的排序算法（混合排序），平均时间复杂度为O(n log n)。</p>
+                </div>
+                <div class="knowledge-point">知识点：O(n²)排序：选择、冒泡、插入；O(n log n)排序：归并、快排、堆排序。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T14</span></h3>
+            <p>使用C++ STL的sort函数对数组a（共n个元素）从小到大排序，正确的调用方式是：</p>
+            <div class="options">
+                <div class="option">A. <code>sort(a, a+n);</code></div>
+                <div class="option">B. <code>sort(a, n);</code></div>
+                <div class="option">C. <code>sort(a[n]);</code></div>
+                <div class="option">D. <code>sort(&a, &a+n);</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans14')">点击查看答案</button>
+            <div class="answer-content" id="ans14">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p><code>sort()</code>的参数是排序范围的<strong>起始地址</strong>和<strong>结束地址的下一个位置</strong>。</p>
+                    <p><code>sort(a, a+n)</code>：从a[0]到a[n-1]，共n个元素，正确</p>
+                    <p><code>sort(a, n)</code>：第二个参数应该是地址，不是数量</p>
+                    <p><code>sort(a[n])</code>：a[n]是越界元素，不是有效范围</p>
+                    <p><code>sort(&a, &a+n)</code>：&a是整个数组的地址，类型不匹配</p>
+                </div>
+                <div class="knowledge-point">知识点：<code>sort(起始地址, 结束地址+1)</code>，左闭右开区间 [begin, end)。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T15</span></h3>
+            <p>以下关于贪心算法的描述，正确的是：</p>
+            <div class="options">
+                <div class="option">A. 贪心算法一定能得到全局最优解</div>
+                <div class="option">B. 贪心算法每步选择当前最优解，不考虑未来</div>
+                <div class="option">C. 贪心算法比动态规划更慢</div>
+                <div class="option">D. 贪心算法只能用于排序问题</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans15')">点击查看答案</button>
+            <div class="answer-content" id="ans15">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>A错误：贪心不一定得到全局最优，只有满足"贪心选择性质"和"最优子结构"时才行</p>
+                    <p>B正确：贪心的核心就是"只看眼前，选当前最好的"</p>
+                    <p>C错误：贪心通常比动态规划更快</p>
+                    <p>D错误：贪心广泛用于调度、图论、背包等问题</p>
+                </div>
+                <div class="knowledge-point">知识点：贪心算法的适用条件——问题具有贪心选择性质和最优子结构。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T16</span></h3>
+            <p>对n个物品按"价值/重量"比值从大到小排序，然后依次选取，直到总重量超过限制。这是哪种算法思想？</p>
+            <div class="options">
+                <div class="option">A. 动态规划</div>
+                <div class="option">B. 贪心算法</div>
+                <div class="option">C. 分治算法</div>
+                <div class="option">D. 回溯算法</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans16')">点击查看答案</button>
+            <div class="answer-content" id="ans16">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>按"性价比"（价值/重量）排序后依次选取，每次选"性价比最高"的物品，这是典型的贪心策略。这种思路用于"分数背包问题"（物品可以分割），可以得到最优解。但对于"0-1背包问题"（物品不可分割），贪心不一定最优，需要动态规划。</p>
+                </div>
+                <div class="knowledge-point">知识点：贪心在背包问题中的应用——分数背包用贪心，0-1背包用DP。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T17</span></h3>
+            <p>比较两个分数 a/b 和 c/d 的大小（b,d ≠ 0），为避免浮点数精度问题，最佳做法是：</p>
+            <div class="options">
+                <div class="option">A. 直接计算 a/b 和 c/d，比较浮点结果</div>
+                <div class="option">B. 比较 a*d 和 c*b 的大小（假设b,d同号）</div>
+                <div class="option">C. 先通分再比较分子</div>
+                <div class="option">D. 将分数转换为百分比</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans17')">点击查看答案</button>
+            <div class="answer-content" id="ans17">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>A方法有浮点精度风险：0.1+0.2 ≠ 0.3</p>
+                    <p>B方法是"交叉相乘"：a/b > c/d ⟺ a×d > c×b（当b,d>0时），全程整数运算，无精度损失</p>
+                    <p>C方法正确但实现复杂</p>
+                    <p>D方法不实用</p>
+                </div>
+                <div class="knowledge-point">知识点：比较分数大小用交叉相乘，避免浮点精度问题。这是编程竞赛中的常用技巧。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T18</span></h3>
+            <p>以下代码实现的是哪种排序？</p>
+            <pre>for (int i = 0; i < n - 1; i++)
+    for (int j = 0; j < n - 1 - i; j++)
+        if (a[j] > a[j+1])
+            swap(a[j], a[j+1]);</pre>
+            <div class="options">
+                <div class="option">A. 选择排序</div>
+                <div class="option">B. 冒泡排序</div>
+                <div class="option">C. 插入排序</div>
+                <div class="option">D. 快速排序</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans18')">点击查看答案</button>
+            <div class="answer-content" id="ans18">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>外层循环控制轮数</p>
+                    <p>内层循环从头开始，相邻元素比较 <code>a[j] > a[j+1]</code>，如果逆序就交换</p>
+                    <p>每轮结束后最大值"冒泡"到末尾，所以内层上界是 <code>n-1-i</code>（已排好的不再比较）</p>
+                    <p>这是冒泡排序的标准写法。选择排序是"找最小值+交换"，插入排序是"找位置+插入"。</p>
+                </div>
+                <div class="knowledge-point">知识点：冒泡排序特征——相邻比较+交换；选择排序特征——找最小值+交换到前面。</div>
+            </div>
+        </div>
+
+        <h2>方向三：民生数据分析（T19-T26）</h2>
+
+        <div class="question-card">
+            <h3><span class="question-number">T19</span></h3>
+            <p>以下代码的功能是：</p>
+            <pre>int sum = 0;
+for (int i = 0; i < n; i++)
+    sum += a[i];
+double avg = (double)sum / n;</pre>
+            <div class="options">
+                <div class="option">A. 求数组的最大值</div>
+                <div class="option">B. 求数组的平均值</div>
+                <div class="option">C. 求数组的和</div>
+                <div class="option">D. 对数组排序</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans19')">点击查看答案</button>
+            <div class="answer-content" id="ans19">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>代码先累加所有元素得到sum，再除以n得到平均值avg。注意<code>(double)sum</code>将整数转为浮点数，确保除法结果是浮点数（整数除法会丢失小数部分）。</p>
+                </div>
+                <div class="knowledge-point">知识点：求平均值 = 总和 / 个数。注意整数除法问题，需要类型转换。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T20</span></h3>
+            <p>以下代码找数组中的最大值，横线处应填什么？</p>
+            <pre>int maxVal = a[0];
+for (int i = 1; i < n; i++)
+    if (________)
+        maxVal = a[i];</pre>
+            <div class="options">
+                <div class="option">A. <code>a[i] > maxVal</code></div>
+                <div class="option">B. <code>a[i] < maxVal</code></div>
+                <div class="option">C. <code>a[i] == maxVal</code></div>
+                <div class="option">D. <code>a[i] != maxVal</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans20')">点击查看答案</button>
+            <div class="answer-content" id="ans20">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>找最大值的逻辑：遍历数组，如果当前元素比已知最大值更大，就更新最大值。所以条件是<code>a[i] > maxVal</code>。</p>
+                    <p>如果要找最小值，条件改为<code>a[i] < minVal</code>。</p>
+                </div>
+                <div class="knowledge-point">知识点：求最值——初始化为第一个元素，遍历比较更新。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T21</span></h3>
+            <p>在有序数组中查找元素，二分查找的时间复杂度是：</p>
+            <div class="options">
+                <div class="option">A. O(1)</div>
+                <div class="option">B. O(log n)</div>
+                <div class="option">C. O(n)</div>
+                <div class="option">D. O(n log n)</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans21')">点击查看答案</button>
+            <div class="answer-content" id="ans21">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>二分查找每次将搜索范围缩小一半：</p>
+                    <p>第1次：搜索范围n</p>
+                    <p>第2次：搜索范围n/2</p>
+                    <p>第3次：搜索范围n/4</p>
+                    <p>...</p>
+                    <p>第k次：搜索范围n/2^k</p>
+                    <p>当n/2^k = 1时找到，k = log₂(n)，所以时间复杂度为O(log n)。</p>
+                    <p>对于n=100000，二分查找最多只需约17次比较，而顺序查找最坏需要100000次。</p>
+                </div>
+                <div class="knowledge-point">知识点：二分查找O(log n)，顺序查找O(n)。有序数组用二分，效率提升巨大。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T22</span></h3>
+            <p>二分查找的前提条件是：</p>
+            <div class="options">
+                <div class="option">A. 数组元素互不相同</div>
+                <div class="option">B. 数组已经排好序</div>
+                <div class="option">C. 数组元素都是正整数</div>
+                <div class="option">D. 数组长度为偶数</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans22')">点击查看答案</button>
+            <div class="answer-content" id="ans22">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>二分查找的核心是"中间元素与目标值比较，决定在左半还是右半查找"。这要求左半部分都比中间值小，右半部分都比中间值大——即数组必须有序。如果数组无序，二分查找可能遗漏目标值。</p>
+                </div>
+                <div class="knowledge-point">知识点：二分查找的必要条件——数组有序。无序数组需要先排序。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T23</span></h3>
+            <p>以下代码的功能是统计数组中有多少个偶数，横线处应填什么？</p>
+            <pre>int count = 0;
+for (int i = 0; i < n; i++)
+    if (________)
+        count++;</pre>
+            <div class="options">
+                <div class="option">A. <code>a[i] % 2 == 0</code></div>
+                <div class="option">B. <code>a[i] / 2 == 0</code></div>
+                <div class="option">C. <code>a[i] % 2 == 1</code></div>
+                <div class="option">D. <code>a[i] * 2 == 0</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans23')">点击查看答案</button>
+            <div class="answer-content" id="ans23">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>判断偶数的条件是"能被2整除"，即<code>a[i] % 2 == 0</code>（取模余数为0）。</p>
+                    <p><code>a[i] / 2 == 0</code>：当a[i]为0或1时成立，不是判断偶数</p>
+                    <p><code>a[i] % 2 == 1</code>：判断奇数</p>
+                    <p><code>a[i] * 2 == 0</code>：只有a[i]=0时成立</p>
+                </div>
+                <div class="knowledge-point">知识点：取模运算 <code>%</code> 是判断整除/奇偶的核心操作。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T24</span></h3>
+            <p>以下代码对数组进行去重（假设数组已排序），输出不重复的元素。横线处应填什么？</p>
+            <pre>cout << a[0];
+for (int i = 1; i < n; i++)
+    if (________)
+        cout << " " << a[i];</pre>
+            <div class="options">
+                <div class="option">A. <code>a[i] != a[i-1]</code></div>
+                <div class="option">B. <code>a[i] != a[0]</code></div>
+                <div class="option">C. <code>a[i] > a[i-1]</code></div>
+                <div class="option">D. A和C都对</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans24')">点击查看答案</button>
+            <div class="answer-content" id="ans24">
+                <div class="correct-answer">答案：D</div>
+                <div class="explanation">
+                    <p>数组已排序时：</p>
+                    <p><code>a[i] != a[i-1]</code>：当前元素与前一个不同，说明不是重复值，输出</p>
+                    <p><code>a[i] > a[i-1]</code>：对于已排序数组（升序），不等价于"不重复"——如果数组有降序部分就不对</p>
+                    <p>等等，对于<strong>升序排列</strong>的数组，<code>a[i] != a[i-1]</code>和<code>a[i] > a[i-1]</code>是等价的（因为升序时a[i] >= a[i-1]，不相等就一定大于）。</p>
+                    <p>所以A和C都对，答案是D。</p>
+                </div>
+                <div class="knowledge-point">知识点：已排序数组去重——相邻比较即可。利用排序的有序性简化问题。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T25</span></h3>
+            <p>以下代码使用<code>lower_bound</code>查找，假设数组a=[1,3,5,7,9]，<code>lower_bound(a, a+5, 5)</code>返回的是：</p>
+            <div class="options">
+                <div class="option">A. a[0]的地址（值为1）</div>
+                <div class="option">B. a[2]的地址（值为5）</div>
+                <div class="option">C. a[3]的地址（值为7）</div>
+                <div class="option">D. a[5]的地址（越界）</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans25')">点击查看答案</button>
+            <div class="answer-content" id="ans25">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p><code>lower_bound(begin, end, value)</code>返回<strong>第一个 ≥ value 的元素的位置</strong>。</p>
+                    <p>数组：[1, 3, 5, 7, 9]</p>
+                    <p>查找5：第一个≥5的元素是a[2]=5</p>
+                    <p>返回a[2]的地址</p>
+                    <p>相关函数对比：</p>
+                    <p><code>lower_bound</code>：第一个 ≥ value 的位置</p>
+                    <p><code>upper_bound</code>：第一个 > value 的位置</p>
+                </div>
+                <div class="knowledge-point">知识点：lower_bound和upper_bound是C++ STL的二分查找函数，要求数组有序。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T26</span></h3>
+            <p>以下代码的输出是什么？</p>
+            <pre>int a[] = {3, 1, 4, 1, 5, 9};
+int n = 6;
+int cnt = 0;
+for (int i = 0; i < n; i++)
+    if (a[i] > 3)
+        cnt++;
+cout << cnt;</pre>
+            <div class="options">
+                <div class="option">A. 2</div>
+                <div class="option">B. 3</div>
+                <div class="option">C. 4</div>
+                <div class="option">D. 5</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans26')">点击查看答案</button>
+            <div class="answer-content" id="ans26">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>遍历数组，统计大于3的元素个数：</p>
+                    <p>3 > 3? 否</p>
+                    <p>1 > 3? 否</p>
+                    <p>4 > 3? 是 → cnt=1</p>
+                    <p>1 > 3? 否</p>
+                    <p>5 > 3? 是 → cnt=2</p>
+                    <p>9 > 3? 是 → cnt=3</p>
+                    <p>输出3。</p>
+                </div>
+                <div class="knowledge-point">知识点：条件计数——遍历数组，满足条件时count++。</div>
+            </div>
+        </div>
+
+        <h2>方向四：综合应用（T27-T34）</h2>
+
+        <div class="question-card">
+            <h3><span class="question-number">T27</span></h3>
+            <p>阅读以下代码，当输入为 <code>5</code> 时，输出是什么？</p>
+            <pre>int n;
+cin >> n;
+int sum = 0;
+for (int i = 1; i <= n; i++)
+    sum += i;
+cout << sum;</pre>
+            <div class="options">
+                <div class="option">A. 5</div>
+                <div class="option">B. 10</div>
+                <div class="option">C. 15</div>
+                <div class="option">D. 120</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans27')">点击查看答案</button>
+            <div class="answer-content" id="ans27">
+                <div class="correct-answer">答案：C</div>
+                <div class="explanation">
+                    <p>计算 1+2+3+4+5 = 15。这是求前n项自然数之和，也可以用公式 n*(n+1)/2 = 5*6/2 = 15。</p>
+                </div>
+                <div class="knowledge-point">知识点：前n项和公式：n*(n+1)/2。累加求和是编程中最基础的操作之一。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T28</span></h3>
+            <p>以下递归函数的功能是什么？</p>
+            <pre>int f(int n) {
+    if (n <= 1) return 1;
+    return n * f(n - 1);
+}</pre>
+            <div class="options">
+                <div class="option">A. 求n的阶乘</div>
+                <div class="option">B. 求斐波那契数列第n项</div>
+                <div class="option">C. 求1到n的和</div>
+                <div class="option">D. 求2的n次方</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans28')">点击查看答案</button>
+            <div class="answer-content" id="ans28">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>基准情况：n≤1时返回1</p>
+                    <p>递推关系：f(n) = n × f(n-1)</p>
+                    <p>展开：f(5) = 5 × f(4) = 5 × 4 × f(3) = 5 × 4 × 3 × f(2) = 5 × 4 × 3 × 2 × f(1) = 5 × 4 × 3 × 2 × 1 = 120</p>
+                    <p>这就是阶乘的定义：n! = n × (n-1)!</p>
+                </div>
+                <div class="knowledge-point">知识点：递归三要素——基准情况、递推关系、收敛（每次向基准靠近）。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T29</span></h3>
+            <p>以下代码的功能是：</p>
+            <pre>string s;
+cin >> s;
+int left = 0, right = s.length() - 1;
+bool isPalin = true;
+while (left < right) {
+    if (s[left] != s[right]) {
+        isPalin = false;
+        break;
+    }
+    left++;
+    right--;
+}
+cout << (isPalin ? "是回文" : "不是回文");</pre>
+            <div class="options">
+                <div class="option">A. 反转字符串</div>
+                <div class="option">B. 判断回文串</div>
+                <div class="option">C. 统计字符个数</div>
+                <div class="option">D. 查找字符</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans29')">点击查看答案</button>
+            <div class="answer-content" id="ans29">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>双指针法判断回文：</p>
+                    <p>left从左端开始，right从右端开始</p>
+                    <p>比较s[left]和s[right]，如果不同则不是回文</p>
+                    <p>相同时left++、right--，向中间靠拢</p>
+                    <p>当left >= right时，所有对称位置都匹配，是回文</p>
+                    <p>例如："abcba" → a==a ✓, b==b ✓, c（中间）→ 是回文</p>
+                </div>
+                <div class="knowledge-point">知识点：双指针法——从两端向中间收缩，是处理回文、两数之和等问题的常用技巧。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T30</span></h3>
+            <p>以下代码实现的功能是：</p>
+            <pre>int a[] = {1, 2, 3, 4, 5};
+int n = 5;
+for (int i = 0; i < n / 2; i++)
+    swap(a[i], a[n - 1 - i]);</pre>
+            <div class="options">
+                <div class="option">A. 数组排序</div>
+                <div class="option">B. 数组反转</div>
+                <div class="option">C. 数组去重</div>
+                <div class="option">D. 数组求和</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans30')">点击查看答案</button>
+            <div class="answer-content" id="ans30">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>i=0：swap(a[0], a[4]) → 5和1交换</p>
+                    <p>i=1：swap(a[1], a[3]) → 4和2交换</p>
+                    <p>i=2：n/2=2，循环结束</p>
+                    <p>结果：[5, 4, 3, 2, 1]，数组被反转了。</p>
+                    <p>核心思想：首尾对应位置交换，只需要遍历一半。</p>
+                </div>
+                <div class="knowledge-point">知识点：数组反转——双指针从两端向中间交换。时间复杂度O(n/2) = O(n)。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T31</span></h3>
+            <p>阅读以下代码，当输入为 <code>12345</code> 时，输出是什么？</p>
+            <pre>int n;
+cin >> n;
+int sum = 0;
+while (n > 0) {
+    sum += n % 10;
+    n /= 10;
+}
+cout << sum;</pre>
+            <div class="options">
+                <div class="option">A. 15</div>
+                <div class="option">B. 54321</div>
+                <div class="option">C. 12345</div>
+                <div class="option">D. 5</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans31')">点击查看答案</button>
+            <div class="answer-content" id="ans31">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>代码计算各位数字之和：</p>
+                    <p>12345 % 10 = 5, sum=5, n=1234</p>
+                    <p>1234 % 10 = 4, sum=9, n=123</p>
+                    <p>123 % 10 = 3, sum=12, n=12</p>
+                    <p>12 % 10 = 2, sum=14, n=1</p>
+                    <p>1 % 10 = 1, sum=15, n=0</p>
+                    <p>输出15 = 1+2+3+4+5。</p>
+                </div>
+                <div class="knowledge-point">知识点：取各位数字——<code>n%10</code>取末位，<code>n/10</code>去掉末位。这是处理数字问题的基本技巧。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T32</span></h3>
+            <p>以下代码中，<code>break</code>和<code>continue</code>分别会执行什么操作？</p>
+            <pre>for (int i = 0; i < 10; i++) {
+    if (i == 3) continue;
+    if (i == 7) break;
+    cout << i << " ";
+}</pre>
+            <div class="options">
+                <div class="option">A. 输出 <code>0 1 2 4 5 6 8 9</code></div>
+                <div class="option">B. 输出 <code>0 1 2 4 5 6</code></div>
+                <div class="option">C. 输出 <code>0 1 2 3 4 5 6</code></div>
+                <div class="option">D. 输出 <code>0 1 2 4 5 6 7</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans32')">点击查看答案</button>
+            <div class="answer-content" id="ans32">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p><code>continue</code>：跳过本次循环的剩余代码，进入下一次循环</p>
+                    <p><code>break</code>：直接跳出整个循环</p>
+                    <p>执行过程：</p>
+                    <p>i=0: 输出0</p>
+                    <p>i=1: 输出1</p>
+                    <p>i=2: 输出2</p>
+                    <p>i=3: <code>continue</code>，跳过输出，继续i=4</p>
+                    <p>i=4: 输出4</p>
+                    <p>i=5: 输出5</p>
+                    <p>i=6: 输出6</p>
+                    <p>i=7: <code>break</code>，跳出循环</p>
+                    <p>输出：0 1 2 4 5 6</p>
+                </div>
+                <div class="knowledge-point">知识点：<code>break</code>跳出整个循环，<code>continue</code>跳过当前迭代。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T33</span></h3>
+            <p>以下代码的输出是什么？</p>
+            <pre>int a = 5, b = 3;
+cout &lt;&lt; (a &gt; b ? a : b);</pre>
+            <div class="options">
+                <div class="option">A. 5</div>
+                <div class="option">B. 3</div>
+                <div class="option">C. true</div>
+                <div class="option">D. 编译错误</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans33')">点击查看答案</button>
+            <div class="answer-content" id="ans33">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>三元运算符 <code>条件 ? 值1 : 值2</code>：</p>
+                    <p>条件为真 → 返回值1</p>
+                    <p>条件为假 → 返回值2</p>
+                    <p><code>a &gt; b</code> 即 <code>5 &gt; 3</code> 为真，返回a=5。</p>
+                </div>
+                <div class="knowledge-point">知识点：三元运算符是if-else的简写形式，适合简单的条件选择。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T34</span></h3>
+            <p>以下代码实现了一个简单的"投票计数"系统。输入若干投票（1或2），输入0结束。统计候选人1和候选人2各得多少票。</p>
+            <pre>int vote, cnt1 = 0, cnt2 = 0;
+while (cin &gt;&gt; vote &amp;&amp; vote != 0) {
+    if (vote == 1) cnt1++;
+    else if (vote == 2) cnt2++;
+}
+cout &lt;&lt; cnt1 &lt;&lt; " " &lt;&lt; cnt2;</pre>
+            <p>如果输入为 <code>1 2 1 1 2 1 0</code>，输出是什么？</p>
+            <div class="options">
+                <div class="option">A. 4 2</div>
+                <div class="option">B. 3 3</div>
+                <div class="option">C. 4 3</div>
+                <div class="option">D. 5 2</div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans34')">点击查看答案</button>
+            <div class="answer-content" id="ans34">
+                <div class="correct-answer">答案：A</div>
+                <div class="explanation">
+                    <p>读入1：cnt1++ → cnt1=1</p>
+                    <p>读入2：cnt2++ → cnt2=1</p>
+                    <p>读入1：cnt1++ → cnt1=2</p>
+                    <p>读入1：cnt1++ → cnt1=3</p>
+                    <p>读入2：cnt2++ → cnt2=2</p>
+                    <p>读入1：cnt1++ → cnt1=4</p>
+                    <p>读入0：vote!=0为假，循环结束</p>
+                    <p>输出：4 2</p>
+                </div>
+                <div class="knowledge-point">知识点：<code>while(cin &gt;&gt; x &amp;&amp; 条件)</code> 可以实现"读到特定值停止"的输入模式。</div>
+            </div>
+        </div>
+
+        <h2>C++基础语法（T35-T40）</h2>
+
+        <div class="question-card">
+            <h3><span class="question-number">T35</span></h3>
+            <p>以下哪个是合法的C++变量名？</p>
+            <div class="options">
+                <div class="option">A. <code>int</code></div>
+                <div class="option">B. <code>2name</code></div>
+                <div class="option">C. <code>_count</code></div>
+                <div class="option">D. <code>my var</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans35')">点击查看答案</button>
+            <div class="answer-content" id="ans35">
+                <div class="correct-answer">答案：C</div>
+                <div class="explanation">
+                    <p>变量命名规则：</p>
+                    <p>- 只能包含字母、数字、下划线</p>
+                    <p>- 不能以数字开头</p>
+                    <p>- 不能是C++关键字</p>
+                </div>
+                <div class="knowledge-point">知识点：变量命名规则——字母/数字/下划线，不以数字开头，不用关键字。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T36</span></h3>
+            <p>以下代码中，变量x的数据类型应该是哪种？</p>
+            <pre>______ x = 3.14159;
+cout &lt;&lt; fixed &lt;&lt; setprecision(2) &lt;&lt; x;</pre>
+            <p>输出为 <code>3.14</code></p>
+            <div class="options">
+                <div class="option">A. <code>int</code></div>
+                <div class="option">B. <code>float</code></div>
+                <div class="option">C. <code>double</code></div>
+                <div class="option">D. <code>char</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans36')">点击查看答案</button>
+            <div class="answer-content" id="ans36">
+                <div class="correct-answer">答案：C</div>
+                <div class="explanation">
+                    <p><code>int</code>只能存储整数，3.14159会被截断为3</p>
+                    <p><code>float</code>可以存储小数，但精度只有6-7位</p>
+                    <p><code>double</code>可以存储小数，精度有15-16位，是默认的浮点类型</p>
+                    <p><code>char</code>存储单个字符</p>
+                </div>
+                <div class="knowledge-point">知识点：整数用int，小数用double（比float更常用），单个字符用char。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T37</span></h3>
+            <p>以下哪个头文件包含了<code>sort()</code>函数？</p>
+            <div class="options">
+                <div class="option">A. <code>&lt;iostream&gt;</code></div>
+                <div class="option">B. <code>&lt;cmath&gt;</code></div>
+                <div class="option">C. <code>&lt;algorithm&gt;</code></div>
+                <div class="option">D. <code>&lt;string&gt;</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans37')">点击查看答案</button>
+            <div class="answer-content" id="ans37">
+                <div class="correct-answer">答案：C</div>
+                <div class="explanation">
+                    <p><code>&lt;iostream&gt;</code>：输入输出（cin, cout）</p>
+                    <p><code>&lt;cmath&gt;</code>：数学函数（sqrt, pow, abs等）</p>
+                    <p><code>&lt;algorithm&gt;</code>：算法函数（sort, reverse, min, max, swap等）</p>
+                    <p><code>&lt;string&gt;</code>：字符串类</p>
+                </div>
+                <div class="knowledge-point">知识点：常用头文件——<code>&lt;iostream&gt;</code>输入输出，<code>&lt;algorithm&gt;</code>算法。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T38</span></h3>
+            <p>以下代码的输出是什么？</p>
+            <pre>int a = 10, b = 3;
+cout &lt;&lt; a / b &lt;&lt; " " &lt;&lt; a % b;</pre>
+            <div class="options">
+                <div class="option">A. <code>3.33 1</code></div>
+                <div class="option">B. <code>3 1</code></div>
+                <div class="option">C. <code>3.333 0</code></div>
+                <div class="option">D. <code>3 0</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans38')">点击查看答案</button>
+            <div class="answer-content" id="ans38">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p><code>a / b = 10 / 3</code>：整数除法，结果为3（截断小数部分）</p>
+                    <p><code>a % b = 10 % 3</code>：取模运算，余数为1</p>
+                </div>
+                <div class="knowledge-point">知识点：整数除法截断小数，取模运算得到余数。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T39</span></h3>
+            <p>以下哪种方式可以正确读入一行包含空格的字符串？</p>
+            <div class="options">
+                <div class="option">A. <code>cin &gt;&gt; s;</code></div>
+                <div class="option">B. <code>getline(cin, s);</code></div>
+                <div class="option">C. <code>scanf("%s", s);</code></div>
+                <div class="option">D. <code>cin.getline(s, 100);</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans39')">点击查看答案</button>
+            <div class="answer-content" id="ans39">
+                <div class="correct-answer">答案：B和D都对</div>
+                <div class="explanation">
+                    <p><code>cin &gt;&gt; s</code>：遇到空格/换行就停止</p>
+                    <p><code>getline(cin, s)</code>：读入整行直到换行符 ✓</p>
+                    <p><code>scanf("%s", s)</code>：遇到空格/换行停止</p>
+                    <p><code>cin.getline(s, 100)</code>：读入整行 ✓</p>
+                </div>
+                <div class="knowledge-point">知识点：读入含空格的字符串用<code>getline</code>。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h3><span class="question-number">T40</span></h3>
+            <p>以下代码的输出是什么？</p>
+            <pre>for (int i = 1; i &lt;= 5; i++) {
+    if (i % 2 == 0) cout &lt;&lt; i &lt;&lt; " ";
+}</pre>
+            <div class="options">
+                <div class="option">A. <code>1 3 5</code></div>
+                <div class="option">B. <code>2 4</code></div>
+                <div class="option">C. <code>1 2 3 4 5</code></div>
+                <div class="option">D. <code>2 4 6</code></div>
+            </div>
+            <button class="answer-toggle" onclick="toggleAnswer('ans40')">点击查看答案</button>
+            <div class="answer-content" id="ans40">
+                <div class="correct-answer">答案：B</div>
+                <div class="explanation">
+                    <p>遍历1到5，只输出偶数：</p>
+                    <p>i=1: 跳过</p>
+                    <p>i=2: 输出2</p>
+                    <p>i=3: 跳过</p>
+                    <p>i=4: 输出4</p>
+                    <p>i=5: 跳过</p>
+                </div>
+                <div class="knowledge-point">知识点：<code>i % 2 == 0</code> 判断偶数。</div>
+            </div>
+        </div>
+
+        <div class="question-card">
+            <h2>📊 答题卡</h2>
+            <table>
+                <tr>
+                    <th>题号</th><th>答案</th><th>题号</th><th>答案</th><th>题号</th><th>答案</th><th>题号</th><th>答案</th>
+                </tr>
+                <tr><td>T1</td><td>B</td><td>T11</td><td>A</td><td>T21</td><td>B</td><td>T31</td><td>A</td></tr>
+                <tr><td>T2</td><td>B</td><td>T12</td><td>A</td><td>T22</td><td>B</td><td>T32</td><td>B</td></tr>
+                <tr><td>T3</td><td>B</td><td>T13</td><td>C</td><td>T23</td><td>A</td><td>T33</td><td>A</td></tr>
+                <tr><td>T4</td><td>D</td><td>T14</td><td>A</td><td>T24</td><td>D</td><td>T34</td><td>A</td></tr>
+                <tr><td>T5</td><td>B</td><td>T15</td><td>B</td><td>T25</td><td>B</td><td>T35</td><td>C</td></tr>
+                <tr><td>T6</td><td>B</td><td>T16</td><td>B</td><td>T26</td><td>B</td><td>T36</td><td>C</td></tr>
+                <tr><td>T7</td><td>B</td><td>T17</td><td>B</td><td>T27</td><td>C</td><td>T37</td><td>C</td></tr>
+                <tr><td>T8</td><td>B</td><td>T18</td><td>B</td><td>T28</td><td>A</td><td>T38</td><td>B</td></tr>
+                <tr><td>T9</td><td>B</td><td>T19</td><td>B</td><td>T29</td><td>B</td><td>T39</td><td>B/D</td></tr>
+                <tr><td>T10</td><td>B</td><td>T20</td><td>A</td><td>T30</td><td>B</td><td>T40</td><td>B</td></tr>
+            </table>
+        </div>
+
+        <footer>
+            <p><span style="color: #ffcc00;">★</span> 星火征途 C++选择题练习 <span style="color: #ffcc00;">★</span></p>
+            <p style="margin-top: 15px; color: #6688aa;">信息素养大赛 · 算法应用主题赛 · 初中组</p>
+            <p style="color: #446688; margin-top: 10px;">共40道选择题</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleAnswer(id) {
+            const answerDiv = document.getElementById(id);
+            answerDiv.classList.toggle('show');
+        }
+    </script>
+</body>
+</html>
